@@ -1,7 +1,7 @@
 const fs = require('fs');
 const Discord = require('discord.js');
-//const { CommandoClient } = require('discord.js-commando');
-//const path = require('path');
+const { CommandoClient } = require('discord.js-commando');
+const path = require('path');
 const Intents = require('discord.js');
 const Sequelize = require('sequelize');
 const { Op } = require('sequelize');
@@ -14,7 +14,24 @@ const disable = require('./commands/disable');
 const prefix = config.prefix;
 var yui = 'true';
 
-const client = new Discord.Client({ ws: { intents: Intents.ALL } });
+const client = new CommandoClient({ 
+	ws: { intents: Intents.ALL },
+	commandPrefix: '-',
+	owner: '344143763918159884',
+	invite: 'https://discord.gg/q8qVCAq', 
+});
+
+client.registry
+	.registerDefaultTypes()
+	.registerGroups([
+		['Admin', 'Your First Command Group'],
+		['Banker', 'Your Second Command Group'],
+		['All', 'Your Second Command Group'],
+	])
+	.registerDefaultGroups()
+	.registerDefaultCommands()
+	.registerCommandsIn(path.join(__dirname, 'commands'));
+
 client.commands = new Discord.Collection();
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
