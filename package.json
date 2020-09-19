@@ -1,0 +1,26 @@
+{
+  "name": "ace-right-hand-bot",
+  "version": "1.0.0",
+  "description": "Ace's right hand bot now in JS",
+  "main": "bot.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "none"
+  },
+  "keywords": [
+    "none"
+  ],
+  "author": "Acelib25/Bryston Ahrendt",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "discord.js": "^12.3.1",
+    "discord.js-commando": "github:discordjs/Commando",
+    "mysql": "^2.18.1",
+    "pm2": "^4.4.1",
+    "sequelize": "^6.3.4",
+    "sqlite3": "^5.0.0"
+  }
+}

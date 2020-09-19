@@ -1,0 +1,8 @@
+Hello my name is Ace. I wrote @ACE-JavaScript#5590  to help with this RP. As its creator I would like to offer some advice about how it works.
+1. The help command is **`-help`**. You can use **`-help <command>`** for information on a specific command.
+2. Your Money = **`-bal`**. Everyone's money = **`-baltop`**. Shop is **`-shop`**.To buy an item is  **`-buy <item>`**. **`-inv`** to see your items.
+3. To look around a room enter its related channel and say` -room`.
+4. **`-slots <amount of money>`** to gamble in #casino-floor . Be careful or you might lose it all. >:D
+5. There are many fun commands. **`-kill`** is one of them. It is **NOT** used to kill people in game.
+6. If you need help please feel free to DM me.
+Enjoy the RP!!!
