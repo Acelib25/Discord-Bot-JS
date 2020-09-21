@@ -130,7 +130,7 @@ client.once('ready', async () => {
 
 client.on('message', async message => {
 
-	if (message.member.roles.cache.some(r => r.name === 'Ghost') ) {
+	if (message.author.roles.cache.some(r => r.name === 'Ghost') ) {
 		message.delete()
 		return message.channel.send(`*${message.author.tag} let out a ghostly moan....*`);
 	}
