@@ -12,7 +12,6 @@ const config = require('./config.json');
 const tag = require('./commands/tag');
 const disable = require('./commands/disable');
 const prefix = config.prefix;
-var yui = 'true';
 
 const client = new CommandoClient({ 
 	ws: { intents: Intents.ALL },
