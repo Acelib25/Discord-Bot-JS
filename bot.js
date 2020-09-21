@@ -11,7 +11,7 @@ const cooldowns = new Discord.Collection();
 const config = require('./config.json');
 const tag = require('./commands/tag');
 const disable = require('./commands/disable');
-const prefix = config.prefix;
+//const prefix = config.prefix;
 
 const client = new CommandoClient({ 
 	ws: { intents: Intents.ALL },
