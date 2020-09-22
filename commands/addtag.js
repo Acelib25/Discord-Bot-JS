@@ -5,6 +5,7 @@ let d = new Date();
 module.exports = {
 	name: 'addtag',
 	description: 'Add a tag',
+	aliases: ['maketag', 'newtag'],
 	async execute(message, args, client) {
 		const commandArgs = args.join(' ');
 		console.log(commandArgs)
