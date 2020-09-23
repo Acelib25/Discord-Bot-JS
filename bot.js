@@ -11,6 +11,7 @@ const cooldowns = new Discord.Collection();
 const config = require('./config.json');
 const tag = require('./commands/tag');
 const disable = require('./commands/disable');
+const ambiance = require('./commands/botspeech');
 const prefix = config.prefix;
 
 const client = new Discord.Client({ ws: { intents: Intents.ALL } });
@@ -175,21 +176,26 @@ client.on('message', async message => {
             break;
 		}
 	}
-
-    
-
-	if (!message.content.startsWith(prefix) || message.author.bot) return;
-
-	const args = message.content.slice(prefix.length).trim().split(/ +/);
-	const commandName = args.shift().toLowerCase();
-
-	const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
-	if (!command) return;
 	if (message.channel.type != 'dm'){
 		disabled = await Disabled.findAll({ where: { guild_id: message.guild.id } });
 		disabledString = disabled.map(t => t.guild_id) || 'No tags set.';
 		disabledCommands = disabled.map(t => t.command) || 'No tags set.';
 	}
+	const args = message.content.slice(prefix.length).trim().split(/ +/);
+	const commandName = args.shift().toLowerCase();
+	//Bot Speech
+	let nsfwTag = await Tags.findOne({ where: { name: "nsfwMode" } });
+	let nsfwMode = nsfwTag.get('description');
+
+
+	if (message.channel.type != 'dm' && !disabledCommands.includes('botspeech')) {ambiance.execute(nsfwMode, message, args)}
+
+	if (!message.content.startsWith(prefix) || message.author.bot) return;
+
+	
+
+	const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+	if (!command) return;
 	
 	if (command.guildOnly && message.channel.type === 'dm') {
 		return message.reply('I can\'t execute that command inside DMs!');
