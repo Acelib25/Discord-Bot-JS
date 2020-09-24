@@ -119,13 +119,13 @@ Reflect.defineProperty(currency, 'getBalance', {
 	},
 });
 
-
 client.once('ready', async () => {
 	Tags.sync();
 	Disabled.sync();
 	MafiaGame.sync();
 	const storedBalances = await Users.findAll();
 	storedBalances.forEach(b => currency.set(b.user_id, b));
+	client.user.setActivity('your commands.', { type: 'LISTENING' });
 	console.log('Ready!');
 });
 
