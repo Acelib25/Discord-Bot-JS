@@ -18,6 +18,7 @@ module.exports = {
 
         safeMessage = [
             "|This is a message|",
+            "Time to twist your vertebrate",
             "Random message is random", 
             "Do the Ace", 
             "You are going to Brazil.", 
