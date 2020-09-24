@@ -50,8 +50,6 @@ module.exports = {
             message.channel.send(choose(safeMessage))
             console.log('forced Safe')
         }
-
-        console.log(amount)
         switch(nsfw){
             case('true'):
                 if(amount > 10 && amount < 15){
