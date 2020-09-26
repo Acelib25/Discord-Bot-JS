@@ -1,5 +1,7 @@
 const Discord = require('discord.js');
 const config = require('../config.json');
+const fetch = require('node-fetch');
+const querystring = require('querystring');
 
 module.exports = {
     name: 'grapes',
@@ -30,22 +32,41 @@ module.exports = {
             "I will now invert your knees.",
             "The mirror agrees with me. Your sexy. ;D", 
             "2 words, Carpeted Shower", 
-            "I will bruck you.", 
+            "I will bruck you.",
+            "//SHOW CAT", 
             "Pasta Linguini"]
        
         amount = randomInt(1, 100)
         
+        msg = choose(leMessage)
+
+        if(msg == "//SHOW CAT"){
+            const { file } = await fetch('https://aws.random.cat/meow').then(response => response.json());
+            msgFile = file
+            
+            embed = new Discord.MessageEmbed()
+            .setColor('#c6d757')
+            .setTitle(`Grapes. will they be sour or sweet?`)
+            .addFields(
+            { name: 'Message', value: msg},
+            )
+            .attachFiles(msgFile)
+            .setTimestamp();
+        } 
+        else {
+            embed = new Discord.MessageEmbed()
+            .setColor('#c6d757')
+            .setTitle(`Grapes. will they be sour or sweet?`)
+            .addFields(
+            { name: 'Message', value: msg},
+            )
+            .setTimestamp();
+        }
+
         let webhooks = await message.channel.fetchWebhooks();
         let webhookName = webhooks.map(t => t.name)
         let webhookClient;
         
-        const embed = new Discord.MessageEmbed()
-            .setColor('#c6d757')
-            .setTitle(`Grapes. will they be sour or sweet?`)
-            .addFields(
-            { name: 'Message', value: choose(leMessage)},
-            )
-            .setTimestamp();
         
         if(webhookName.includes("Grapes")){
             grapesIndex = webhooks.find(hook => hook.name === "Grapes")
@@ -59,7 +80,7 @@ module.exports = {
                 avatar: 'https://upload.wikimedia.org/wikipedia/commons/b/bb/Table_grapes_on_white.jpg',
             })
             .then(
-                webhookNew => webhookNew.send('Uh idk what this does...', {
+                webhookNew => webhookNew.send({
                     avatarURL: 'https://upload.wikimedia.org/wikipedia/commons/b/bb/Table_grapes_on_white.jpg',
                     embeds: [embed],
                 }),                          

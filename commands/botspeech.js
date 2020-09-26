@@ -44,34 +44,28 @@ module.exports = {
 
         if(args[0] == '!nsfw'){
             message.channel.send(choose(nsfwMessage))
-            console.log('forced NSFW')
         }
         if(args[0] == '!safe'){
             message.channel.send(choose(safeMessage))
-            console.log('forced Safe')
         }
         switch(nsfw){
             case('true'):
                 if(amount > 10 && amount < 15){
                     message.channel.send(choose(nsfwMessage))
-                    console.log('nsfw 1')
                 }
         
                 if(amount > 80 && amount < 90){
                     message.channel.send(choose(safeMessage))
-                    console.log('nsfw 2')
                 }
             break;
             
             case('false'):
                 if(amount > 10 && amount < 15){
                     message.channel.send(choose(safeMessage))
-                    console.log('safe 1')
                 }
         
                 if(amount > 80 && amount < 85){
                     message.channel.send(choose(safeMessage))
-                    console.log('safe 2')
                 }
                 break;
         }     
