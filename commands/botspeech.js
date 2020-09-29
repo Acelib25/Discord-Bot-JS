@@ -4,7 +4,7 @@ const { execute } = require('./tag');
 module.exports = {
     name: 'botspeech',
     aliases: ['bs', 'speech', ''],
-	async execute(nsfw, message, args) {
+	async execute(nsfw, message, args, logger) {
         function isNumeric(num){
 			return !isNaN(num)
 		}
