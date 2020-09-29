@@ -7,7 +7,7 @@ module.exports = {
 	description: 'Add a tag',
 	async execute(message, args, client, currency, logger) {
 		const commandArgs = args.join(' ');
-		console.log(commandArgs)
+		logger.info(commandArgs)
 		const sequelize = new Sequelize('database', 'user', 'password', {
 			host: 'localhost',
 			dialect: 'sqlite',

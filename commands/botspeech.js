@@ -43,29 +43,41 @@ module.exports = {
         amount = randomInt(1, 100)
 
         if(args[0] == '!nsfw'){
-            message.channel.send(choose(nsfwMessage))
+            e = choose(nsfwMessage)
+            message.channel.send(e)
+            logger.info(`AceJS said \'${e}\'`)
         }
         if(args[0] == '!safe'){
-            message.channel.send(choose(safeMessage))
+            e = choose(safeMessage)
+            message.channel.send(e)
+            logger.info(`AceJS said \'${e}\'`)
         }
         switch(nsfw){
             case('true'):
                 if(amount > 10 && amount < 15){
-                    message.channel.send(choose(nsfwMessage))
+                    e = choose(nsfwMessage)
+                    message.channel.send(e)
+                    logger.info(`AceJS said \'${e}\'`)
                 }
         
                 if(amount > 80 && amount < 90){
-                    message.channel.send(choose(safeMessage))
+                    e = choose(safeMessage)
+                    message.channel.send(e)
+                    logger.info(`AceJS said \'${e}\'`)
                 }
             break;
             
             case('false'):
                 if(amount > 10 && amount < 15){
-                    message.channel.send(choose(safeMessage))
+                    e = choose(safeMessage)
+                    message.channel.send(e)
+                    logger.info(`AceJS said \'${e}\'`)
                 }
         
                 if(amount > 80 && amount < 85){
-                    message.channel.send(choose(safeMessage))
+                    e = choose(safeMessage)
+                    message.channel.send(e)
+                    logger.info(`AceJS said \'${e}\'`)
                 }
                 break;
         }     

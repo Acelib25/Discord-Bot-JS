@@ -9,5 +9,6 @@ module.exports = {
 	guildOnly: false,
 	execute(message, args, client, currency, logger) {
 		message.channel.send("Ace likes to have frens. Here is his server. https://discord.gg/q8qVCAq")
+		logger.ace(`${message.author} asked for server`)
 	},
 };

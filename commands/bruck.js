@@ -16,7 +16,7 @@ module.exports = {
 			catch(error) {
 				if(error == "empty"){
 					taggedUser = "none"
-					console.log("Brucked empty user.")
+					logger.info("Brucked empty user.")
 				}
 				
 			}
@@ -26,9 +26,11 @@ module.exports = {
 			message.channel.send(`Bruck.\n https://cdn.discordapp.com/attachments/722116072324595792/743349672034172998/bruck.jpg `)
 		}
 		else if (taggedUser == message.author) {
+			logger.info(`${message.author} brucked themself. What a dumbass.`)
 			message.channel.send(`${message.author} brucked themself. What a dumbass.\n https://cdn.discordapp.com/attachments/722116072324595792/743349672034172998/bruck.jpg `)
 		}
 		else {
+			logger.info(`${message.author} brucked ${taggedUser}. Their brain is now smooth.`)
 			message.channel.send(`${message.author} brucked ${taggedUser}. Their brain is now smooth.\n https://cdn.discordapp.com/attachments/722116072324595792/743349672034172998/bruck.jpg `)
 		}
 	}

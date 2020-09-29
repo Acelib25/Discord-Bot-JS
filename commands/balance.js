@@ -39,6 +39,8 @@ module.exports = {
 
 	//Relevent code
 	const target = message.mentions.users.first() || message.author;
+	logger.info(`${target} checked their bank account`)
 	return message.channel.send(`${target.tag} has ${currency.getBalance(target.id)}💰`);
+	
 	},
 };

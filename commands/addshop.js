@@ -52,7 +52,7 @@ module.exports = {
 	try {
 		sequelize.sync().then(async () => {
 			CurrencyShop.upsert({ name: `${args[0]}`, cost: parseInt(`${args[1]}`)})
-		}).catch(console.error);
+		}).catch(logger.error);
 	}
 	catch (e) {
 		if (e.name === 'SequelizeUniqueConstraintError') {

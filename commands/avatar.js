@@ -16,7 +16,7 @@ module.exports = {
 			catch(error) {
 				if(error == "empty"){
 					user = message.author
-					console.log("Author user profile.")
+					logger.info("Author user profile.")
 				}
 				
 			}
@@ -29,7 +29,7 @@ module.exports = {
 		.setImage(user.displayAvatarURL({ dynamic: true, size: 256 * 2}))
 		.setTimestamp()
 
-		console.log(user.displayAvatarURL({ dynamic: true}))
+		logger.info(user.displayAvatarURL({ dynamic: true}))
 		message.channel.send(avatarEmbed);
 	},
 };

@@ -147,7 +147,7 @@ client.once('ready', async () => {
 	const storedBalances = await Users.findAll();
 	storedBalances.forEach(b => currency.set(b.user_id, b));
 	client.user.setActivity('your commands.', { type: 'LISTENING' });
-	logger.log('info', 'Ready!');
+	logger.info('Ready!');
 });
 
 client.on('message', async message => {
@@ -257,7 +257,7 @@ client.on('message', async message => {
 			}
 
 		} catch (error) {
-			console.error(error);
+			logger.error(error);
 			message.reply('there was an error trying to execute that command!');
 		}
 	} else {
@@ -265,7 +265,7 @@ client.on('message', async message => {
 			command.execute(message, args, client, currency, logger);
 			
 		} catch (error) {
-			console.error(error);
+			logger.error(error);
 			message.reply('there was an error trying to execute that command!');
 		}
 	}

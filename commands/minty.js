@@ -29,7 +29,7 @@ module.exports = {
 
 			con.connect(function(err) {
 				if (err) throw err;
-					console.log("Connected!");
+					logger.info("Connected!");
 					var vSplit = String(idea.date).split(", ");
 					var v1 = String(idea.name);
 					var v2 = String(idea.message);
@@ -41,7 +41,7 @@ module.exports = {
 						if (err) throw err;
 						message.channel.send(`Idea added with ID: **${result.insertId}** !`)
 						client.guilds.cache.get('747587696867672126').channels.cache.get('747587898043531365').send(`**${message.author.tag}** added Minty idea ID: **${result.insertId}**`)
-						console.log("1 record inserted");
+						logger.info("1 record inserted");
 				});
 			});
 			break;
@@ -56,8 +56,8 @@ module.exports = {
 			
 			con.connect(function(err) {
 				if (err) throw err;
-					console.log("Connected!");
-					console.log(args)
+					logger.info("Connected!");
+					logger.info(args)
 					con.query("SELECT * FROM ideas", function (err, row) {
 						if (err) throw err;
 						if (args[1]){

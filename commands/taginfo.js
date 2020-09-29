@@ -7,7 +7,7 @@ module.exports = {
 	description: 'Info for a tag',
 	async execute(message, args, client, currency, logger) {
 		const commandArgs = args.join(' ');
-		console.log(commandArgs)
+		logger.info(commandArgs)
 		const sequelize = new Sequelize('database', 'user', 'password', {
 			host: 'localhost',
 			dialect: 'sqlite',
@@ -32,9 +32,9 @@ module.exports = {
 		let splitArgs = commandArgs.split(' ');
 		let tagName = splitArgs.shift();
 		let tagDescription = splitArgs.join(' ');
-		console.log(splitArgs)
-		console.log(tagName)
-		console.log(tagDescription)
+		logger.info(splitArgs)
+		logger.info(tagName)
+		logger.info(tagDescription)
 
 		tagName = commandArgs;
 
