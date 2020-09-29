@@ -6,7 +6,7 @@ module.exports = {
 	usage: '-disable command',
 	guildOnly: true,
 	description: 'disables command in this guild',
-	async execute(message, args, client) {
+	async execute(message, args, client, currency, logger) {
         const commandName = args[0].toLowerCase();
 		const command = message.client.commands.get(commandName) || message.client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 

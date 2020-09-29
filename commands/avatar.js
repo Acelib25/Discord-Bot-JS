@@ -3,7 +3,7 @@ module.exports = {
 	name: 'avatar',
 	description: 'Get the avatar URL of the tagged user(s), or your own avatar.',
 	aliases: ['icon', 'pfp'],
-	execute(message, args) {
+	execute(message, args, client, currency, logger) {
 		var user = message.mentions.users.first();
 		if (!message.mentions.users.size) {
 			try {

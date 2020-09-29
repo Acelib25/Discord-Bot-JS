@@ -3,7 +3,7 @@ module.exports = {
 	name: 'bankall',
 	description: 'Add monz to EVERYONE',
 	aliases: ['balall', 'balanceall'],
-	execute(message, args, client, currency) {
+	execute(message, args, client, currency, logger) {
 		console.log(args)
 
 		if (!message.member.roles.cache.some(r => r.name === 'Admin') && !message.member.roles.cache.some(r => r.name === 'Banker') && !message.member.roles.cache.some(r => r.name === 'Ace-JS Admin')) {

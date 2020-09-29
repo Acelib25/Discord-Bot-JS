@@ -7,7 +7,7 @@ module.exports = {
 	usage: 'Yes',
 	cooldown: 5,
 	guildOnly: false,
-	execute(message, args) {
+	execute(message, args, client, currency, logger) {
 		message.channel.send("Ace likes to have frens. Here is his server. https://discord.gg/q8qVCAq")
 	},
 };

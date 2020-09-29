@@ -2,10 +2,10 @@ const Discord = require('discord.js');
 const Sequelize = require('sequelize');
 
 module.exports = {
-    async kill(message, args, client){
+    async kill(message, args, client, currency, logger){
         
     },
-    async startGame(message, args, client){
+    async startGame(message, args, client, currency, logger){
         function random(myArray){
             let randomValue = myArray[Math.floor(Math.random() * myArray.length)];
             return randomValue

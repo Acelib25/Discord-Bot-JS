@@ -2,7 +2,7 @@ let d = new Date();
 module.exports = {
 	name: 'restart',
 	description: 'Restart bot',
-	execute(message) {
+	execute(message, args, client, currency, logger) {
 		if (message.author.id == "344143763918159884"){
 			console.log(`Bot restarted at ${d.toLocaleString()}`);
 			message.channel.send(`Resarting bot...`)

@@ -3,7 +3,7 @@ module.exports = {
 	usage: '-kick @USER',
 	guildOnly: true,
 	description: 'kick player',
-	execute(message, args) {
+	execute(message, args, client, currency, logger) {
 		var taggedUser = message.mentions.users.first();
 		
 		if (!message.member.roles.cache.some(r => r.name === 'Admin') && !message.member.roles.cache.some(r => r.name === 'Mod') && !message.member.roles.cache.some(r => r.name === 'Ace-JS Admin')) {

@@ -6,7 +6,7 @@ module.exports = {
 	usage: '-enable command',
 	guildOnly: true,
 	description: 'enables command in this guild',
-	async execute(message, args, client) {
+	async execute(message, args, client, currency, logger) {
         const commandName = args[0].toLowerCase();
 		const command = message.client.commands.get(commandName) || message.client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 		console.log(message.member.roles.cache.map(role => role.name));

@@ -3,7 +3,7 @@ module.exports = {
 	name: 'bankadd',
 	description: 'Add monz',
 	aliases: ['baladd', 'balanceadd'],
-	execute(message, args, client, currency) {
+	execute(message, args, client, currency, logger) {
 		console.log(args)
 		var taggedUser = message.mentions.users.first();
 			if (!message.mentions.users.size) {

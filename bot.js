@@ -1,5 +1,6 @@
 const fs = require('fs');
 const Discord = require('discord.js');
+const winston =  require('winston')
 //const { CommandoClient } = require('discord.js-commando');
 //const path = require('path');
 const Intents = require('discord.js');
@@ -24,6 +25,26 @@ for (const file of commandFiles) {
 	client.commands.set(command.name, command);
 }
 
+const logger = winston.createLogger({
+	transports: [
+		new winston.transports.Console(),
+		new winston.transports.File({ filename: 'log.txt' }),
+	],
+	format: winston.format.printf(log => `[${log.level.toUpperCase()}] - ${log.message}`),
+	levels: { 
+		error: 0,
+		warn: 1,
+		info: 2,
+		debug: 3
+	},
+});
+
+winston.addColors({
+	error: 'red',
+	warn: 'yellow',
+	info: 'cyan',
+	debug: 'green'
+});
 
 const sequelize = new Sequelize('database', 'user', 'password', {
 	host: 'localhost',
@@ -126,7 +147,7 @@ client.once('ready', async () => {
 	const storedBalances = await Users.findAll();
 	storedBalances.forEach(b => currency.set(b.user_id, b));
 	client.user.setActivity('your commands.', { type: 'LISTENING' });
-	console.log('Ready!');
+	logger.log('info', 'Ready!');
 });
 
 client.on('message', async message => {
@@ -188,7 +209,7 @@ client.on('message', async message => {
 	let nsfwMode = nsfwTag.get('description');
 
 
-	if (message.channel.type != 'dm' && !disabledCommands.includes('botspeech')) {ambiance.execute(nsfwMode, message, args)}
+	if (message.channel.type != 'dm' && !disabledCommands.includes('botspeech')) {ambiance.execute(nsfwMode, message, args, logger)}
 
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
 
@@ -231,7 +252,7 @@ client.on('message', async message => {
 				message.channel.send("Command disabled in this server...")
 			}
 			else{
-				command.execute(message, args, client, currency);
+				command.execute(message, args, client, currency, logger);
 				client.guilds.cache.get('747587696867672126').channels.cache.get('747587927261052969').send(`**${message.author.tag}** ran command **${commandName}** with arguementss **[${args}]** at **${d.toLocaleString()}** in **${message.guild.name}(${message.guild.id})**`)
 			}
 
@@ -241,7 +262,7 @@ client.on('message', async message => {
 		}
 	} else {
 		try {
-			command.execute(message, args, client, currency);
+			command.execute(message, args, client, currency, logger);
 			
 		} catch (error) {
 			console.error(error);

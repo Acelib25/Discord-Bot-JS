@@ -6,7 +6,7 @@ module.exports = {
 	usage: '-minty',
 	guildOnly: false,
 	description: 'view Minty version',
-	execute(message, args, client) {
+	execute(message, args, client, currency, logger) {
 
 		switch(args[0]) {
         case '':

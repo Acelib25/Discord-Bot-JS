@@ -5,7 +5,7 @@ let d = new Date();
 module.exports = {
 	name: 'showtags',
 	description: 'show all tags',
-	async execute(message, args, client) {
+	async execute(message, args, client, currency, logger) {
 		const commandArgs = args.join(' ');
 		console.log(commandArgs)
 		const sequelize = new Sequelize('database', 'user', 'password', {

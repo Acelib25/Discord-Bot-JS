@@ -5,7 +5,7 @@ module.exports = {
 	name: 'room',
 	description: 'Show information about a room.',
 	cooldown: 5,
-	execute(message, args) {
+	execute(message, args, client, currency, logger) {
         room = message.channel.id
         switch(room){
             case('746837873965269063'):

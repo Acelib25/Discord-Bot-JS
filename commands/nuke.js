@@ -3,7 +3,7 @@ module.exports = {
 	usage: '-nuke @USER',
 	guildOnly: true,
 	description: 'Begin a war.',
-	execute(message, args) {
+	execute(message, args, client, currency, logger) {
 		let taggedUser = message.mentions.users.first();
 		if (!message.mentions.users.size) {
 			try {

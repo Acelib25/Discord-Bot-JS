@@ -9,7 +9,7 @@ let d = new Date();
 module.exports = {
 	name: 'baltop',
 	description: 'View Monz Counts',
-	async execute(message, args, client, currency) {
+	async execute(message, args, client, currency, logger) {
 		const PREFIX = '-';
 		const input = message.content.slice(PREFIX.length).trim();
 		if (!input.length) return;

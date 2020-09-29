@@ -5,7 +5,7 @@ module.exports = {
 	name: 'user',
 	description: 'Display info about a user',
 	aliases: ['user-info', 'userinfo'],
-	async execute(message, args, client, currency) {
+	async execute(message, args, client, currency, logger) {
 		Reflect.defineProperty(currency, 'getBalance', {
 			/* eslint-disable-next-line func-name-matching */
 			value: function getBalance(id) {

@@ -6,7 +6,7 @@ module.exports = {
 	name: 'mkill',
 	usage: '-mkill',
 	description: 'Murder someone',
-	execute(message, args) {
+	execute(message, args, client, currency, logger) {
 		let taggedUser = message.mentions.users.first();
 		
 		if (!message.mentions.users.size) {

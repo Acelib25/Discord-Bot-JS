@@ -3,7 +3,7 @@ module.exports = {
 	usage: '-revive @USER',
 	guildOnly: true,
 	description: 'Un-Murder someone',
-	execute(message, args) {
+	execute(message, args, client, currency, logger) {
 		
 		if (!message.member.roles.cache.some(r => r.name === 'Admin') && !message.member.roles.cache.some(r => r.name === 'Mod') && !message.member.roles.cache.some(r => r.name === 'Ace-JS Admin')) {
             return message.channel.send('You dont have permission to use this...');
