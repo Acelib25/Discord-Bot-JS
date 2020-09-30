@@ -148,6 +148,8 @@ client.once('ready', async () => {
 	storedBalances.forEach(b => currency.set(b.user_id, b));
 	client.user.setActivity('your commands.', { type: 'LISTENING' });
 	logger.info('Ready!');
+	logger.info(`Currently operating in ${client.guilds.cache.size} servers.`)
+	if(client.guilds.cache.size <= 20) {logger.info(`Servers: ${client.guilds.cache.array()}`)}
 });
 
 client.on('message', async message => {
