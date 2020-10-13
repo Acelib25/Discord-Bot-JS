@@ -42,12 +42,12 @@ module.exports = {
         
         amount = randomInt(1, 100)
 
-        if(args[0] == '!nsfw'){
+        if(args[0] == 'nsfw'){
             e = choose(nsfwMessage)
             message.channel.send(e)
             logger.info(`AceJS said \'${e}\'`)
         }
-        if(args[0] == '!safe'){
+        if(args[0] == 'safe'){
             e = choose(safeMessage)
             message.channel.send(e)
             logger.info(`AceJS said \'${e}\'`)
