@@ -213,7 +213,7 @@ client.on('message', async message => {
 
 	if (message.channel.type != 'dm' && !disabledCommands.includes('botspeech')) {ambiance.execute(nsfwMode, message, args, logger)}
 	
-	if (message.mentions.has(client.user) && message.channel.type != 'dm' && !disabledCommands.includes('botspeech')){ambiance.execute(nsfwMode, message, args, logger, "ping")}
+	if (message.mentions.has(client.user) && !message.author.bot && message.channel.type != 'dm' && !disabledCommands.includes('botspeech')){ambiance.execute(nsfwMode, message, args, logger, "ping")}
 
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
 
