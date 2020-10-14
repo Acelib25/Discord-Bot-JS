@@ -16,8 +16,13 @@ module.exports = {
             return Math.floor(Math.random() * (max - min + 1) + min);
         }
 
+        testMessage = [
+            `What kind of idiot would say "${message.content}"? Oh ya ${message.author} would.`
+        ]
+
         safeMessage = [
             "|This is a message|",
+            `What kind of idiot would say "${message.content}"? Oh ya ${message.author} would.`,
             "Time to twist your vertebrate",
             "Random message is random", 
             "Do the Ace", 
@@ -32,6 +37,21 @@ module.exports = {
             "2 words, Carpeted Shower", 
             "Your toenails are now teeth.", 
             "Pasta Linguini"]
+        
+        pingMessage = [
+            "Why did you ping me cuck?",
+            "Time to twist your vertebrate",
+            "Random message is random", 
+            "**WHOMST SUMMONED ME.**", 
+            "You are going to Brazil.", 
+            "Shut up",
+            "Your bones are wet.", 
+            "You are now losing your kneecap privileges.",  
+            "I am coming to fill your sinus with piss.", 
+            "I will now invert your knees.",
+            "Next time you shower leave your clothes on.",
+            `What kind of idiot would say "${message.content}"? Oh ya ${message.author} would.`,  
+            "Who ever pinged me, your face is ugly.",]
        
         nsfwMessage = [
             "I can say FUCK!",  
@@ -47,8 +67,18 @@ module.exports = {
             message.channel.send(e)
             logger.info(`AceJS said \'${e}\'`)
         }
-        if(args[0] == 'safe'|| mode == "safe"){
+        if(args[0] == 'safe'){
             e = choose(safeMessage)
+            message.channel.send(e)
+            logger.info(`AceJS said \'${e}\'`)
+        }
+        if(args[0] == 'test'){
+            e = choose(testMessage)
+            message.channel.send(e)
+            logger.info(`AceJS said \'${e}\'`)
+        }
+        if (mode == "ping"){
+            e = choose(pingMessage)
             message.channel.send(e)
             logger.info(`AceJS said \'${e}\'`)
         }
