@@ -212,6 +212,7 @@ client.on('message', async message => {
 
 
 	if (message.channel.type != 'dm' && !disabledCommands.includes('botspeech')) {ambiance.execute(nsfwMode, message, args, logger)}
+	if (message.mentions.has(bot.user)){ambiance.execute(nsfwMode, message, args, logger, "safe")}
 
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
 

@@ -4,7 +4,7 @@ const { execute } = require('./tag');
 module.exports = {
     name: 'botspeech',
     aliases: ['bs', 'speech', ''],
-	async execute(nsfw, message, args, logger) {
+	async execute(nsfw, message, args, logger, mode) {
         function isNumeric(num){
 			return !isNaN(num)
 		}
@@ -47,7 +47,7 @@ module.exports = {
             message.channel.send(e)
             logger.info(`AceJS said \'${e}\'`)
         }
-        if(args[0] == 'safe'){
+        if(args[0] == 'safe'|| mode == "safe"){
             e = choose(safeMessage)
             message.channel.send(e)
             logger.info(`AceJS said \'${e}\'`)
