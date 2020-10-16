@@ -78,11 +78,15 @@ module.exports = {
             user_id: userVal,
             mod_id: message.author.id,
             time: pointVal,
+            points: 5,
             type: typeVal,
             reason: reasonVal,
         });
-
-        message.channel.send(`<@!${userVal}> You've been muted. Reason: \`${reasonVal}\` Time: \`${pointVal}\``)
+    
+        time = parseInt(pointVal) * 60000;
+        timeString = `${time}`
+        console.log(timeString)
+        message.channel.send(`<@!${userVal}> You've been muted. Reason: \`${reasonVal}\` Time: \`${ms(ms(timeString))}\``)
         const mainRole = message.guild.roles.cache.find(role => role.name === 'Member');
         const muteRole = message.guild.roles.cache.find(role => role.name === 'Muted');
         const mem = message.client.users.cache.get(userVal);
@@ -92,12 +96,14 @@ module.exports = {
         member.roles.remove(mainRole)
         member.roles.add(muteRole);
         
+        
+        console.log(time)
         setTimeout(function(){
             Moderation.update({ reason: `${reasonVal}(EXPIRED)` }, { where: { user_id: userVal, reason: reasonVal } });
             member.roles.add(mainRole)
             member.roles.remove(muteRole);
             message.channel.send(`@${member.user.tag} has been unmuted.`)
-        }, ms(pointVal));
+        }, ms(timeString));
         
         
 		
