@@ -106,6 +106,31 @@ Reflect.defineProperty(currency, 'add', {
 		return newUser;
 	},
 });
+
+const Moderation = sequelize.define('moderate', {
+	guild_id: {
+		type: Sequelize.STRING,
+	},
+	user_id: {
+		type: Sequelize.STRING,
+	},
+	mod_id: {
+		type: Sequelize.STRING,
+	},
+	points: {
+		type: Sequelize.STRING,
+	},
+	type: {
+		type: Sequelize.STRING,
+	},
+	reason: {
+		type: Sequelize.STRING,
+	},
+	time: {
+		type: Sequelize.STRING,
+	},
+});
+
 const MafiaGame = sequelize.define('mafiaGame', {
 	guild_id: {
 		type: Sequelize.STRING,
@@ -144,10 +169,12 @@ client.once('ready', async () => {
 	Tags.sync();
 	Disabled.sync();
 	MafiaGame.sync();
+	Moderation.sync();
 	const storedBalances = await Users.findAll();
 	storedBalances.forEach(b => currency.set(b.user_id, b));
 	client.user.setActivity('your commands.', { type: 'LISTENING' });
 	logger.info('Ready!');
+	console.log('Ready!');
 	logger.info(`Currently operating in ${client.guilds.cache.size} servers.`)
 	if(client.guilds.cache.size <= 20) {logger.info(`Servers: ${client.guilds.cache.array()}`)}
 });
