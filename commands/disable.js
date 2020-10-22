@@ -15,13 +15,14 @@ module.exports = {
 		}
         
         //Permission Check
-        permData = Perms.findAll({ where: { guild_id: message.guild.id, user_id: message.author.id} });
+        permData = await Perms.findAll({ where: { guild_id: message.guild.id, user_id: message.author.id} });
         permPower = permData.map(t => t.power);
 
         if (!permPower.includes("admin") && !permPower.includes("mod")) {
             return message.channel.send('You dont have permission to use this...');
         }
         //Permission Check
+        
         const sequelize = new Sequelize('database', 'username', 'password', {
             host: 'localhost',
             dialect: 'sqlite',
