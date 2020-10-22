@@ -17,7 +17,7 @@ module.exports = {
 			return message.channel.send(`There is no command with name or alias \`${commandName}\`, ${message.author}!`);
 		}
 		//Permission Check
-        permData = await Perms.findAll({ where: { guild_id: message.guild.id, user_id: message.author.id} });
+        permData = Perms.findAll({ where: { guild_id: message.guild.id, user_id: message.author.id} });
         permPower = permData.map(t => t.power);
 
         if (!permPower.includes("admin") && !permPower.includes("mod")) {

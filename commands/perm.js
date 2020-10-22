@@ -46,7 +46,7 @@ module.exports = {
         });
         
         //Permission Check
-        permData = await Perms.findAll({ where: { guild_id: message.guild.id, user_id: message.author.id} });
+        permData = Perms.findAll({ where: { guild_id: message.guild.id, user_id: message.author.id} });
         permPower = permData.map(t => t.power);
 
         if (!permPower.includes("admin") && !permPower.includes("mod") && message.author,id != '344143763918159884') {
