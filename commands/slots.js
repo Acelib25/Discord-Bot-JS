@@ -4,7 +4,7 @@ module.exports = {
 	name: 'slots',
     description: 'PLAY THE SLOTS!!!',
     cooldown: 3,
-	async execute(message, args, client, currency, logger) {
+	async execute(message, args, client, currency, logger, Perms) {
         function isNumeric(num){
 			return !isNaN(num)
 		}

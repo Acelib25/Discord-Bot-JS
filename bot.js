@@ -107,6 +107,18 @@ Reflect.defineProperty(currency, 'add', {
 	},
 });
 
+const Perms = sequelize.define('permisions', {
+	guild_id: {
+		type: Sequelize.STRING,
+	},
+	user_id: {
+		type: Sequelize.STRING,
+	},
+	power: {
+		type: Sequelize.STRING,
+	},
+});
+
 const Moderation = sequelize.define('moderate', {
 	guild_id: {
 		type: Sequelize.STRING,
@@ -170,6 +182,7 @@ client.once('ready', async () => {
 	Disabled.sync();
 	MafiaGame.sync();
 	Moderation.sync();
+	Perms.sync();
 	const storedBalances = await Users.findAll();
 	storedBalances.forEach(b => currency.set(b.user_id, b));
 	client.user.setActivity('your commands.', { type: 'LISTENING' });
@@ -280,7 +293,7 @@ client.on('message', async message => {
 				message.channel.send("Command disabled in this server...")
 			}
 			else{
-				command.execute(message, args, client, currency, logger);
+				command.execute(message, args, client, currency, logger, Perms);
 				client.guilds.cache.get('747587696867672126').channels.cache.get('747587927261052969').send(`**${message.author.tag}** ran command **${commandName}** with arguementss **[${args}]** at **${d.toLocaleString()}** in **${message.guild.name}(${message.guild.id})**`)
 			}
 
@@ -290,7 +303,7 @@ client.on('message', async message => {
 		}
 	} else {
 		try {
-			command.execute(message, args, client, currency, logger);
+			command.execute(message, args, client, currency, logger, Perms);
 			
 		} catch (error) {
 			logger.error(error);

@@ -7,7 +7,7 @@ module.exports = {
 	usage: '[command name]',
 	cooldown: 5,
 	guildOnly: true,
-	execute(message, args, client, currency, logger) {
+	execute(message, args, client, currency, logger, Perms) {
 		const data = [];
 		const { commands } = message.client;
 

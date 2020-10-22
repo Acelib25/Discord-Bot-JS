@@ -4,7 +4,7 @@ module.exports = {
 	usage: 'd(decode) or e(encode)',
 	guildOnly: false,
 	description: 'encode or decode binary',
-	execute(message, args, client, currency, logger) {
+	execute(message, args, client, currency, logger, Perms) {
         const commandArgs = args.join(' ');
         let splitArgs = commandArgs.split(' ');
         let tagName = splitArgs.shift();

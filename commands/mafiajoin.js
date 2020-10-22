@@ -6,7 +6,7 @@ module.exports = {
 	usage: '',
 	guildOnly: true,
 	description: 'join the mafia game',
-	async execute(message, args, client, currency, logger) {  
+	async execute(message, args, client, currency, logger, Perms) {  
         
                 
         let admin;      

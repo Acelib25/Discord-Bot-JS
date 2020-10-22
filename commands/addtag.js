@@ -6,7 +6,7 @@ module.exports = {
 	name: 'addtag',
 	description: 'Add a tag',
 	aliases: ['maketag', 'newtag'],
-	async execute(message, args, client, currency, logger) {
+	async execute(message, args, client, currency, logger, Perms) {
 		const commandArgs = args.join(' ');
 		logger.log(commandArgs)
 		const sequelize = new Sequelize('database', 'user', 'password', {

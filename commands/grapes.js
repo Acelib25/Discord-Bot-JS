@@ -6,7 +6,7 @@ const querystring = require('querystring');
 module.exports = {
     name: 'grapes',
     aliases: ['grape', 'gs', 'grapespeech'],
-	async execute(message, args, client, currency, logger) {
+	async execute(message, args, client, currency, logger, Perms) {
         function isNumeric(num){
 			return !isNaN(num)
 		}

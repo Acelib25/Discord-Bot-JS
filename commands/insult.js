@@ -4,7 +4,7 @@ const { execute } = require('./tag');
 module.exports = {
     name: 'insult',
     aliases: ['salt', 'roast'],
-	async execute(message, args, client, currency, logger) {
+	async execute(message, args, client, currency, logger, Perms) {
         function isNumeric(num){
 			return !isNaN(num)
 		}

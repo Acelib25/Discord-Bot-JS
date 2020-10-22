@@ -10,7 +10,7 @@ module.exports = {
 	name: 'inv',
 	description: 'View Inventory',
 	guildOnly: true,
-	async execute(message, args, client, currency, logger) {
+	async execute(message, args, client, currency, logger, Perms) {
 		const PREFIX = '-';
 		const input = message.content.slice(PREFIX.length).trim();
 		if (!input.length) return;

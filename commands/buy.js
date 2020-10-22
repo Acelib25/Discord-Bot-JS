@@ -9,7 +9,7 @@ let d = new Date();
 module.exports = {
 	name: 'buy',
 	description: 'Buy fun stuff',
-	async execute(message, args, client, currency, logger) {
+	async execute(message, args, client, currency, logger, Perms) {
 		const PREFIX = '-';
 		const input = message.content.slice(PREFIX.length).trim();
 		if (!input.length) return;

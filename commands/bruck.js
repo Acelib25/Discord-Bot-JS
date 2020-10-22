@@ -3,7 +3,7 @@ module.exports = {
 	usage: '-bruck @USER',
 	guildOnly: true,
 	description: 'Bruck',
-	execute(message, args, client, currency, logger) {
+	execute(message, args, client, currency, logger, Perms) {
 	var taggedUser = message.mentions.users.first();
 		if (!message.mentions.users.size) {
 			try {

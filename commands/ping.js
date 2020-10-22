@@ -4,7 +4,7 @@ module.exports = {
 	name: 'ping',
 	description: 'Ping!',
 	cooldown: 5,
-	execute(message, args, client, currency, logger) {
+	execute(message, args, client, currency, logger, Perms) {
 		message.channel.send("Pinging...")
 		.then(message.channel.bulkDelete(1, true))
 		.then(m =>{

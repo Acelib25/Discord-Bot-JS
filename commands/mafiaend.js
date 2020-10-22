@@ -6,7 +6,7 @@ module.exports = {
 	usage: '',
 	guildOnly: true,
 	description: 'end the mafia game',
-	async execute(message, args, client, currency, logger) {        
+	async execute(message, args, client, currency, logger, Perms) {        
         const sequelize = new Sequelize('database', 'username', 'password', {
             host: 'localhost',
             dialect: 'sqlite',

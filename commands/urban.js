@@ -6,7 +6,7 @@ const config = require('../config.json');
 module.exports = {
     name: 'urban',
     aliases: ['ud', 'us'],
-	async execute(message, args, client, currency, logger) {
+	async execute(message, args, client, currency, logger, Perms) {
         const trim = (str, max) => (str.length > max ? `${str.slice(0, max - 3)}...` : str);
         if (!args.length) {
 			return message.channel.send('You need to supply a search term!');

@@ -9,7 +9,7 @@ let d = new Date();
 module.exports = {
 	name: 'addshop',
 	description: 'Add shop item',
-	async execute(message, args, client, currency, logger) {
+	async execute(message, args, client, currency, logger, Perms) {
 		const PREFIX = '-';
 		const input = message.content.slice(PREFIX.length).trim();
 		if (!input.length) return;
@@ -45,9 +45,14 @@ module.exports = {
 		storage: 'database.sqlite',
 	});
 
-	if (!message.member.roles.cache.some(r => r.name === 'Admin') && !message.member.roles.cache.some(r => r.name === 'Mod') && !message.member.roles.cache.some(r => r.name === 'Ace-JS Admin')) {
+	//Permission Check
+	permData = await Perms.findAll({ where: { guild_id: message.guild.id, user_id: message.author.id} });
+	permPower = permData.map(t => t.power);
+
+	if (!permPower.includes("admin") && !permPower.includes("mod")) {
 		return message.channel.send('You dont have permission to use this...');
 	}
+	//Permission Check
 
 	try {
 		sequelize.sync().then(async () => {

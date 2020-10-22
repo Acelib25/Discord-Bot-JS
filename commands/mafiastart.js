@@ -7,7 +7,7 @@ module.exports = {
 	usage: '',
 	guildOnly: true,
 	description: 'start the mafia game',
-	async execute(message, args, client, currency, logger) {  
+	async execute(message, args, client, currency, logger, Perms) {  
         let admin;  
         function random(myArray){
             let randomValue = myArray[Math.floor(Math.random() * myArray.length)];
