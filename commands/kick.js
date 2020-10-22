@@ -3,11 +3,11 @@ module.exports = {
 	usage: '-kick @USER',
 	guildOnly: true,
 	description: 'kick player',
-	execute(message, args, client, currency, logger, Perms) {
+	async execute(message, args, client, currency, logger, Perms) {
 		var taggedUser = message.mentions.users.first();
 		
 		//Permission Check
-        permData = Perms.findAll({ where: { guild_id: message.guild.id, user_id: message.author.id} });
+        permData = await Perms.findAll({ where: { guild_id: message.guild.id, user_id: message.author.id} });
         permPower = permData.map(t => t.power);
 
         if (!permPower.includes("admin") && !permPower.includes("mod")) {

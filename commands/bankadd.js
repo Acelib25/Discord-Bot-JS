@@ -3,7 +3,7 @@ module.exports = {
 	name: 'bankadd',
 	description: 'Add monz',
 	aliases: ['baladd', 'balanceadd'],
-	execute(message, args, client, currency, logger, Perms) {
+	async execute(message, args, client, currency, logger, Perms) {
 		logger.info(args)
 		var taggedUser = message.mentions.users.first();
 			if (!message.mentions.users.size) {
@@ -27,7 +27,7 @@ module.exports = {
 			}
 
 		//Permission Check
-        permData = Perms.findAll({ where: { guild_id: message.guild.id, user_id: message.author.id} });
+        permData = await Perms.findAll({ where: { guild_id: message.guild.id, user_id: message.author.id} });
         permPower = permData.map(t => t.power);
 
         if (!permPower.includes("admin") && !permPower.includes("mod")) {

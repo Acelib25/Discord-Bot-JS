@@ -3,10 +3,10 @@ module.exports = {
 	usage: '-revive @USER',
 	guildOnly: true,
 	description: 'Un-Murder someone',
-	execute(message, args, client, currency, logger, Perms) {
+	async execute(message, args, client, currency, logger, Perms) {
 		
 		//Permission Check
-        permData = Perms.findAll({ where: { guild_id: message.guild.id, user_id: message.author.id} });
+        permData = await Perms.findAll({ where: { guild_id: message.guild.id, user_id: message.author.id} });
         permPower = permData.map(t => t.power);
 
         if (!permPower.includes("admin") && !permPower.includes("mod")) {

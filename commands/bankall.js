@@ -3,11 +3,11 @@ module.exports = {
 	name: 'bankall',
 	description: 'Add monz to EVERYONE',
 	aliases: ['balall', 'balanceall'],
-	execute(message, args, client, currency, logger, Perms) {
+	async execute(message, args, client, currency, logger, Perms) {
 		logger.info(args)
 
 		//Permission Check
-        permData = Perms.findAll({ where: { guild_id: message.guild.id, user_id: message.author.id} });
+        permData = await Perms.findAll({ where: { guild_id: message.guild.id, user_id: message.author.id} });
         permPower = permData.map(t => t.power);
 
         if (!permPower.includes("admin") && !permPower.includes("mod")) {
