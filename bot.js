@@ -204,23 +204,16 @@ client.on('message', async message => {
 
 
 	
-	if (message.author.id != '746559309558579261'){
+	if (!message.author.bot){
 		switch(extraArgs[0]) {
-        case 'yui':
-            if(extraArgs.length < 2) {
-                
-            } else {
-				yui = extraArgs[1];
-				let d = new Date();
-				client.guilds.cache.get('747587696867672126').channels.cache.get('747587927261052969').send(`${message.author.tag} set Yui message to ${extraArgs[1]} at ${d.toLocaleString()}`)
-            }
-            break;
         case 'goodbye':
 			message.channel.send(`Goodbye`)
 			break;
 		case 'goodnight':
 			message.channel.send(`Goodnight`)
 			break;
+		case "uwu":
+			message.channel.send("> Don’t you dare say uwu again or I will break your shins. \n ~Drawgon")
 		default:
             //send not found
             break;
