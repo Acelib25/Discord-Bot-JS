@@ -6,7 +6,7 @@ module.exports = {
 	usage: '-perm name/id super/mod/admin',
 	guildOnly: true,
 	description: 'perm someone',
-	async execute(message, args, client, currency, logger, Perms) {
+	async execute(message, args, client, currency, logger) {
         
         if (!message.mentions.users.size) {
 			try {
@@ -46,10 +46,10 @@ module.exports = {
         });
         
         //Permission Check
-        permData = Perms.findAll({ where: { guild_id: message.guild.id, user_id: message.author.id} });
+        permData = await Perms.findAll({ where: { guild_id: message.guild.id, user_id: message.author.id} });
         permPower = permData.map(t => t.power);
 
-        if (!permPower.includes("admin") && !permPower.includes("mod") && message.author,id != '344143763918159884') {
+        if (!permPower.includes("admin") && !permPower.includes("mod") && message.author.id != '344143763918159884') {
             return message.channel.send('You dont have permission to use this...');
         }
         //Permission Check
@@ -59,7 +59,7 @@ module.exports = {
         let permAdd = await Perms.create({
             guild_id: message.guild.id,
             user_id: userVal,
-            power: args[1].toLowercase(),
+            power: args[1],
         });
 
         message.channel.send(`<@!${userVal}> You've been permed. You are now a ${args[1]}`)
