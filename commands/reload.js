@@ -2,7 +2,7 @@ module.exports = {
 	name: 'reload',
 	description: 'Reloads a command',
 	args: true,
-	execute(message, args, client, currency, logger, Perms) {
+	async execute(message, args, client, currency, logger, Perms) {
 		const commandName = args[0].toLowerCase();
 		const command = message.client.commands.get(commandName)
 			|| message.client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
@@ -12,7 +12,7 @@ module.exports = {
 		}
 		
 		//Permission Check
-        permData = Perms.findAll({ where: { guild_id: message.guild.id, user_id: message.author.id} });
+        permData = await Perms.findAll({ where: { guild_id: message.guild.id, user_id: message.author.id} });
         permPower = permData.map(t => t.power);
 
         if (!permPower.includes("admin") && !permPower.includes("mod")) {
