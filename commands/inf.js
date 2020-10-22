@@ -113,23 +113,23 @@ module.exports = {
         
         switch(args[1]){
             case('2'):
-                message.channel.send(infList2.toString().replace(/,/g, '\n\n'))
+                message.channel.send(infList2.join('\n\n'))
                 message.channel.send(`\n\n**Total inf: ${userID.length} | Page: 2/${Math.ceil(userID.length / 15)}**`)
                 break;
             case('3'):
-                message.channel.send(infList3.toString().replace(/,/g, '\n\n'))
+                message.channel.send(infList3.join('\n\n'))
                 message.channel.send(`\n\n**Total inf: ${userID.length} | Page: 3/${Math.ceil(userID.length / 15)}**`)
                 break;
             case('4'):
-                message.channel.send(infList4.toString().replace(/,/g, '\n\n'))
+                message.channel.send(infList4.join('\n\n'))
                 message.channel.send(`\n\n**Total inf: ${userID.length} | Page: 4/${Math.ceil(userID.length / 15)}**`)
                 break;
             case('5'):
-                message.channel.send(infList5.toString().replace(/,/g, '\n\n'))
+                message.channel.send(infList5.join('\n\n'))
                 message.channel.send(`\n\n**Total inf: ${userID.length} | Page: 5/${Math.ceil(userID.length / 15)}**`)
                 break;
             default:
-                message.channel.send(infList.toString().replace(/,/g, '\n\n'))
+                message.channel.send(infList.join('\n\n'))
                 message.channel.send(`\n\n**Total inf: ${userID.length} | Page: 1/${Math.ceil(userID.length / 15)}**`)
                 break;
         }

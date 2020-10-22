@@ -17,7 +17,7 @@ module.exports = {
         }
 
         testMessage = [
-            `What kind of idiot would say "${message.content}"? Oh ya ${message.author} would.`
+            "A little birdie told me you have never experienced Cock and Ball torture, **I AM HERE TO CHANGE THAT**"
         ]
 
         safeMessage = [
@@ -33,14 +33,14 @@ module.exports = {
             "I am coming to fill your sinus with cement.", 
             "I am coming to fill your sinus with piss.", 
             "I will now invert your knees.",
-            "Next time you shower leave your clothes on.", 
+            "Imagine showering with your clothes on.", 
             "2 words, Carpeted Shower", 
             "Your toenails are now teeth.", 
             "Pasta Linguini"]
         
         pingMessage = [
             "Why did you ping me cuck?",
-            "Time to twist your vertebrate",
+            "Just for that your vertabre are now frizbees",
             "Random message is random", 
             "**WHOMST SUMMONED ME.**", 
             "You are going to Brazil.", 
@@ -50,17 +50,20 @@ module.exports = {
             "I am coming to fill your sinus with piss.", 
             "I will now invert your knees.",
             "Next time you shower leave your clothes on.",
+            "I don't need to take this slander from someone who sucks toes. :eyes:",
             `What kind of idiot would say "${message.content}"? Oh ya ${message.author} would.`,  
-            "Who ever pinged me, your face is ugly.",]
+            "Who ever pinged me, your face is ugly.",
+            "I dont need to take this slander from someone who sucks toes. :eyes:"
+        ]
        
-        nsfwMessage = [
-            "I can say FUCK!",  
+        nsfwMessage = [ 
             "You are going in the jar.",
-            "I can, and will, change your gender.", 
+            "I can, and will, change your gender.",
+            "A little birdie told me you have never experienced Cock and Ball torture, **I AM HERE TO CHANGE THAT**", 
             "Nice Cock"]
         
         
-        amount = randomInt(1, 100)
+        amount = randomInt(1, 150)
 
         if(args[0] == 'nsfw'){
             e = choose(nsfwMessage)
@@ -83,14 +86,14 @@ module.exports = {
             logger.info(`AceJS said \'${e}\'`)
         }
         switch(nsfw){
-            case('true'):
-                if(amount > 10 && amount < 15){
+            case('true2'):
+                if(amount >= 10 && amount <= 12){
                     e = choose(nsfwMessage)
                     message.channel.send(e)
                     logger.info(`AceJS said \'${e}\'`)
                 }
         
-                if(amount > 80 && amount < 90){
+                if(amount >= 80 && amount <= 82){
                     e = choose(safeMessage)
                     message.channel.send(e)
                     logger.info(`AceJS said \'${e}\'`)
@@ -98,13 +101,13 @@ module.exports = {
             break;
             
             case('false'):
-                if(amount > 10 && amount < 15){
+                if(amount >= 10 && amount <= 12){
                     e = choose(safeMessage)
                     message.channel.send(e)
                     logger.info(`AceJS said \'${e}\'`)
                 }
         
-                if(amount > 80 && amount < 85){
+                if(amount >= 80 && amount <= 82){
                     e = choose(safeMessage)
                     message.channel.send(e)
                     logger.info(`AceJS said \'${e}\'`)

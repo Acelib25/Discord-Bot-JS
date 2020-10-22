@@ -1,6 +1,6 @@
 {
   "name": "ace-right-hand-bot",
-  "version": "1.3.7",
+  "version": "1.4.2",
   "description": "Ace's right hand bot now in JS",
   "main": "bot.js",
   "scripts": {
