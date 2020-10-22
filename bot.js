@@ -214,6 +214,10 @@ client.on('message', async message => {
 			break;
 		case "uwu":
 			message.channel.send("> Don’t you dare say uwu again or I will break your shins. \n ~Drawgon")
+			break;
+		case "owo":
+			message.channel.send("> Don’t you dare say owo again or I will break your shins. \n ~ACE")
+			break;
 		default:
             //send not found
             break;
