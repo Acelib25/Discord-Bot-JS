@@ -21,7 +21,7 @@ module.exports = {
         const gTTS = require('gtts'); 
       
         var speech = argsProssesed; 
-        var gtts = new gTTS(speech, 'en'); 
+        var gtts = new gTTS(speech, 'en-us'); 
         
         gtts.save('audio.mp3', function (err, result){ 
             if(err) { throw new Error(err); } 
