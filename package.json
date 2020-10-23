@@ -1,6 +1,6 @@
 {
   "name": "ace-right-hand-bot",
-  "version": "1.6.0",
+  "version": "1.7.2",
   "description": "Ace's right hand bot now in JS",
   "main": "bot.js",
   "scripts": {
@@ -29,6 +29,7 @@
     "sqlite3": "^5.0.0",
     "text-to-mp3": "^1.0.4",
     "text2wav": "0.0.13",
-    "winston": "^3.3.3"
+    "winston": "^3.3.3",
+    "ytdl": "^1.3.5"
   }
 }

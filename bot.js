@@ -20,6 +20,8 @@ client.commands = new Discord.Collection();
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
+const queue = new Map();
+
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
 	client.commands.set(command.name, command);
@@ -293,7 +295,7 @@ client.on('message', async message => {
 				message.channel.send("Command disabled in this server...")
 			}
 			else{
-				command.execute(message, args, client, currency, logger, Perms);
+				command.execute(message, args, client, currency, logger, Perms, queue);
 				client.guilds.cache.get('747587696867672126').channels.cache.get('747587927261052969').send(`**${message.author.tag}** ran command **${commandName}** with arguementss **[${args}]** at **${d.toLocaleString()}** in **${message.guild.name}(${message.guild.id})**`)
 			}
 
@@ -303,7 +305,7 @@ client.on('message', async message => {
 		}
 	} else {
 		try {
-			command.execute(message, args, client, currency, logger, Perms);
+			command.execute(message, args, client, currency, logger, Perms, queue);
 			
 		} catch (error) {
 			logger.error(error);
