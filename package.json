@@ -1,6 +1,6 @@
 {
   "name": "ace-right-hand-bot",
-  "version": "1.5.4",
+  "version": "1.6.0",
   "description": "Ace's right hand bot now in JS",
   "main": "bot.js",
   "scripts": {
@@ -16,11 +16,19 @@
   "author": "Acelib25/Bryston Ahrendt",
   "license": "UNLICENSED",
   "dependencies": {
+    "@discordjs/opus": "^0.3.2",
+    "assert": "^2.0.0",
     "discord.js": "^12.3.1",
     "discord.js-commando": "github:discordjs/Commando",
+    "ffmpeg-static": "^4.2.7",
+    "gtts": "^0.2.1",
     "mysql": "^2.18.1",
+    "node-addon-api": "^3.0.2",
     "pm2": "^4.4.1",
     "sequelize": "^6.3.4",
-    "sqlite3": "^5.0.0"
+    "sqlite3": "^5.0.0",
+    "text-to-mp3": "^1.0.4",
+    "text2wav": "0.0.13",
+    "winston": "^3.3.3"
   }
 }
