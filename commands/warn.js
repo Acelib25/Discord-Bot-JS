@@ -21,7 +21,7 @@ module.exports = {
 			try {
                 const User = message.client.users.cache.get(args[0]);
 				if (User) { // Checking if the user exists.
-					userName = User // The user exists.
+					userVal = userVal // The user exists.
 				} else {
 					//message.channel.send("User not found.") // The user doesn't exists or the bot couldn't find him.
 					taggedUser = "none"
@@ -87,8 +87,32 @@ module.exports = {
         });
 
         message.channel.send(`<@!${userVal}> You've been warned. Reason: \`${reasonVal}\` Points: \`${pointVal}\``)
+
+        member = message.guild.members.cache.get(userVal);
+        user = message.guild.member(member).user;
+        console.log(user)
+
+        embedMod = await Moderation.findAll({ where: { user_id: userVal, reason: reasonVal,}});
+        embedMod2 = await Moderation.findAll({ where: { user_id: userVal}});
         
+        modUser = message.guild.members.cache.get(message.author.id);
+        moderator = message.guild.member(modUser).user;
+
+        caseVal = embedMod.map(t => t.id);
+        embedPoints = embedMod2.map(t => t.points)
+        embedPointsTotal = embedPoints.reduce((a, b) => parseInt(a) + parseInt(b), 0)
+        console.log(caseVal)
+        trueCase = Math.max(...caseVal)
+        console.log(trueCase)
+
+        const embed = new Discord.MessageEmbed()
+        .setColor('#fffb00')
+        .setAuthor(`${user.username}#${user.discriminator} (${user.id})`, user.avatarURL())
+        .setTitle(`**WARNED**`)
+        .setDescription(`**Case** ${trueCase}\n**Reason** ${reasonVal}\n**Points** ${pointVal} | **Total** ${embedPointsTotal}`)
+		.setFooter(`${moderator.username}#${moderator.discriminator} (STAFF)`, moderator.avatarURL());
         
+        client.guilds.cache.get('344146800942383104').channels.cache.get('766703230008688700').send(embed)
 		
 		
 	}
