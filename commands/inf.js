@@ -8,7 +8,6 @@ module.exports = {
 	guildOnly: true,
 	description: 'warn someone',
 	async execute(message, args, client, currency, logger, Perms) {
-        console.log(args)
         
         if (!message.mentions.users.size) {
 			try {

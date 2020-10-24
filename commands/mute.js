@@ -91,21 +91,18 @@ module.exports = {
     
         time = parseInt(pointVal) * 60000;
         timeString = `${time}`
-        console.log(timeString)
         message.channel.send(`<@!${userVal}> You've been muted. Reason: \`${reasonVal}\` Time: \`${ms(ms(timeString))}\``)
         const mainRole = message.guild.roles.cache.find(role => role.name === 'Member');
         const muteRole = message.guild.roles.cache.find(role => role.name === 'Muted');
         const mem = message.client.users.cache.get(userVal);
         const member = message.guild.member(mem)
-        console.log(member)
-        console.log(member.roles)
         member.roles.remove(mainRole)
         member.roles.add(muteRole);
 
 
         member2 = message.guild.members.cache.get(userVal);
         user = message.guild.member(member2).user;
-        console.log(user)
+
 
         embedMod = await Moderation.findAll({ where: { user_id: userVal, reason: reasonVal,}});
         embedMod2 = await Moderation.findAll({ where: { user_id: userVal}});
@@ -116,9 +113,9 @@ module.exports = {
         caseVal = embedMod.map(t => t.id);
         embedPoints = embedMod2.map(t => t.points)
         embedPointsTotal = embedPoints.reduce((a, b) => parseInt(a) + parseInt(b), 0)
-        console.log(caseVal)
+
         trueCase = Math.max(...caseVal)
-        console.log(trueCase)
+
 
         const embed = new Discord.MessageEmbed()
         .setColor('#00a6ff')
@@ -130,7 +127,6 @@ module.exports = {
         msg = await client.guilds.cache.get('344146800942383104').channels.cache.get('766703230008688700').send(embed)
         msg.edit(embed.setDescription(`**Case** ${trueCase}\n**Reason** ${reasonVal}\n**Points** 5 | **Total** ${embedPointsTotal}\n**Time**: ${pointVal}\n **Embed_ID** ${msg.id}`))
         
-        console.log(time)
         setTimeout(function(){
             Moderation.update({ reason: `${reasonVal}(EXPIRED)` }, { where: { user_id: userVal, reason: reasonVal } });
             msg.edit(embed.setDescription(`**Case** ${trueCase}\n**Reason** ${reasonVal}\n**Points** 5 | **Total** ${embedPointsTotal}\n**Time**: ${pointVal} (EXPIRED, User Unmuted)\n **Embed_ID** ${msg.id}`))

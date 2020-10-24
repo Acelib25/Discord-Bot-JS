@@ -25,7 +25,7 @@ module.exports = {
         
         gtts.save('audio.mp3', function (err, result){ 
             if(err) { throw new Error(err); } 
-            console.log("Text to speech converted!"); 
+            logger.log("Text to speech converted!"); 
         }); 
 
         const fs = require('fs');

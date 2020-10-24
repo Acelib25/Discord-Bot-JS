@@ -90,7 +90,7 @@ module.exports = {
 
         member = message.guild.members.cache.get(userVal);
         user = message.guild.member(member).user;
-        console.log(user)
+
 
         embedMod = await Moderation.findAll({ where: { user_id: userVal, reason: reasonVal,}});
         embedMod2 = await Moderation.findAll({ where: { user_id: userVal}});
@@ -101,9 +101,7 @@ module.exports = {
         caseVal = embedMod.map(t => t.id);
         embedPoints = embedMod2.map(t => t.points)
         embedPointsTotal = embedPoints.reduce((a, b) => parseInt(a) + parseInt(b), 0)
-        console.log(caseVal)
         trueCase = Math.max(...caseVal)
-        console.log(trueCase)
 
         const embed = new Discord.MessageEmbed()
         .setColor('#fffb00')
