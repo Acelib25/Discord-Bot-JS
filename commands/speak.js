@@ -25,7 +25,7 @@ module.exports = {
         
         gtts.save('audio.mp3', function (err, result){ 
             if(err) { throw new Error(err); } 
-            logger.log("Text to speech converted!"); 
+            //logger.log("Text to speech converted!"); 
         }); 
 
         const fs = require('fs');
@@ -33,6 +33,7 @@ module.exports = {
         const dispatcher = connection.play('audio.mp3');
 
         dispatcher.on('start', () => {
+            message.channel.send(argsProssesed)
         });
         
         dispatcher.on('finish', () => {
