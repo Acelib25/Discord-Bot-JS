@@ -52,6 +52,10 @@ module.exports = {
             skip(message, serverQueue);
             return;
         }
+        else if (args[0] == 'stop'){
+          stop(message, serverQueue);
+          return;
+        }
    
         const songInfo = await ytdl.getInfo(args[0]);
         const song = {
@@ -79,7 +83,7 @@ module.exports = {
             queueContruct.connection = connection;
             play(message.guild, queueContruct.songs[0]);
             } catch (err) {
-            console.log(err);
+            logger.log(err);
             queue.delete(message.guild.id);
             return message.channel.send(err);
             }
@@ -89,19 +93,31 @@ module.exports = {
         }
         
         function skip(message, serverQueue) {
-            if (!message.member.voice.channel)
-              return message.channel.send(
-                "You have to be in a voice channel to stop the music!"
-              );
-            if (!serverQueue)
-              return message.channel.send("There is no song that I could skip!");
-            serverQueue.connection.dispatcher.end();
-          }
+          if (!message.member.voice.channel)
+            return message.channel.send(
+              "You have to be in a voice channel to stop the music!"
+            );
+          if (!serverQueue)
+            return message.channel.send("There is no song that I could skip!");
+          serverQueue.connection.dispatcher.end();
+        }
+        
+
+        function stop(message, serverQueue) {
+          if (!message.member.voice.channel)
+            return message.channel.send(
+              "You have to be in a voice channel to stop the music!"
+            );
+          serverQueue.songs = [];
+          serverQueue.connection.dispatcher.end();
+        }
+
 
         function play(guild, song) {
             const serverQueue = queue.get(guild.id);
             if (!song) {
               serverQueue.voiceChannel.leave();
+              client.user.setActivity('your commands.', { type: 'LISTENING' });
               queue.delete(guild.id);
               return;
             }
@@ -115,6 +131,7 @@ module.exports = {
               .on("error", error => console.error(error));
             dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
             serverQueue.textChannel.send(`Start playing: **${song.title}**`);
+            client.user.setActivity(song.title, { type: 'LISTENING' });
           }
         
 	},
