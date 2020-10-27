@@ -309,6 +309,7 @@ client.on('message', async message => {
 			
 		} catch (error) {
 			logger.error(error);
+			
 			message.reply('there was an error trying to execute that command!');
 		}
 	}

@@ -33,7 +33,6 @@ module.exports = {
         const dispatcher = connection.play('audio.mp3');
 
         dispatcher.on('start', () => {
-            message.channel.send(argsProssesed)
         });
         
         dispatcher.on('finish', () => {

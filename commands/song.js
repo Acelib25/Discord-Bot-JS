@@ -49,8 +49,8 @@ module.exports = {
         });
 
         if (args[0] == 'skip'){
-            skip(message, serverQueue);
-            return;
+          skip(message, serverQueue);
+          return;
         }
         else if (args[0] == 'stop'){
           stop(message, serverQueue);
