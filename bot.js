@@ -217,7 +217,12 @@ client.on('message', async message => {
 	let preExtraArgs = message.content.toLowerCase().split(/ +/);
 	let extraArgs = preExtraArgs;
 
-
+	if (extraArgs.includes("uwu")){
+		message.channel.send("> Don’t you dare say uwu again or I will break your shins. \n ~Drawgon")
+	}
+	else if (extraArgs.includes("owo")){
+		message.channel.send("> Keep your furry bullshit away from me. \n ~Ace")
+	}
 	
 	if (!message.author.bot){
 		switch(extraArgs[0]) {
@@ -226,12 +231,6 @@ client.on('message', async message => {
 			break;
 		case 'goodnight':
 			message.channel.send(`Goodnight`)
-			break;
-		case "uwu":
-			message.channel.send("> Don’t you dare say uwu again or I will break your shins. \n ~Drawgon")
-			break;
-		case "owo":
-			message.channel.send("> Don’t you dare say owo again or I will break your shins. \n ~ACE")
 			break;
 		default:
             //send not found
