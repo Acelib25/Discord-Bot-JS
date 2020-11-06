@@ -1,3 +1,3 @@
 # Discord-Bot-JS
 
-Uh dont take my bots code without crediting me please.
+Uh dont take my bots code please. You can take small snippets to help develop your bot but dont just steal the whole bot from me...
