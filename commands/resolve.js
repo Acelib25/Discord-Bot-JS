@@ -2,10 +2,10 @@ const Discord = require('discord.js');
 const Sequelize = require('sequelize');
 
 module.exports = {
-	name: 'warn',
-	usage: '-warn name/id reason points',
+	name: 'resolve',
+	usage: '-resolve case-id',
 	guildOnly: true,
-	description: 'warn someone',
+	description: 'resolve case',
 	async execute(message, args, client, currency, logger, Perms) {
         let userName = args[0].toLowerCase();
         let commandArgs = args.join(' ');
@@ -77,47 +77,39 @@ module.exports = {
                 type: Sequelize.STRING,
             },
         });
-        
-        typeVal = "Warn"
 
-        let warn = await Moderation.create({
-            guild_id: message.guild.id,
-            user_id: userVal,
-            mod_id: message.author.id,
-            points: pointVal,
-            type: typeVal,
-            reason: reasonVal,
-            embed: "failed"
-        });
-
-        message.channel.send(`<@!${userVal}> You've been warned. Reason: \`${reasonVal}\` Points: \`${pointVal}\``)
-
-        member = message.guild.members.cache.get(userVal);
-        user = message.guild.member(member).user;
-
-
-        embedMod = await Moderation.findAll({ where: { user_id: userVal, reason: reasonVal,}});
-        embedMod2 = await Moderation.findAll({ where: { user_id: userVal}});
-        
+        embedReason = await Moderation.findAll({ where: { id: pointVal }});
+        embedReason2 = embedReason.map(t => t.reason);
+        embedId = embedReason.map(t => t.embed)
+        userID = embedReason.map(t => t.user_id)
+        timeValue = embedReason.map(t => t.time)
+        console.log(embedReason)
+        console.log(embedReason2)
         modUser = message.guild.members.cache.get(message.author.id);
         moderator = message.guild.member(modUser).user;
+        
 
-        caseVal = embedMod.map(t => t.id);
+
+        Moderation.update({ reason: `${embedReason2}(RESOLVED)` }, { where: { id: args[0] } });
+        Moderation.update({ points: 0 }, { where: { id: args[0] } });
+        let embedMessage = await client.guilds.cache.get('344146800942383104').channels.cache.get('766703230008688700').messages.fetch(embedId);
+        trueMessageId = embedMessage.get(`${embedId}`)
+        embedObj = trueMessageId.embeds[0]
+
+        console.log(embedMessage)
+        console.log(trueMessageId)
+        console.log(embedObj)
+
+        embedReasonUpdated = await Moderation.findAll({ where: { id: pointVal }});
+        embedReasonUpdated2 = embedReasonUpdated.map(t => t.reason);
+        embedMod2 = await Moderation.findAll({ where: { user_id: userID}});
         embedPoints = embedMod2.map(t => t.points)
         embedPointsTotal = embedPoints.reduce((a, b) => parseInt(a) + parseInt(b), 0)
-        trueCase = Math.max(...caseVal)
-
-        const embed = new Discord.MessageEmbed()
-        .setColor('#fffb00')
-        .setAuthor(`${user.username}#${user.discriminator} (${user.id})`, user.avatarURL())
-        .setTitle(`**WARNED**`)
-        .setDescription(`**Case** ${trueCase}\n**Reason** ${reasonVal}\n**Points** ${pointVal} | **Total** ${embedPointsTotal}`)
-		.setFooter(`${moderator.username}#${moderator.discriminator} (STAFF)`, moderator.avatarURL());
         
-        msg = await client.guilds.cache.get('344146800942383104').channels.cache.get('766703230008688700').send(embed)
-        msg.edit(embed.setDescription(`**Case** ${trueCase}\n**Reason** ${reasonVal}\n**Points** ${pointVal} | **Total** ${embedPointsTotal}\n **Embed_ID** ${msg.id}`))
-        Moderation.update({ embed: msg.id }, { where: { user_id: userVal, reason: reasonVal, id: trueCase } });
-
+        trueMessageId.edit(embedObj.setDescription(`**Case** ${pointVal}\n**Reason** ${embedReasonUpdated2}\n**Points** 0 | **Total** ${embedPointsTotal}\n**Time**: ${timeValue}\n **Embed_ID** ${embedId}`))
+        
+        
+        message.channel.send(`Case: ${args[0]} resolved.`)
 		
 		
 	}

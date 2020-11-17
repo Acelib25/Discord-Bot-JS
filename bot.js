@@ -143,6 +143,9 @@ const Moderation = sequelize.define('moderate', {
 	time: {
 		type: Sequelize.STRING,
 	},
+	embed: {
+		type: Sequelize.STRING,
+	},
 });
 
 const MafiaGame = sequelize.define('mafiaGame', {
@@ -215,7 +218,7 @@ client.on('message', async message => {
 	
 	
 	let preExtraArgs = message.content.replace(/[^a-zA-Z0-9 ]/g, "").toLowerCase().split(/ +/);
-	console.log(preExtraArgs)
+	//console.log(preExtraArgs)
 	let extraArgs = preExtraArgs;
 
 	if (extraArgs.includes("uwu")){

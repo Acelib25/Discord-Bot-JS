@@ -1,7 +1,7 @@
 {
-  "name": "ace-right-hand-bot",
-  "version": "1.7.5-pre3",
-  "description": "Ace's right hand bot now in JS",
+  "name": "ace-js",
+  "version": "1.7.6",
+  "description": "Moderation Update 2",
   "main": "bot.js",
   "scripts": {
     "test": "test"

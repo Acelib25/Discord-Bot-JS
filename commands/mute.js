@@ -75,6 +75,9 @@ module.exports = {
             time: {
                 type: Sequelize.STRING,
             },
+            embed: {
+                type: Sequelize.STRING,
+            },
         });
         
         typeVal = "Mute"
@@ -87,6 +90,7 @@ module.exports = {
             points: 5,
             type: typeVal,
             reason: reasonVal,
+            embed: 'failed',
         });
     
         time = parseInt(pointVal) * 60000;
@@ -126,9 +130,10 @@ module.exports = {
         
         msg = await client.guilds.cache.get('344146800942383104').channels.cache.get('766703230008688700').send(embed)
         msg.edit(embed.setDescription(`**Case** ${trueCase}\n**Reason** ${reasonVal}\n**Points** 5 | **Total** ${embedPointsTotal}\n**Time**: ${pointVal}\n **Embed_ID** ${msg.id}`))
+        Moderation.update({ embed: msg.id }, { where: { user_id: userVal, reason: reasonVal, id: trueCase } });
         
         setTimeout(function(){
-            Moderation.update({ reason: `${reasonVal}(EXPIRED)` }, { where: { user_id: userVal, reason: reasonVal } });
+            Moderation.update({ reason: `${reasonVal}(EXPIRED)` }, { where: { user_id: userVal, reason: reasonVal, id: trueCase } });
             msg.edit(embed.setDescription(`**Case** ${trueCase}\n**Reason** ${reasonVal}\n**Points** 5 | **Total** ${embedPointsTotal}\n**Time**: ${pointVal} (EXPIRED, User Unmuted)\n **Embed_ID** ${msg.id}`))
             member.roles.add(mainRole)
             member.roles.remove(muteRole);
