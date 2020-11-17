@@ -7,3 +7,8 @@ Example:
 Some code you borrowed, etc
 
 "From AceJS by Acelib25 https://github.com/Acelib25/Discord-Bot-JS"
+
+If you have any questions join my discord server or DM me :D
+
+Discord Server: https://discord.gg/nFuQAtTRjN
+My Discord: Acelib25#2173
