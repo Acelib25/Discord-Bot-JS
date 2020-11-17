@@ -5,4 +5,5 @@ Feel free to borrow code snippets to help you develop your bot. Please don't ste
 Example:
 
 Some code you borrowed, etc
-//From AceJS by Acelib25 https://github.com/Acelib25/Discord-Bot-JS
+
+"From AceJS by Acelib25 https://github.com/Acelib25/Discord-Bot-JS"
