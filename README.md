@@ -1,3 +1,8 @@
 # Discord-Bot-JS
 
-Uh dont take my bots code please. You can take small snippets to help develop your bot but dont just steal the whole bot from me...
+Feel free to borrow code snippets to help you develop your bot. Please don't steal the whole bot from me. If you use my code please credit me where it was used.
+
+Example:
+
+Some code you borrowed, etc
+//From AceJS by Acelib25 https://github.com/Acelib25/Discord-Bot-JS
