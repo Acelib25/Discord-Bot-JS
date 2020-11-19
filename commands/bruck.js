@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'bruck',
-	usage: '-bruck @USER',
+	usage: '@USER',
 	guildOnly: true,
 	description: 'Bruck',
 	execute(message, args, client, currency, logger, Perms) {

@@ -117,7 +117,13 @@ module.exports = {
             const serverQueue = queue.get(guild.id);
             if (!song) {
               serverQueue.voiceChannel.leave();
-              client.user.setActivity('your commands.', { type: 'LISTENING' });
+              client.user.setPresence({
+                activity: {
+                    name: `Help: ${config.prefix}help | Version: ${package.version}`,
+                    type: "PLAYING",
+                    url: "https://www.twitch.tv/acelib25",
+                }
+              })
               queue.delete(guild.id);
               return;
             }

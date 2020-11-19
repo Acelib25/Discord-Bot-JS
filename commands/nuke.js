@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'nuke',
-	usage: '-nuke @USER',
+	usage: '@USER',
 	guildOnly: true,
 	description: 'Begin a war.',
 	execute(message, args, client, currency, logger, Perms) {

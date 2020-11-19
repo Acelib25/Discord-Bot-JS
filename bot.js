@@ -13,6 +13,9 @@ const config = require('./config.json');
 const tag = require('./commands/tag');
 const disable = require('./commands/disable');
 const ambiance = require('./commands/botspeech');
+const botreply = require('./commands/botreply');
+const antifurry = require('./commands/antifurry');
+const package = require('./package.json')
 const prefix = config.prefix;
 
 const client = new Discord.Client({ ws: { intents: Intents.ALL } });
@@ -190,7 +193,13 @@ client.once('ready', async () => {
 	Perms.sync();
 	const storedBalances = await Users.findAll();
 	storedBalances.forEach(b => currency.set(b.user_id, b));
-	client.user.setActivity('your commands.', { type: 'LISTENING' });
+	client.user.setPresence({
+        activity: {
+            name: `Help: ${config.prefix}help | Version: ${package.version}`,
+            type: "PLAYING",
+			url: "https://www.twitch.tv/acelib25",
+        }
+    });
 	logger.info('Ready!');
 	console.log('Ready!');
 	logger.info(`Currently operating in ${client.guilds.cache.size} servers.`)
@@ -216,19 +225,11 @@ client.on('message', async message => {
 	
 	if (message.channel.type != 'dm' && passiveMoney == "true") {currency.add(message.author.id, 1);}
 	
-	
 	let preExtraArgs = message.content.replace(/[^a-zA-Z0-9 ]/g, "").toLowerCase().split(/ +/);
-	//console.log(preExtraArgs)
-	let extraArgs = preExtraArgs;
-
-	if (extraArgs.includes("uwu")){
-		message.channel.send("> Don’t you dare say uwu again or I will break your shins. \n ~Drawgon")
-	}
-	else if (extraArgs.includes("owo") || extraArgs.includes("x3") || extraArgs.includes("nuzzles")){
-		message.channel.send("> Keep your furry bullshit away from me. \n ~Ace")
-	}
+        //console.log(preExtraArgs)
+    let extraArgs = preExtraArgs;
 	
-	if (!message.author.bot){
+	/**if (!message.author.bot){
 		switch(extraArgs[0]) {
         case 'goodbye':
 			message.channel.send(`Goodbye`)
@@ -240,7 +241,8 @@ client.on('message', async message => {
             //send not found
             break;
 		}
-	}
+	}**/
+	
 	if (message.channel.type != 'dm'){
 		disabled = await Disabled.findAll({ where: { guild_id: message.guild.id } });
 		disabledString = disabled.map(t => t.guild_id) || 'No tags set.';
@@ -254,8 +256,8 @@ client.on('message', async message => {
 
 
 	if (message.channel.type != 'dm' && !disabledCommands.includes('botspeech')) {ambiance.execute(nsfwMode, message, args, logger)}
-	
-	if (message.mentions.has(client.user) && !message.author.bot && message.channel.type != 'dm' && !disabledCommands.includes('botspeech')){ambiance.execute(nsfwMode, message, args, logger, "ping")}
+	if (message.channel.type != 'dm' && !disabledCommands.includes('antifurry')) {antifurry.execute(nsfwMode, message, args, logger)}
+	if (message.mentions.has(client.user) && !message.author.bot && message.channel.type != 'dm' && !disabledCommands.includes('botreply')){botreply.execute(nsfwMode, message, args, logger, "ping")}
 
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
 

@@ -15,7 +15,7 @@ module.exports = {
 			data.push('Here\'s a list of all my commands:');
 			data.push(commands.map(command => command.name).join(', '));
 			data.push(`\nYou can send \`${prefix}help [command name]\` to get info on a specific command!`);
-			data.push("\n\n Message from Ace: Some commands require a role named 'Ace-JS Admin'. Banker commands can be used by these roles + 'Banker'. I (Ace) am currently working on getting admin privilege vs admin role to work.\n AKA: You won't need an exact role name to use command, just Administrator turned on.")
+			data.push("\n\n Message from Ace: Some commands require you to have superuser, mod, or admin to use.")
 
 			return message.author.send(data, { split: true })
 				.then(() => {
