@@ -1,10 +1,10 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const winston =  require('winston')
-//const { CommandoClient } = require('discord.js-commando');
-//const path = require('path');
 const Intents = require('discord.js');
 const Sequelize = require('sequelize');
+const { CommandoClient } = require('discord.js-commando');
+const path = require('path');
 const { Op } = require('sequelize');
 const { Users, CurrencyShop } = require('./dbObjects');
 const currency = new Discord.Collection();
@@ -18,18 +18,22 @@ const antifurry = require('./commands/antifurry');
 const package = require('./package.json')
 const prefix = config.prefix;
 
-const client = new Discord.Client({ ws: { intents: Intents.ALL } });
-client.commands = new Discord.Collection();
-
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-
-const queue = new Map();
-
-for (const file of commandFiles) {
-	const command = require(`./commands/${file}`);
-	client.commands.set(command.name, command);
-}
-
+//const client = new Discord.Client({ ws: { intents: Intents.ALL } });
+const client = new CommandoClient({
+	commandPrefix: config.prefix,
+	owner: '344143763918159884',
+	invite: 'https://discord.gg/q8qVCAq',
+});
+//client.commands = new Discord.Collection();
+client.registry
+	.registerDefaultTypes()
+	.registerGroups([
+		['first', 'Your First Command Group'],
+		['second', 'Your Second Command Group'],
+	])
+	.registerDefaultGroups()
+	.registerDefaultCommands()
+	.registerCommandsIn(path.join(__dirname, 'commands'));
 const logger = winston.createLogger({
 	transports: [
 		new winston.transports.Console(),
@@ -82,20 +86,6 @@ const Disabled = sequelize.define('disabled', {
 		type: Sequelize.STRING,
 	},
 });
-
-/**Reflect.defineProperty(currency, 'add', {
-	eslint-disable-next-line func-name-matching
-	value: async function add(id, amount) {
-		const user = currency.get(id);
-		if (user) {
-			user.balance += Number(amount);
-			return user.save();
-		}
-		const newUser = await Users.create({ user_id: id, balance: amount });
-		currency.set(id, newUser);
-		return newUser;
-	},
-});**/
 
 Reflect.defineProperty(currency, 'add', {
 	/* eslint-disable-next-line func-name-matching */
@@ -226,9 +216,10 @@ client.on('message', async message => {
 	if (message.channel.type != 'dm' && passiveMoney == "true") {currency.add(message.author.id, 1);}
 	
 	let preExtraArgs = message.content.replace(/[^a-zA-Z0-9 ]/g, "").toLowerCase().split(/ +/);
-        //console.log(preExtraArgs)
     let extraArgs = preExtraArgs;
 	
+
+	//This is why we cant have good things
 	/**if (!message.author.bot){
 		switch(extraArgs[0]) {
         case 'goodbye':

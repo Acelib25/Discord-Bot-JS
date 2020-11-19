@@ -11,6 +11,7 @@ module.exports = {
         message.delete()
         
         argsProssesed = args.join(" ")
+        
         //Permission Check
         permData = await Perms.findAll({ where: { guild_id: message.guild.id, user_id: message.author.id} });
         permPower = permData.map(t => t.power);
