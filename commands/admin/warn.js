@@ -1,25 +1,46 @@
 const Discord = require('discord.js');
+const { Command } = require('discord.js-commando');
 const Sequelize = require('sequelize');
 
-module.exports = {
-	name: 'warn',
-	usage: '-warn name/id reason points',
-	guildOnly: true,
-	description: 'warn someone',
-	async execute(message, args, client, currency, logger, Perms) {
-        let userName = args[0].toLowerCase();
-        let commandArgs = args.join(' ');
-        let splitArgs = commandArgs.split(' ');
-        let pointVal = splitArgs.pop();
-		let userVal = splitArgs.shift();
-        let reasonVal = splitArgs.join(' ');
-        logger.info(pointVal)
-        logger.info(userVal)
-        logger.info(reasonVal)
+module.exports = class Warn extends Command{
+	constructor(client){
+        super(client, {
+            name: 'warn',
+            memberName: 'warn',
+            aliases: [],
+            group: 'admin',
+            guildOnly: true,
+            description: 'Commit Warn',
+            userPermissions: ['KICK_MEMBERS'],
+            usage: 'username reason points',
+            args: [
+				{
+                    key: 'username',
+                    prompt: 'Please provide a mention or id',
+                    type: 'string',  
+                },
+                {
+                    key: 'reason',
+                    prompt: 'Please provide a reason',
+                    type: 'string',
+                    default: "none",  
+                },
+                {
+                    key: 'points',
+                    prompt: 'Please provide a point value',
+                    type: 'integer',  
+                }
+			],
+        })
+    }
+	async run(message, { username, reason, points}) {
+        let pointVal = points
+		let userVal = username
+        let reasonVal = reason
         
         if (!message.mentions.users.size) {
 			try {
-                const User = message.client.users.cache.get(args[0]);
+                const User = message.client.users.cache.get(username);
 				if (User) { // Checking if the user exists.
 					userVal = userVal // The user exists.
 				} else {

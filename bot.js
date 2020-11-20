@@ -1,59 +1,45 @@
 const fs = require('fs');
 const Discord = require('discord.js');
-const winston =  require('winston')
-const Intents = require('discord.js');
-const Sequelize = require('sequelize');
+const { Structures } = require('discord.js');
 const { CommandoClient } = require('discord.js-commando');
 const path = require('path');
-const { Op } = require('sequelize');
-const { Users, CurrencyShop } = require('./dbObjects');
-const currency = new Discord.Collection();
-const cooldowns = new Discord.Collection();
-const config = require('./config.json');
-const tag = require('./commands/tag');
-const disable = require('./commands/disable');
-const ambiance = require('./commands/botspeech');
-const botreply = require('./commands/botreply');
-const antifurry = require('./commands/antifurry');
 const package = require('./package.json')
-const prefix = config.prefix;
-
+const config = require('./config.json');
+const Sequelize = require('sequelize');
+const currency = new Discord.Collection();
+const { Users, CurrencyShop } = require('./dbObjects');
+Structures.extend('Guild', Guild => {
+	class MusicGuild extends Guild {
+	  constructor(client, data) {
+		super(client, data);
+		this.musicData = {
+		  queue: [],
+		  isPlaying: false,
+		  volume: 1,
+		  songDispatcher: null
+		};
+	  }
+	}
+	return MusicGuild;
+});
 //const client = new Discord.Client({ ws: { intents: Intents.ALL } });
 const client = new CommandoClient({
 	commandPrefix: config.prefix,
 	owner: '344143763918159884',
-	invite: 'https://discord.gg/q8qVCAq',
+	invite: 'https://discord.gg/nFuQAtTRjN',
 });
 //client.commands = new Discord.Collection();
 client.registry
 	.registerDefaultTypes()
 	.registerGroups([
-		['first', 'Your First Command Group'],
-		['second', 'Your Second Command Group'],
+		['first', 'Standard Commands'],
+		['admin', 'Mod and Admin Commands'],
+		['super', 'Super User Commands'],
+		['music', 'Music Commands'],
 	])
 	.registerDefaultGroups()
 	.registerDefaultCommands()
 	.registerCommandsIn(path.join(__dirname, 'commands'));
-const logger = winston.createLogger({
-	transports: [
-		new winston.transports.Console(),
-		new winston.transports.File({ filename: 'log.txt' }),
-	],
-	format: winston.format.printf(log => `[${log.level.toUpperCase()}] - ${log.message}`),
-	levels: { 
-		error: 0,
-		warn: 1,
-		info: 2,
-		debug: 3
-	},
-});
-
-winston.addColors({
-	error: 'red',
-	warn: 'yellow',
-	info: 'cyan',
-	debug: 'green'
-});
 
 const sequelize = new Sequelize('database', 'user', 'password', {
 	host: 'localhost',
@@ -175,6 +161,10 @@ Reflect.defineProperty(currency, 'getBalance', {
 	},
 });
 
+
+const Queue = new Map();
+module.exports = { currency: currency, Perms: Perms, Queue };
+
 client.once('ready', async () => {
 	Tags.sync();
 	Disabled.sync();
@@ -183,6 +173,7 @@ client.once('ready', async () => {
 	Perms.sync();
 	const storedBalances = await Users.findAll();
 	storedBalances.forEach(b => currency.set(b.user_id, b));
+	console.log(`Logged in as ${client.user.tag}! (${client.user.id})`);
 	client.user.setPresence({
         activity: {
             name: `Help: ${config.prefix}help | Version: ${package.version}`,
@@ -190,127 +181,25 @@ client.once('ready', async () => {
 			url: "https://www.twitch.tv/acelib25",
         }
     });
-	logger.info('Ready!');
-	console.log('Ready!');
-	logger.info(`Currently operating in ${client.guilds.cache.size} servers.`)
-	if(client.guilds.cache.size <= 20) {logger.info(`Servers: ${client.guilds.cache.array()}`)}
 });
+client.on('error', console.error);
 
 client.on('message', async message => {
-
-	try{
-		if (message.member.roles.cache.some(r => r.name === 'Ghost') ) {
-			message.delete()
-			return message.channel.send(`*${message.author.tag} let out a ghostly moan....*`);
-		}
-	} catch(e){
-		
-	}
-	
-	
-	if (message.author.bot) return;
-	
-	let moneyTag = await Tags.findOne({ where: { name: "passiveMoney" } });
-	let passiveMoney = moneyTag.get('description');
-	
-	if (message.channel.type != 'dm' && passiveMoney == "true") {currency.add(message.author.id, 1);}
-	
-	let preExtraArgs = message.content.replace(/[^a-zA-Z0-9 ]/g, "").toLowerCase().split(/ +/);
-    let extraArgs = preExtraArgs;
-	
-
-	//This is why we cant have good things
-	/**if (!message.author.bot){
-		switch(extraArgs[0]) {
-        case 'goodbye':
-			message.channel.send(`Goodbye`)
-			break;
-		case 'goodnight':
-			message.channel.send(`Goodnight`)
-			break;
-		default:
-            //send not found
-            break;
-		}
-	}**/
-	
-	if (message.channel.type != 'dm'){
-		disabled = await Disabled.findAll({ where: { guild_id: message.guild.id } });
-		disabledString = disabled.map(t => t.guild_id) || 'No tags set.';
-		disabledCommands = disabled.map(t => t.command) || 'No tags set.';
-	}
-	const args = message.content.slice(prefix.length).trim().split(/ +/);
-	const commandName = args.shift().toLowerCase();
-	//Bot Speech
-	let nsfwTag = await Tags.findOne({ where: { name: "nsfwMode" } });
-	let nsfwMode = nsfwTag.get('description');
-
-
-	if (message.channel.type != 'dm' && !disabledCommands.includes('botspeech')) {ambiance.execute(nsfwMode, message, args, logger)}
+	/*if (message.channel.type != 'dm' && !disabledCommands.includes('botspeech')) {ambiance.execute(nsfwMode, message, args, logger)}
 	if (message.channel.type != 'dm' && !disabledCommands.includes('antifurry')) {antifurry.execute(nsfwMode, message, args, logger)}
 	if (message.mentions.has(client.user) && !message.author.bot && message.channel.type != 'dm' && !disabledCommands.includes('botreply')){botreply.execute(nsfwMode, message, args, logger, "ping")}
+	*/
+	if (message.author.bot) return;
 
-	if (!message.content.startsWith(prefix) || message.author.bot) return;
-
+	let commandCollection = client.registry.commands
+	let antifurry = commandCollection.get('antifurry')
+	let botspeech = commandCollection.get('botspeech')
+	let botreply = commandCollection.get('botreply')
+	if (antifurry.isEnabledIn(message.guild)){antifurry.run(message)}
+	if (botreply.isEnabledIn(message.guild) && message.mentions.has(client.user)){botreply.run(message)}
+	if (botspeech.isEnabledIn(message.guild)){botspeech.run(message, 'safe')}
 	
 
-	const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
-	if (!command) return;
-	
-	if (command.guildOnly && message.channel.type === 'dm') {
-		return message.reply('I can\'t execute that command inside DMs!');
-	}
-
-	if (command.args && !args.length) {
-		return message.channel.send(`You didn't provide any arguments, ${message.author}!`);
-	}
-	
-	if (!cooldowns.has(command.name)) {
-		cooldowns.set(command.name, new Discord.Collection());
-	}
-	
-	const now = Date.now();
-	const timestamps = cooldowns.get(command.name);
-	const cooldownAmount = (command.cooldown || 3) * 1000;
-	
-	if (timestamps.has(message.author.id)) {
-		const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
-	
-		if (now < expirationTime) {
-			const timeLeft = (expirationTime - now) / 1000;
-			return message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`);
-		}
-	}
-	timestamps.set(message.author.id, now);
-	setTimeout(() => timestamps.delete(message.author.id), cooldownAmount)
-	
-	if(message.channel.type != 'dm'){
-		try {
-			d = new Date(); 
-			if (message.channel.type != 'dm' && disabledString.includes(message.guild.id) && disabledCommands.includes(command.name)){
-				message.channel.send("Command disabled in this server...")
-			}
-			else{
-				command.execute(message, args, client, currency, logger, Perms, queue);
-				client.guilds.cache.get('747587696867672126').channels.cache.get('747587927261052969').send(`**${message.author.tag}** ran command **${commandName}** with arguementss **[${args}]** at **${d.toLocaleString()}** in **${message.guild.name}(${message.guild.id})**`)
-			}
-
-		} catch (error) {
-			logger.error(error);
-			message.reply('there was an error trying to execute that command!');
-		}
-	} else {
-		try {
-			command.execute(message, args, client, currency, logger, Perms, queue);
-			
-		} catch (error) {
-			logger.error(error);
-			
-			message.reply('there was an error trying to execute that command!');
-		}
-	}
-	
-});
-
+})
 
 client.login(config.token);

@@ -1,11 +1,21 @@
 const Discord = require('discord.js');
-const { execute } = require('./tag');
+const { Command } = require('discord.js-commando');
 
-module.exports = {
-    name: 'botreply',
-    aliases: ['br', 'reply'],
-	async execute(nsfw, message, args, logger, mode) {
-        pingMessage = [
+module.exports = class BotReply extends Command{
+    constructor(client){
+        super(client, {
+            name: 'botreply',
+            memberName: 'botreply',
+            aliases: [],
+            group: 'first',
+            guildOnly: false,
+            description: 'The bot replies',
+            usage: 'None',
+            args: [],
+        })
+    }
+	async run(message) {
+        let pingMessage = [
             "Why did you ping me cuck?",
             "Just for that your vertabre are now frizbees",
             "Random message is random", 
@@ -22,15 +32,14 @@ module.exports = {
             "Who ever pinged me, your face is ugly.",
             "I dont need to take this slander from someone who sucks toes. :eyes:"
         ]
+        
         function choose(choices) {
             var index = Math.floor(Math.random() * choices.length);
             return choices[index];
         }
 
-        if (mode == "ping"){
-            e = choose(pingMessage)
-            message.channel.send(e)
-            logger.info(`AceJS said \'${e}\'`)
-        }
-	},
+        let e = choose(pingMessage)
+        message.say(e)
+        console.log(`AceJS said \'${e}\'`)
+	}
 };

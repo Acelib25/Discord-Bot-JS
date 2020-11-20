@@ -1,10 +1,29 @@
 const Discord = require('discord.js');
-const { execute } = require('./tag');
+const { Command } = require('discord.js-commando');
 
-module.exports = {
-    name: 'botspeech',
-    aliases: ['bs', 'speech', ''],
-	async execute(nsfw, message, args, logger, mode) {
+
+module.exports = class BotSpeech extends Command {
+    constructor(client){
+        super(client, {
+            name: 'botspeech',
+            memberName: 'botspeech',
+            aliases: ['bs'],
+            group: 'first',
+            guildOnly: true,
+            description: 'The bot speaks',
+            usage: 'None',
+            args: [
+                {
+                    key: 'mode',
+                    prompt: 'Pick mode(nsfw, safe, ping, test)',
+                    type:'string',
+                    oneOf: ['nsfw', 'safe', 'ping', 'test'], 
+                    default: 'safe',
+                }
+            ],
+        })
+    }
+	async run(message, { mode }) {
         function isNumeric(num){
 			return !isNaN(num)
 		}
@@ -16,11 +35,11 @@ module.exports = {
             return Math.floor(Math.random() * (max - min + 1) + min);
         }
 
-        testMessage = [
+        let testMessage = [
             "A little birdie told me you have never experienced Cock and Ball torture, **I AM HERE TO CHANGE THAT**"
         ]
 
-        safeMessage = [
+        let safeMessage = [
             "|This is a message|",
             `What kind of idiot would say "${message.content}"? Oh ya ${message.author} would.`,
             "Time to twist your vertebrate",
@@ -38,7 +57,7 @@ module.exports = {
             "Your toenails are now teeth.", 
             "Pasta Linguini"]
         
-        pingMessage = [
+        let pingMessage = [
             "Why did you ping me cuck?",
             "Just for that your vertabre are now frizbees",
             "Random message is random", 
@@ -56,63 +75,34 @@ module.exports = {
             "I dont need to take this slander from someone who sucks toes. :eyes:"
         ]
        
-        nsfwMessage = [ 
+        let nsfwMessage = [ 
             "You are going in the jar.",
             "I can, and will, change your gender.",
             "A little birdie told me you have never experienced Cock and Ball torture, **I AM HERE TO CHANGE THAT**", 
             "Nice Cock"]
         
         
-        amount = randomInt(1, 150)
+        let amount = randomInt(1, 150)
 
-        if(args[0] == 'nsfw'){
-            e = choose(nsfwMessage)
+        if(mode == 'nsfw'){
+            let e = choose(nsfwMessage)
             message.channel.send(e)
-            logger.info(`AceJS said \'${e}\'`)
+            console.log(`AceJS said \'${e}\'`)
         }
-        if(args[0] == 'safe'){
-            e = choose(safeMessage)
+        if(mode == 'safe'){
+            let e = choose(safeMessage)
             message.channel.send(e)
-            logger.info(`AceJS said \'${e}\'`)
+            console.log(`AceJS said \'${e}\'`)
         }
-        if(args[0] == 'test'){
-            e = choose(testMessage)
+        if(mode == 'test'){
+            let e = choose(testMessage)
             message.channel.send(e)
-            logger.info(`AceJS said \'${e}\'`)
+            console.log(`AceJS said \'${e}\'`)
         }
         if (mode == "ping"){
-            e = choose(pingMessage)
+            let e = choose(pingMessage)
             message.channel.send(e)
-            logger.info(`AceJS said \'${e}\'`)
-        }
-        switch(nsfw){
-            case('true2'):
-                if(amount >= 10 && amount <= 12){
-                    e = choose(nsfwMessage)
-                    message.channel.send(e)
-                    logger.info(`AceJS said \'${e}\'`)
-                }
-        
-                if(amount >= 80 && amount <= 82){
-                    e = choose(safeMessage)
-                    message.channel.send(e)
-                    logger.info(`AceJS said \'${e}\'`)
-                }
-            break;
-            
-            case('false'):
-                if(amount >= 10 && amount <= 12){
-                    e = choose(safeMessage)
-                    message.channel.send(e)
-                    logger.info(`AceJS said \'${e}\'`)
-                }
-        
-                if(amount >= 80 && amount <= 82){
-                    e = choose(safeMessage)
-                    message.channel.send(e)
-                    logger.info(`AceJS said \'${e}\'`)
-                }
-                break;
+            console.log(`AceJS said \'${e}\'`)
         }     
-	},
+	}
 };

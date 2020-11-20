@@ -1,7 +1,7 @@
 {
   "name": "ace-js",
-  "version": "1.7.7",
-  "versionName": "Nice Bot Things",
+  "version": "1.7.8-Commando",
+  "versionName": "Going Commando",
   "description": "A useful bot by Acelib25",
   "main": "bot.js",
   "scripts": {
@@ -14,7 +14,10 @@
   "keywords": [
     "none"
   ],
-  "author": "Acelib25/Bryston Ahrendt",
+  "author": "Acelib25",
+  "contributors": [
+    "Cereal with no milk"
+  ],
   "license": "GPL-3.0-only",
   "dependencies": {
     "@discordjs/opus": "^0.3.2",
@@ -27,6 +30,7 @@
     "node-addon-api": "^3.0.2",
     "pm2": "^4.4.1",
     "sequelize": "^6.3.4",
+    "simple-youtube-api": "^5.2.1",
     "sqlite3": "^5.0.0",
     "text-to-mp3": "^1.0.4",
     "text2wav": "0.0.13",
