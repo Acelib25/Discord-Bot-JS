@@ -1,10 +1,28 @@
 const Discord = require('discord.js');
-const { execute } = require('./tag');
+const { Command } = require('discord.js-commando');
+const { execute } = require('../../old/tag');
 
-module.exports = {
-    name: 'insult',
-    aliases: ['salt', 'roast'],
-	async execute(message, args, client, currency, logger, Perms) {
+module.exports = class SaltyCommand extends Command {
+	constructor(client){
+        super(client, {
+            name: 'insult',
+            memberName: 'insult',
+            aliases: ['salt', 'roast'],
+            group: 'first',
+            guildOnly: true,
+            description: 'Make someone sad boi. :(',
+            usage: 'insult <@user>',
+            args: [
+				{
+                    key: 'username',
+                    prompt: 'Please provide a mention or id',
+                    type: 'string',
+                    default: "none",  
+                }
+			],
+        })
+    }
+	async run(message, { username }) {
         function isNumeric(num){
 			return !isNaN(num)
 		}
@@ -19,7 +37,7 @@ module.exports = {
         let taggedUser = message.mentions.users.first();
 		if (!message.mentions.users.size) {
 			try {
-				const User = message.client.users.cache.get(args[0]);
+				const User = message.client.users.cache.get(username);
 				if (User) { // Checking if the user exists.
 					taggedUser = User // The user exists.
 				} else {
@@ -28,7 +46,7 @@ module.exports = {
 				}
 			}
 			catch (error) {
-				logger.info(error);
+				console.log(error);
 				message.channel.send(`There was an error while killing someone \`${command.name}\`:\n\`${error.message}\``);
 			}
 		}
@@ -36,7 +54,7 @@ module.exports = {
 			
 		}
 
-        adj = [
+        let adj = [
             "stupid", 
             "disgusting", 
             "putrid", 
@@ -53,7 +71,7 @@ module.exports = {
             "saggy"
         ]
 
-        curse = [
+        let curse = [
             "poo", 
             "fuck", 
             "shit", 
@@ -65,10 +83,12 @@ module.exports = {
             "ice", 
             "piss", 
             "bloated", 
-            "turd"
+            "turd",
+            "cunt",
+            "toe-sucking",
         ]
 
-        noun = [
+        let noun = [
             "nugget", 
             "ball", 
             "pole", 
@@ -85,11 +105,24 @@ module.exports = {
             "hat", 
             "head", 
             "pile", 
-            "crack"
-        ]
-        
-        out = (`${ message.mentions.users.first()} you are a ${choose(adj)} ${choose(curse)} ${choose(noun)}!`)
+            "crack",
+            'goblin',
+            'consumer',
+            'eater',
+            'enjoyer',
+            'simp',
 
+
+        ]
+        let out;
+        if(taggedUser == 'none'){
+            out = (`${message.author} you are a ${choose(adj)} ${choose(curse)} ${choose(noun)}!`)
+
+        } else {
+            out = (`${taggedUser} you are a ${choose(adj)} ${choose(curse)} ${choose(noun)}!`)
+  
+        }
+        
         message.channel.send(out)
-	},
+	}
 };

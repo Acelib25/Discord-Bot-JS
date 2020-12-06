@@ -8,7 +8,7 @@ module.exports = {
 	aliases: ['maketag', 'newtag'],
 	async execute(message, args, client, currency, logger, Perms) {
 		const commandArgs = args.join(' ');
-		logger.log(commandArgs)
+		console.log(commandArgs)
 		const sequelize = new Sequelize('database', 'user', 'password', {
 			host: 'localhost',
 			dialect: 'sqlite',
@@ -33,9 +33,9 @@ module.exports = {
 		let splitArgs = commandArgs.split(' ');
 		let tagName = splitArgs.shift();
 		let tagDescription = splitArgs.join(' ');
-		logger.log(splitArgs)
-		logger.log(tagName)
-		logger.log(tagDescription)
+		console.log(splitArgs)
+		console.log(tagName)
+		console.log(tagDescription)
 
 		try {
 			// equivalent to: INSERT INTO tags (name, description, username) values (?, ?, ?);

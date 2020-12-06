@@ -18,16 +18,16 @@ module.exports = {
 		if (!message.mentions.users.size) {
 			try {
 				const User = message.client.users.cache.get(args[0]);
-				logger.info(User)
+				console.log(User)
 				if (User) { // Checking if the user exists.
 					taggedUser = User // The user exists.
-					logger.info(user)
+					console.log(user)
 				} else {
 					message.channel.send("User not found.") // The user doesn't exists or the bot couldn't find him.
 				}
 			}
 			catch (error) {
-				logger.info(error);
+				console.log(error);
 			}
 		}
 

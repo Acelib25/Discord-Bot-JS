@@ -20,7 +20,7 @@ module.exports = {
 				}
 			}
 			catch (error) {
-				logger.info(error);
+				console.log(error);
 				message.channel.send(`There was an error while killing someone \`${command.name}\`:\n\`${error.message}\``);
 			}
 		}
@@ -31,18 +31,18 @@ module.exports = {
 		message.channel.send('Say **Y-E-S** to seal the deal >:D')        
         collector.on('collect', m => {
             if(m.content.toLowerCase().includes('yes')){
-				logger.info(`Collected ${m.content}`);
+				console.log(`Collected ${m.content}`);
 				collector.stop()
 			}
 			if(m.content.toLowerCase().includes('no')){
 				message.channel.send(`Well then try again, I don't got all day. >:(`)
-				logger.info(`Collected ${m.content}`);
+				console.log(`Collected ${m.content}`);
 				collector.stop()
             }
         });
 
         collector.on('end', collected => {
-			logger.info(`Collected ${collected.size} items`);
+			console.log(`Collected ${collected.size} items`);
 			if(collected.toLowerCase().includes('yes')){
 				
 			}

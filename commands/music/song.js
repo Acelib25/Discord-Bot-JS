@@ -4,17 +4,18 @@ const Sequelize = require('sequelize');
 const ytdl = require('ytdl-core');
 const Youtube = require('simple-youtube-api');
 const main = require('../../bot.js')
+var txtomp3 = require("text-to-mp3");
 const config = require('../../config.json')
 const youtube = new Youtube(config.ytAPI_key)
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 
-module.exports = class SongTest extends Command {
+module.exports = class SongCommand extends Command {
     constructor(client){
         super(client, {
-            name: 'songtest',
-            memberName: 'songtest',
-            aliases: ['vcstest'],
+            name: 'song',
+            memberName: 'song',
+            aliases: ['vcs', 'play'],
             group: 'music',
             guildOnly: true,
             description: 'For all your music needs UwU',
@@ -30,16 +31,25 @@ module.exports = class SongTest extends Command {
         })
     }
     songStart(queue, message) {
-        let voiceChannel;
+        if(!queue[0].duration){
+            let voiceChannel;
         queue[0].voiceChannel
             .join() // join the user's voice channel
             .then(connection => {
+
+            let argsProssesed = queue[0].query
+        
+            const gTTS = require('gtts'); 
+        
+            var speech = argsProssesed; 
+            var gtts = new gTTS(speech, 'en-us'); 
+        
+            gtts.save('audio.mp3', function (err, result){ 
+                if(err) { throw new Error(err); } 
+            }); 
             const dispatcher = connection
                 .play(
-                ytdl(queue[0].url, { // pass the url to .ytdl()
-                    quality: 'highestaudio',
-                    highWaterMark: 1024 * 1024 * 10
-                })
+                'audio.mp3'
                 )
                 .on('start', () => {
                 message.guild.musicData.songDispatcher = dispatcher;
@@ -49,8 +59,7 @@ module.exports = class SongTest extends Command {
                 const videoEmbed = new MessageEmbed()
                     .setThumbnail(queue[0].thumbnail) // song thumbnail
                     .setColor('#e9f931')
-                    .addField('Now Playing:', queue[0].title)
-                    .addField('Duration:', queue[0].duration);
+                    .addField('Now Playing:', queue[0].title);
                 if (queue[1]) videoEmbed.addField('Next Song:', queue[1].title);
                 message.say(videoEmbed);
                 return queue.shift();
@@ -76,7 +85,53 @@ module.exports = class SongTest extends Command {
             console.error(e);
             return voiceChannel.leave();
             });
+        } else {
+            let voiceChannel;
+            queue[0].voiceChannel
+                .join() // join the user's voice channel
+                .then(connection => {
+                const dispatcher = connection
+                    .play(
+                    ytdl(queue[0].url, {filter: 'audio', quality: 'highestaudio'})
+                    )
+                    .on('start', () => {
+                    message.guild.musicData.songDispatcher = dispatcher;
+                    dispatcher.setVolume(message.guild.musicData.volume);
+                    voiceChannel = queue[0].voiceChannel;
+                    // display the current playing song
+                    const videoEmbed = new MessageEmbed()
+                        .setThumbnail(queue[0].thumbnail) // song thumbnail
+                        .setColor('#e9f931')
+                        .addField('Now Playing:', queue[0].title)
+                        .addField('Duration:', queue[0].duration);
+                    if (queue[1]) videoEmbed.addField('Next Song:', queue[1].title);
+                    message.say(videoEmbed);
+                    return queue.shift();
+                    })
+                    .on('finish', () => {
+                    if (queue.length >= 1) {
+                        return this.songStart(queue, message);
+                    } else {
+                        message.guild.musicData.isPlaying = false;
+                        return voiceChannel.leave();
+                    }
+                    })
+                    .on('error', e => {
+                    message.say('Cannot play song');
+                    message.guild.musicData.queue.length = 0;
+                    message.guild.musicData.isPlaying = false;
+                    message.guild.musicData.nowPlaying = null;
+                    console.error(e);
+                    return voiceChannel.leave();
+                    });
+                })
+                .catch(e => {
+                console.error(e);
+                return voiceChannel.leave();
+                });
         }
+        
+    }
     formatDuration(durationObj) {
         const duration = `${durationObj.hours ? durationObj.hours + ':' : ''}${
             durationObj.minutes ? durationObj.minutes : '00'
@@ -90,7 +145,7 @@ module.exports = class SongTest extends Command {
         return duration;
     }
     
-    async run(message, { query}){
+    async run(message, { query }){
         const voiceChannel = message.member.voice.channel;   
         if (!voiceChannel) {
             return message.channel.send("You need to be in a voice channel to play music!");
@@ -118,7 +173,8 @@ module.exports = class SongTest extends Command {
                   title,
                   duration,
                   thumbnail,
-                  voiceChannel
+                  voiceChannel,
+                  type: 'music',
                 };
       
                 message.guild.musicData.queue.push(song);
@@ -154,7 +210,8 @@ module.exports = class SongTest extends Command {
                 title,
                 duration,
                 thumbnail,
-                voiceChannel
+                voiceChannel,
+                type: 'music',
               };
               message.guild.musicData.queue.push(song);
               if (
@@ -235,11 +292,12 @@ module.exports = class SongTest extends Command {
         const thumbnail = video.thumbnails.high.url;
             if (duration == '00:00') duration = 'Live Stream';
             const song = {
-            url,
-            title,
-            duration,
-            thumbnail,
-            voiceChannel
+                url,
+                title,
+                duration,
+                thumbnail,
+                voiceChannel,
+                type: 'music',
             };
     
             message.guild.musicData.queue.push(song);

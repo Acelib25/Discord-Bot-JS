@@ -1,12 +1,20 @@
 const Discord = require('discord.js');
-const config = require('../config.json');
+const config = require('../../config.json');
 const fetch = require('node-fetch');
+const { Command } = require('discord.js-commando');
 const querystring = require('querystring');
 
-module.exports = {
-    name: 'grapes',
-    aliases: ['grape', 'gs', 'grapespeech'],
-	async execute(message, args, client, currency, logger, Perms) {
+module.exports = class GrapesCommand extends Command {
+        constructor(client) {
+          super(client, {
+            name: 'grapes',
+            aliases: ['grape', "5050", 'sour', 'sweet'],
+            group: 'first',
+            memberName: 'grapes',
+            description: 'Is it sour or sweet',
+          });
+        }
+    async run(message) {
         function isNumeric(num){
 			return !isNaN(num)
 		}
@@ -18,7 +26,7 @@ module.exports = {
             return Math.floor(Math.random() * (max - min + 1) + min);
         }
 
-        leMessage = [
+        let leMessage = [
             "You look great today. :D",
             "Time to twist your vertebrate",
             "Random message is random", 
@@ -30,19 +38,21 @@ module.exports = {
             "I am coming to fill your sinus with cement.", 
             "I am coming to fill your sinus with piss.", 
             "I will now invert your knees.",
-            "The mirror agrees with me. Your sexy. ;D", 
+            "The mirror agrees with me. Your sexy. ;D",
+            "Every bone you have is now spaghetti", 
             "2 words, Carpeted Shower", 
-            "I will bruck you.",
+            "I will bruck you. :eyes:",
             "//SHOW CAT", 
             "Pasta Linguini"]
        
-        amount = randomInt(1, 100)
+        let amount = randomInt(1, 100)
         
-        msg = choose(leMessage)
+        let msg = choose(leMessage)
+        let embed;
 
         if(msg == "//SHOW CAT"){
             const { file } = await fetch('https://aws.random.cat/meow').then(response => response.json());
-            msgFile = file
+            let msgFile = file
             
             embed = new Discord.MessageEmbed()
             .setColor('#c6d757')
@@ -69,9 +79,9 @@ module.exports = {
         
         
         if(webhookName.includes("Grapes")){
-            grapesIndex = webhooks.find(hook => hook.name === "Grapes")
+            let grapesIndex = webhooks.find(hook => hook.name === "Grapes")
             webhookClient = new Discord.WebhookClient(grapesIndex.id, grapesIndex.token);
-            webhookClient.send('Uh idk what this does...', {
+            webhookClient.send('', {
                 avatarURL: 'https://upload.wikimedia.org/wikipedia/commons/b/bb/Table_grapes_on_white.jpg',
                 embeds: [embed],
             });
@@ -88,5 +98,5 @@ module.exports = {
         }
         
         
-	},
+	}
 };

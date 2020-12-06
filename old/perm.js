@@ -19,11 +19,11 @@ module.exports = {
 				}
 			}
 			catch (error) {
-				logger.info(error);
+				console.log(error);
             }
         } else {
             userVal = message.mentions.users.first().id;
-            logger.info(userVal)
+            console.log(userVal)
         }
         
         const sequelize = new Sequelize('database', 'username', 'password', {

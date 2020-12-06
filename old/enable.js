@@ -9,10 +9,10 @@ module.exports = {
 	async execute(message, args, client, currency, logger, Perms) {
         const commandName = args[0].toLowerCase();
 		const command = message.client.commands.get(commandName) || message.client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
-		logger.info(message.member.roles.cache.map(role => role.name));
-		logger.info(!message.member.roles.cache.some(role => role.name === 'Admin'))
-		logger.info(!message.member.roles.cache.some(role => role.name === 'Mod'))
-		logger.info(!message.member.roles.cache.some(role => role.name === 'Ace-JS Admin'))
+		console.log(message.member.roles.cache.map(role => role.name));
+		console.log(!message.member.roles.cache.some(role => role.name === 'Admin'))
+		console.log(!message.member.roles.cache.some(role => role.name === 'Mod'))
+		console.log(!message.member.roles.cache.some(role => role.name === 'Ace-JS Admin'))
 		if (!command) {
 			return message.channel.send(`There is no command with name or alias \`${commandName}\`, ${message.author}!`);
 		}

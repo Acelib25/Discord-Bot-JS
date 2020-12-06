@@ -1,13 +1,12 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const { Structures } = require('discord.js');
-const { CommandoClient } = require('discord.js-commando');
+const { CommandoClient, GuildSettingsHelper, CommandoRegistry } = require('discord.js-commando');
 const path = require('path');
 const package = require('./package.json')
 const config = require('./config.json');
-const Sequelize = require('sequelize');
-const currency = new Discord.Collection();
-const { Users, CurrencyShop } = require('./dbObjects');
+const {SyncAllSQL, AceStorage, currency, Users, sequelize, Tags, Perms, Disabled, Moderation, MafiaGame} = require('./sqlStuff');
+
 Structures.extend('Guild', Guild => {
 	class MusicGuild extends Guild {
 	  constructor(client, data) {
@@ -22,13 +21,12 @@ Structures.extend('Guild', Guild => {
 	}
 	return MusicGuild;
 });
-//const client = new Discord.Client({ ws: { intents: Intents.ALL } });
+
 const client = new CommandoClient({
 	commandPrefix: config.prefix,
 	owner: '344143763918159884',
 	invite: 'https://discord.gg/nFuQAtTRjN',
 });
-//client.commands = new Discord.Collection();
 client.registry
 	.registerDefaultTypes()
 	.registerGroups([
@@ -36,170 +34,95 @@ client.registry
 		['admin', 'Mod and Admin Commands'],
 		['super', 'Super User Commands'],
 		['music', 'Music Commands'],
+		['money', 'Money Commands']
 	])
 	.registerDefaultGroups()
-	.registerDefaultCommands()
+	.registerDefaultCommands({unknownCommand: false, commandState: false})
 	.registerCommandsIn(path.join(__dirname, 'commands'));
 
-const sequelize = new Sequelize('database', 'user', 'password', {
-	host: 'localhost',
-	dialect: 'sqlite',
-	logging: false,
-	// SQLite only
-	storage: 'database.sqlite',
-});
-const Tags = sequelize.define('tags', {
-	name: {
-		type: Sequelize.STRING,
-		unique: true,
-	},
-	description: Sequelize.TEXT,
-	username: Sequelize.STRING,
-	usage_count: {
-		type: Sequelize.INTEGER,
-		defaultValue: 0,
-		allowNull: false,
-	},
-});
-const Disabled = sequelize.define('disabled', {
-	guild_id: {
-		type: Sequelize.STRING,
-	},
-	guild_name: {
-		type: Sequelize.STRING,
-	},
-	command: {
-		type: Sequelize.STRING,
-	},
-});
-
-Reflect.defineProperty(currency, 'add', {
-	/* eslint-disable-next-line func-name-matching */
-	value: async function add(id, amount, name) {
-		const user = currency.get(id);
-		if (user) {
-			user.balance += Number(amount);
-			user.user_name = name;
-			return user.save();
-		}
-		const newUser = await Users.create({ user_id: id, user_name: name, balance: amount });
-		currency.set(id, newUser);
-		return newUser;
-	},
-});
-
-const Perms = sequelize.define('permisions', {
-	guild_id: {
-		type: Sequelize.STRING,
-	},
-	user_id: {
-		type: Sequelize.STRING,
-	},
-	power: {
-		type: Sequelize.STRING,
-	},
-});
-
-const Moderation = sequelize.define('moderate', {
-	guild_id: {
-		type: Sequelize.STRING,
-	},
-	user_id: {
-		type: Sequelize.STRING,
-	},
-	mod_id: {
-		type: Sequelize.STRING,
-	},
-	points: {
-		type: Sequelize.STRING,
-	},
-	type: {
-		type: Sequelize.STRING,
-	},
-	reason: {
-		type: Sequelize.STRING,
-	},
-	time: {
-		type: Sequelize.STRING,
-	},
-	embed: {
-		type: Sequelize.STRING,
-	},
-});
-
-const MafiaGame = sequelize.define('mafiaGame', {
-	guild_id: {
-		type: Sequelize.STRING,
-	},
-	user_id: {
-		type: Sequelize.STRING,
-	},
-	user_name: {
-		type: Sequelize.STRING,
-	},
-	game_admin: {
-		type: Sequelize.STRING,
-	},
-	role: {
-		type: Sequelize.STRING,
-	},
-	status: {
-		type: Sequelize.STRING,
-	},
-	game_channel: {
-		type: Sequelize.STRING,
-	},
-	game_status: {
-		type: Sequelize.STRING,
-	},
-});
-Reflect.defineProperty(currency, 'getBalance', {
-	/* eslint-disable-next-line func-name-matching */
-	value: function getBalance(id) {
-		const user = currency.get(id);
-		return user ? user.balance : 0;
-	},
-});
-
-
-const Queue = new Map();
-module.exports = { currency: currency, Perms: Perms, Queue };
+async function setupDisabled(guild){
+	let commandCollection = client.registry.commands
+	let disabled = await Disabled.findAll({ where: { guild_id: guild} });
+	let disabledString = disabled.map(t => t.guild_id);
+	let disabledCommands = disabled.map(t => t.command);
+	let disable = commandCollection.get('disable');
+	let bullshit = client.guilds.cache.get(guild).channels;
+	for(let i = 0; i < disabledCommands.length; i++){
+		disable.run(bullshit, disabledCommands[i], "setup")
+	}
+	
+	
+} 
+async function setupGuild(id){
+	let guild = client.guilds.cache.get(id)
+	if(!guild.channels.cache.some(r => r.name === 'acejs-moderation-log')){
+		guild.channels.create('acejs-moderation-log-temp', {
+			type: "text",
+			permissionOverwrites: [
+				{
+					id: guild.roles.everyone.id,
+					deny: ['VIEW_CHANNEL'],
+				},
+			]
+		}).then((channel) => {
+		let	modRoles = guild.roles.cache.filter(role => role.permissions.has('KICK_MEMBERS')).map(r => r.id)
+		modRoles.forEach( role =>
+			channel.updateOverwrite(role, {VIEW_CHANNEL: true})
+		)
+		channel.edit({ name: 'acejs-moderation-log' })
+		let beffIDK = AceStorage.create({
+			guild_id: guild.id,
+			value1key: 'ModLogChannel',
+			value1: channel.id
+		});
+		})
+	}
+	
+};
 
 client.once('ready', async () => {
-	Tags.sync();
-	Disabled.sync();
-	MafiaGame.sync();
-	Moderation.sync();
-	Perms.sync();
+	SyncAllSQL()	
 	const storedBalances = await Users.findAll();
 	storedBalances.forEach(b => currency.set(b.user_id, b));
 	console.log(`Logged in as ${client.user.tag}! (${client.user.id})`);
+	console.log(`Currently operating in ${client.guilds.cache.size} servers.`)
+	if(client.guilds.cache.size <= 20) {console.log(`Servers: ${client.guilds.cache.array()}`)}
+	
+	client.guilds.cache.each(entry => setupGuild(entry.id))
+	client.guilds.cache.each(entry => setupDisabled(entry.id))
 	client.user.setPresence({
         activity: {
             name: `Help: ${config.prefix}help | Version: ${package.version}`,
             type: "PLAYING",
-			url: "https://www.twitch.tv/acelib25",
+			url: "https://theaceprogramer.wixsite.com/acejs",
         }
     });
 });
-client.on('error', console.error);
+
+client.on('commandError', (cmd, error) => {
+	console.error(`Oopsies ${cmd} did a fuckywucky :(\n\n ${error}`)
+});
+
+client.on('commandRun', async (command, promise, message, args) =>{
+	let d = new Date(); 
+	let argsKey = Object.keys(args)
+	let argsValue = Object.values(args)
+	let argsList = []
+	for(let i = 0; i < argsKey.length; i++){
+		argsList.push(`[${argsKey[i]}: ${argsValue[i]}]`)
+	}
+	client.guilds.cache.get('747587696867672126').channels.cache.get('747587927261052969').send(`**${message.author.tag}** ran command **${command.name}** with arguements **[${argsList}]** at **${d.toLocaleString()}** in **${message.guild.name}(${message.guild.id})**`)
+});
 
 client.on('message', async message => {
-	/*if (message.channel.type != 'dm' && !disabledCommands.includes('botspeech')) {ambiance.execute(nsfwMode, message, args, logger)}
-	if (message.channel.type != 'dm' && !disabledCommands.includes('antifurry')) {antifurry.execute(nsfwMode, message, args, logger)}
-	if (message.mentions.has(client.user) && !message.author.bot && message.channel.type != 'dm' && !disabledCommands.includes('botreply')){botreply.execute(nsfwMode, message, args, logger, "ping")}
-	*/
-	if (message.author.bot) return;
-
 	let commandCollection = client.registry.commands
+	if (message.author.bot) return;
 	let antifurry = commandCollection.get('antifurry')
 	let botspeech = commandCollection.get('botspeech')
 	let botreply = commandCollection.get('botreply')
 	if (antifurry.isEnabledIn(message.guild)){antifurry.run(message)}
 	if (botreply.isEnabledIn(message.guild) && message.mentions.has(client.user)){botreply.run(message)}
 	if (botspeech.isEnabledIn(message.guild)){botspeech.run(message, 'safe')}
-	
-
 })
 
 client.login(config.token);

@@ -84,7 +84,7 @@ module.exports = {
             queueContruct.connection = connection;
             play(message.guild, queueContruct.songs[0]);
             } catch (err) {
-            logger.log(err);
+            console.log(err);
             queue.delete(message.guild.id);
             return message.channel.send(err);
             }

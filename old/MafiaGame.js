@@ -71,8 +71,8 @@ module.exports = {
             }
             
         } else {
-            logger.info(mafiaPlayers)
-            logger.info(mafia)
+            console.log(mafiaPlayers)
+            console.log(mafia)
             client.users.cache.get(mafiaPlayers[0]).send(`Use -mkill when you are ready to choose your victim.`);
         }
         

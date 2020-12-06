@@ -86,26 +86,26 @@ module.exports = {
             for(i in range(players.length - (2 * roleSolve))){
                 roles.push("Civilian");
             }
-            logger.info(roles)
+            console.log(roles)
             let newRole;
             /**playerID.forEach(async element => {
-                logger.info(roles)
+                console.log(roles)
                 newRole = random(roles)
-                logger.info(newRole)
+                console.log(newRole)
                 affectedRows = await MafiaGame.update({ role: newRole }, { where: { user_id: element } })
                 removeUsedRole = roles.indexOf(newRole)
                 roles.splice(removeUsedRole,1)
-                logger.info(roles)
+                console.log(roles)
                 client.users.cache.get(element).send(`You are a ${newRole}`);
             })**/
             for(let i = 0; i < playerID.length; i++){
-                logger.info(roles)
+                console.log(roles)
                 newRole = random(roles)
-                logger.info(newRole)
+                console.log(newRole)
                 affectedRows = await MafiaGame.update({ role: newRole }, { where: { user_id: playerID[i] } })
                 removeUsedRole = roles.indexOf(newRole)
                 roles.splice(removeUsedRole,1)
-                logger.info(roles)
+                console.log(roles)
                 affectedRows = await MafiaGame.update({ role: 'Mafia' }, { where: { user_id: playerID[i] } })
                 client.users.cache.get(playerID[i]).send(`You are a ${newRole}`);
             }

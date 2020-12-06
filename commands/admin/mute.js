@@ -1,18 +1,19 @@
 const Discord = require('discord.js');
+const ms = require("ms");
 const { Command } = require('discord.js-commando');
 const {SyncAllSQL, AceStorage, currency, Users, sequelize, Tags, Perms, Disabled, Moderation, MafiaGame} = require('../../sqlStuff')
 
-module.exports = class Warn extends Command{
+module.exports = class MuteCommand extends Command{
 	constructor(client){
         super(client, {
-            name: 'warn',
-            memberName: 'warn',
+            name: 'mute',
+            memberName: 'mute',
             aliases: [],
             group: 'admin',
             guildOnly: true,
-            description: 'Commit Warn',
+            description: 'Commit mute',
             userPermissions: ['KICK_MEMBERS'],
-            usage: 'username reason points',
+            usage: 'mute <@user> <reason> <time>',
             args: [
 				{
                     key: 'username',
@@ -23,20 +24,20 @@ module.exports = class Warn extends Command{
                     key: 'reason',
                     prompt: 'Please provide a reason',
                     type: 'string',
-                    default: "none",  
+                    default: "no reason",  
                 },
                 {
-                    key: 'points',
-                    prompt: 'Please provide a point value',
+                    key: 'timeAmmount',
+                    prompt: 'Please provide a time value',
                     type: 'integer',  
                 }
 			],
         })
     }
-	async run(message, { username, reason, points}) {
-        let pointVal = points
+	async run(message, { username, reason, timeAmmount}) {
+        let timeVal = timeAmmount
 		let userVal = username
-        let reasonVal = reason
+        let reasonVal = reason;
         
         if (!message.mentions.users.size) {
 			try {
@@ -53,27 +54,35 @@ module.exports = class Warn extends Command{
             }
         } else {
             userVal = message.mentions.users.first().id;
-
         }
         
-        
-        let typeVal = "Warn"
+        let typeVal = "Mute"
 
-        let warn = await Moderation.create({
+        let mute = await Moderation.create({
             guild_id: message.guild.id,
             user_id: userVal,
             mod_id: message.author.id,
-            points: pointVal,
+            time: timeVal,
+            points: 5,
             type: typeVal,
             reason: reasonVal,
-            embed: "failed",
+            embed: 'failed',
             resolved: false,
         });
+    
+        let time = parseInt(timeVal) * 60000;
+        let timeString = `${time}`
+        message.channel.send(`<@!${userVal}> You've been muted. Reason: \`${reasonVal}\` Time: \`${ms(ms(timeString))}\``)
+        const mainRole = message.guild.roles.cache.find(role => role.name === 'Member');
+        const muteRole = message.guild.roles.cache.find(role => role.name === 'Muted');
+        const mem = message.client.users.cache.get(userVal);
+        const member = message.guild.member(mem)
+        member.roles.remove(mainRole)
+        member.roles.add(muteRole);
 
-        message.channel.send(`<@!${userVal}> You've been warned. Reason: \`${reasonVal}\` Points: \`${pointVal}\``)
 
-        let member = message.guild.members.cache.get(userVal);
-        let user = message.guild.member(member).user;
+        let member2 = message.guild.members.cache.get(userVal);
+        let user = message.guild.member(member2).user;
 
 
         let embedMod = await Moderation.findAll({ where: { user_id: userVal, reason: reasonVal,}});
@@ -85,23 +94,32 @@ module.exports = class Warn extends Command{
         let caseVal = embedMod.map(t => t.id);
         let embedPoints = embedMod2.map(t => t.points)
         let embedPointsTotal = embedPoints.reduce((a, b) => parseInt(a) + parseInt(b), 0)
+
         let trueCase = Math.max(...caseVal)
 
         let storage = await AceStorage.findAll({ where: { guild_id: message.guild.id, value1key: "ModLogChannel"}})
         let targetID = storage.map(t => t.value1);
 
+
         const embed = new Discord.MessageEmbed()
-        .setColor('#fffb00')
+        .setColor('#00a6ff')
         .setAuthor(`${user.username}#${user.discriminator} (${user.id})`, user.avatarURL())
-        .setTitle(`**WARNED**`)
-        .setDescription(`**Case** ${trueCase}\n**Reason** ${reasonVal}\n**Points** ${pointVal} | **Total** ${embedPointsTotal}`)
+        .setTitle(`**MUTED**`)
+        .setDescription(`**Case** ${trueCase}\n**Reason** ${reasonVal}\n**Points** 5 | **Total** ${embedPointsTotal}\n**Time** ${ms(ms(timeString))}`)
 		.setFooter(`${moderator.username}#${moderator.discriminator} (STAFF)`, moderator.avatarURL());
         
         let msg = await message.guild.channels.cache.get(targetID[0]).send(embed)
-
-        msg.edit(embed.setDescription(`**Case** ${trueCase}\n**Reason** ${reasonVal}\n**Points** ${pointVal} | **Total** ${embedPointsTotal}\n **Embed_ID** ${msg.id}`))
+        msg.edit(embed.setDescription(`**Case** ${trueCase}\n**Reason** ${reasonVal}\n**Points** 5 | **Total** ${embedPointsTotal}\n**Time**: ${timeVal}\n **Embed_ID** ${msg.id}`))
         Moderation.update({ embed: msg.id }, { where: { user_id: userVal, reason: reasonVal, id: trueCase } });
-
+        
+        setTimeout(function(){
+            Moderation.update({ reason: `${reasonVal}(EXPIRED)` }, { where: { user_id: userVal, reason: reasonVal, id: trueCase } });
+            msg.edit(embed.setDescription(`**Case** ${trueCase}\n**Reason** ${reasonVal}\n**Points** 5 | **Total** ${embedPointsTotal}\n**Time**: ${timeVal} (EXPIRED, User Unmuted)\n **Embed_ID** ${msg.id}`))
+            member.roles.add(mainRole)
+            member.roles.remove(muteRole);
+        }, ms(timeString));
+        
+        
 		
 		
 	}

@@ -27,7 +27,7 @@ module.exports = {
 				}
 			}
 			catch (error) {
-				logger.info(error);
+				console.log(error);
 				message.channel.send(`There was an error while killing someone \`${command.name}\`:\n\`${error.message}\``);
 			}
 		}

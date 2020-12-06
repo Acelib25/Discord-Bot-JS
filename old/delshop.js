@@ -60,7 +60,7 @@ module.exports = {
 				CurrencyShop.destroy({ where: { name: args[0] } }),
 			];
 			await Promise.all(shop);
-			logger.info('Database synced');
+			console.log('Database synced');
 			sequelize.close();
 		}).catch(console.error);
 	}

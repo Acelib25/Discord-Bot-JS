@@ -57,6 +57,6 @@ module.exports = {
 	
 
 	message.channel.send(`You've bought: ${item.name}.`);
-	logger.info(item.name)
+	console.log(item.name)
 	},
 };
