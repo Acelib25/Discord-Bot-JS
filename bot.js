@@ -81,8 +81,10 @@ client.once('ready', async () => {
 	const storedBalances = await Users.findAll();
 	storedBalances.forEach(b => currency.set(b.user_id, b));
 	console.log(`Logged in as ${client.user.tag}! (${client.user.id})`);
-	console.log(`Currently operating in ${client.guilds.cache.size} servers.`)
-	if(client.guilds.cache.size <= 20) {console.log(`Servers: ${client.guilds.cache.array()}`)}
+	fs.writeFile("./serverList.txt", `Currently operating in ${client.guilds.cache.size} servers.\n\n${client.guilds.cache.array().join('\n')}`,(err) => {
+		if(err) throw err;
+		console.log('The file has been saved!');
+	  });
 	
 	client.guilds.cache.each(entry => setupGuild(entry.id))
 	client.user.setPresence({
