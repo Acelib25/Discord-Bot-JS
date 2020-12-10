@@ -18,7 +18,7 @@
   "contributors": [
     "Cereal with no milk"
   ],
-  "license": "GPL-3.0-only",
+  "license": "No License",
   "dependencies": {
     "@discordjs/opus": "^0.3.2",
     "assert": "^2.0.0",
