@@ -1,12 +1,8 @@
 # Discord-Bot-JS
 
-Feel free to borrow code snippets to help you develop your bot. Please don't steal the whole bot from me. If you use my code please credit me where it was used.
-
-Example:
-
-Some code you borrowed, etc
-
-"From AceJS by Acelib25 https://github.com/Acelib25/Discord-Bot-JS"
+This was a big learning opportunity for me and it was a blast to make. 
+However, progress requires effort. While you CAN NOT take my bots code to use in your bot, you CAN use my code as a reference to inspire your code. 
+I would be happy to explain my code choices and what they do.
 
 If you have any questions join my discord server or DM me :D
 
