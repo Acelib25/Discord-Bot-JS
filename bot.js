@@ -1,10 +1,12 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const { Structures } = require('discord.js');
-const { CommandoClient, GuildSettingsHelper, CommandoRegistry } = require('discord.js-commando');
+const { CommandoClient, GuildSettingsHelper, CommandoRegistry, SettingProvider, SQLiteProvider } = require('discord.js-commando');
 const path = require('path');
 const package = require('./package.json')
 const config = require('./config.json');
+const sqlite3 = require('sqlite3')
+const { open } = require('sqlite')
 const {SyncAllSQL, AceStorage, currency, Users, sequelize, Tags, Perms, Disabled, Moderation, MafiaGame} = require('./sqlStuff');
 
 Structures.extend('Guild', Guild => {
@@ -22,11 +24,18 @@ Structures.extend('Guild', Guild => {
 	return MusicGuild;
 });
 
+
 const client = new CommandoClient({
 	commandPrefix: config.prefix,
 	owner: '344143763918159884',
 	invite: 'https://discord.gg/nFuQAtTRjN',
 });
+open({
+  	filename: './settings.sqlite',
+  	driver: sqlite3.Database
+}).then((db) => {
+	client.setProvider(new SQLiteProvider(db));
+})
 client.registry
 	.registerDefaultTypes()
 	.registerGroups([
@@ -37,22 +46,9 @@ client.registry
 		['money', 'Money Commands']
 	])
 	.registerDefaultGroups()
-	.registerDefaultCommands({unknownCommand: false, commandState: false})
+	.registerDefaultCommands()
 	.registerCommandsIn(path.join(__dirname, 'commands'));
 
-async function setupDisabled(guild){
-	let commandCollection = client.registry.commands
-	let disabled = await Disabled.findAll({ where: { guild_id: guild} });
-	let disabledString = disabled.map(t => t.guild_id);
-	let disabledCommands = disabled.map(t => t.command);
-	let disable = commandCollection.get('disable');
-	let bullshit = client.guilds.cache.get(guild).channels;
-	for(let i = 0; i < disabledCommands.length; i++){
-		disable.run(bullshit, disabledCommands[i], "setup")
-	}
-	
-	
-} 
 async function setupGuild(id){
 	let guild = client.guilds.cache.get(id)
 	if(!guild.channels.cache.some(r => r.name === 'acejs-moderation-log')){
@@ -89,7 +85,6 @@ client.once('ready', async () => {
 	if(client.guilds.cache.size <= 20) {console.log(`Servers: ${client.guilds.cache.array()}`)}
 	
 	client.guilds.cache.each(entry => setupGuild(entry.id))
-	client.guilds.cache.each(entry => setupDisabled(entry.id))
 	client.user.setPresence({
         activity: {
             name: `Help: ${config.prefix}help | Version: ${package.version}`,
@@ -104,6 +99,7 @@ client.on('commandError', (cmd, error) => {
 });
 
 client.on('commandRun', async (command, promise, message, args) =>{
+	setupGuild(message.guild.id)
 	let d = new Date(); 
 	let argsKey = Object.keys(args)
 	let argsValue = Object.values(args)

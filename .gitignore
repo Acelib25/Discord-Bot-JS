@@ -1,6 +1,7 @@
 node_modules
 config.json
 database.sqlite
+settings.sqlite
 log.txt
 Voice.mp3
 audio.mp3

@@ -1,7 +1,7 @@
 {
   "name": "ace-js",
-  "version": "1.8.0",
-  "versionName": "Going Commando",
+  "version": "1.8.1",
+  "versionName": "Commando Adjustments",
   "description": "Ace's summer project that has taken a year to make. I'm sure you see the irony of it.",
   "main": "bot.js",
   "scripts": {
@@ -33,6 +33,7 @@
     "pm2": "^4.4.1",
     "sequelize": "^6.3.5",
     "simple-youtube-api": "^5.2.1",
+    "sqlite": "^4.0.18",
     "sqlite3": "^5.0.0",
     "text-to-mp3": "^1.0.4",
     "text2wav": "0.0.13",
