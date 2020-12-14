@@ -25,12 +25,12 @@ module.exports = class UrbanCommand extends Command {
 	async run(message, { text }) {
         const trim = (str, max) => (str.length > max ? `${str.slice(0, max - 3)}...` : str);
 
-		const query = querystring.stringify({ term: args.join(' ') });
+		const query = querystring.stringify({ term: text });
 
 		const { list } = await fetch(`https://api.urbandictionary.com/v0/define?${query}`).then(response => response.json());
 
 		if (!list.length) {
-			return message.channel.send(`No results found for **${args.join(' ')}**.`);
+			return message.channel.send(`No results found for **${text}**.`);
 		}
 
 		const [answer] = list;

@@ -17,7 +17,7 @@ module.exports = class ResolveCommand extends Command{
             args: [
 				{
                     key: 'resolvecase',
-                    prompt: 'Please provide a mention or id',
+                    prompt: 'Please provide a case id',
                     type: 'integer',  
                 },
                 {

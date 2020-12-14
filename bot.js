@@ -83,7 +83,7 @@ client.once('ready', async () => {
 	console.log(`Logged in as ${client.user.tag}! (${client.user.id})`);
 	fs.writeFile("./serverList.txt", `Currently operating in ${client.guilds.cache.size} servers.\n\n${client.guilds.cache.array().join('\n')}`,(err) => {
 		if(err) throw err;
-		console.log('The file has been saved!');
+		console.log('Server File Updated!');
 	  });
 	
 	client.guilds.cache.each(entry => setupGuild(entry.id))
@@ -97,7 +97,8 @@ client.once('ready', async () => {
 });
 
 client.on('commandError', (cmd, error) => {
-	console.error(`Oopsies ${cmd} did a fuckywucky :(\n\n ${error}`)
+	console.error(`Oopsies, ${cmd} did a fuckywucky :(\n\n`)
+	console.error(error)
 });
 
 client.on('commandRun', async (command, promise, message, args) =>{
