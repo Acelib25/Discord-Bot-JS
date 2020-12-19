@@ -31,26 +31,38 @@ module.exports = class SongCommand extends Command {
         })
     }
     songStart(queue, message) {
+        console.log(queue)
         if(!queue[0].duration){
             let voiceChannel;
-        queue[0].voiceChannel
+            queue[0].voiceChannel
             .join() // join the user's voice channel
             .then(connection => {
 
             let argsProssesed = queue[0].query
         
-            const gTTS = require('gtts'); 
+            /*const gTTS = require('gtts'); 
         
             var speech = argsProssesed; 
             var gtts = new gTTS(speech, 'en-us'); 
         
             gtts.save('audio.mp3', function (err, result){ 
                 if(err) { throw new Error(err); } 
-            }); 
-            const dispatcher = connection
-                .play(
-                'audio.mp3'
-                )
+            });*/
+            const saveFile = async ()  => {
+                const buffer = await tts.synthesize({
+                    text: argsProssesed,
+                    voice: 'en-US',
+                    slow: false // optional
+                });
+            
+                fs.writeFileSync('audio.mp3', buffer);
+            };
+            
+            
+            
+            saveFile().then( () => { 
+                const dispatcher = connection
+                .play('audio.mp3')
                 .on('start', () => {
                 message.guild.musicData.songDispatcher = dispatcher;
                 dispatcher.setVolume(message.guild.musicData.volume);
@@ -65,6 +77,7 @@ module.exports = class SongCommand extends Command {
                 return queue.shift();
                 })
                 .on('finish', () => {
+                
                 if (queue.length >= 1) {
                     return this.songStart(queue, message);
                 } else {
@@ -85,6 +98,7 @@ module.exports = class SongCommand extends Command {
             console.error(e);
             return voiceChannel.leave();
             });
+        })
         } else {
             let voiceChannel;
             queue[0].voiceChannel
@@ -92,7 +106,7 @@ module.exports = class SongCommand extends Command {
                 .then(connection => {
                 const dispatcher = connection
                     .play(
-                    ytdl(queue[0].url, {filter: 'audio', quality: 'highestaudio'})
+                    ytdl(queue[0].url)
                     )
                     .on('start', () => {
                     message.guild.musicData.songDispatcher = dispatcher;

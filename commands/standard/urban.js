@@ -10,7 +10,7 @@ module.exports = class UrbanCommand extends Command {
             name: 'urban',
             memberName: 'urban',
             aliases: [],
-            group: 'first',
+            group: 'standard',
             guildOnly: false,
             description: 'Display Urban',
             usage: 'urban <topic>',

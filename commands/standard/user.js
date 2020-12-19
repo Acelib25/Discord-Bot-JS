@@ -11,7 +11,7 @@ module.exports = class UserInfo extends Command {
             name: 'user',
             memberName: 'userinfo',
             aliases: ['userinfo', 'user-info'],
-            group: 'first',
+            group: 'standard',
             guildOnly: false,
             description: 'Display User Information',
             usage: 'username',

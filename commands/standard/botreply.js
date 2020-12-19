@@ -7,7 +7,7 @@ module.exports = class BotReply extends Command{
             name: 'botreply',
             memberName: 'botreply',
             aliases: [],
-            group: 'first',
+            group: 'standard',
             guildOnly: false,
             description: 'The bot replies',
             usage: 'None',

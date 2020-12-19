@@ -6,7 +6,7 @@ module.exports = class JojoCommand extends Command {
     super(client, {
       name: 'jojo',
       aliases: ['jojo-gif', 'jojo-gifs'],
-      group: 'first',
+      group: 'standard',
       memberName: 'jojo',
       description: 'Get random jojo gif!',
       throttling: {

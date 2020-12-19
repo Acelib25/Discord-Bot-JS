@@ -8,7 +8,7 @@ module.exports = class BotSpeech extends Command {
             name: 'botspeech',
             memberName: 'botspeech',
             aliases: ['bs'],
-            group: 'first',
+            group: 'standard',
             guildOnly: true,
             description: 'The bot speaks',
             usage: 'None',

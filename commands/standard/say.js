@@ -6,7 +6,7 @@ module.exports = class SayCommand extends Command {
             name: 'say',
             memberName: 'say',
             aliases: ['repeat'],
-            group: 'first',
+            group: 'standard',
             guildOnly: true,
             description: 'Make the bot say something stupid.',
             userPermissions: ['KICK_MEMBERS'],

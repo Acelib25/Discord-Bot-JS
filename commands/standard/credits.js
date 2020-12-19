@@ -11,7 +11,7 @@ module.exports = class Credits extends Command {
             name: 'credits',
             memberName: 'credits',
             aliases: ['authors'],
-            group: 'first',
+            group: 'standard',
             guildOnly: false,
             description: 'Display Credit Information',
             usage: '',

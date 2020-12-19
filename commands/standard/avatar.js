@@ -7,7 +7,7 @@ module.exports = class Avatar extends Command {
             name: 'avatar',
             memberName: 'avatar',
             aliases: ['pfp'],
-            group: 'first',
+            group: 'standard',
             guildOnly: false,
             description: 'View users profile picture',
             usage: '<mention or id>',

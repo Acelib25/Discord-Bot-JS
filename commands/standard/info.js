@@ -9,7 +9,7 @@ module.exports = class InfoCommand extends Command {
       super(client, {
         name: 'info',
         aliases: ['version'],
-        group: 'first',
+        group: 'standard',
         memberName: 'info',
         description: 'Get Bot Info',
       });

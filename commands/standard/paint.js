@@ -10,7 +10,7 @@ module.exports = class PaintCommand extends Command {
             name: 'paint',
             memberName: 'paint',
             aliases: ['canvas', 'imgedit'],
-            group: 'first',
+            group: 'standard',
             guildOnly: true,
             description: 'Make art',
             usage: 'paint text <x y fontSize hexColor text> or -paint glitch <ammount> \n',

@@ -9,7 +9,7 @@ module.exports = class GrapesCommand extends Command {
           super(client, {
             name: 'grapes',
             aliases: ['grape', "5050", 'sour', 'sweet'],
-            group: 'first',
+            group: 'standard',
             memberName: 'grapes',
             description: 'Is it sour or sweet',
           });

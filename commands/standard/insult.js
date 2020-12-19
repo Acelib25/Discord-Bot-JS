@@ -8,7 +8,7 @@ module.exports = class SaltyCommand extends Command {
             name: 'insult',
             memberName: 'insult',
             aliases: ['salt', 'roast'],
-            group: 'first',
+            group: 'standard',
             guildOnly: true,
             description: 'Make someone sad boi. :(',
             usage: 'insult <@user>',

@@ -6,7 +6,7 @@ module.exports = class NukeCommand extends Command {
             name: 'nuke',
             memberName: 'nuke',
             aliases: ['kaboom'],
-            group: 'first',
+            group: 'standard',
             guildOnly: true,
             description: 'Make someones brain **NONEXISTANT**',
             usage: 'nuke <@user>',
@@ -14,30 +14,18 @@ module.exports = class NukeCommand extends Command {
 				{
                     key: 'username',
                     prompt: 'Please provide a mention or id',
-                    type: 'string',
+                    type: 'user',
                     default: "none",  
                 }
 			],
+			throttling: {
+				usages: 1,
+				duration: 60,
+			},
         })
     }
 	async run(message, { username }) {
-		var taggedUser = message.mentions.users.first();
-		if (!message.mentions.users.size) {
-			try {
-				const User = message.client.users.cache.get(username);
-				if (User) { // Checking if the user exists.
-					taggedUser = User // The user exists.
-				}
-				else throw "empty"
-			}
-			catch(error) {
-				if(error == "empty"){
-					taggedUser = "none"
-					console.log("Brucked empty user.")
-				}
-				
-			}
-		}
+		var taggedUser = username;
 		if (message.author == taggedUser || taggedUser == "none") {
 			message.channel.send(`${message.author} NUKED THEMSELVES\n https://tenor.com/view/explosion-nuke-boom-nuclear-gif-5791468 `)
 		} 

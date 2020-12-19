@@ -7,7 +7,7 @@ module.exports = class PruneCommand extends Command {
             name: 'prune',
             memberName: 'prune',
             aliases: ['cut'],
-            group: 'first',
+            group: 'standard',
             guildOnly: true,
             description: 'Chop chop',
             usage: 'prune <1-99>',
@@ -16,14 +16,14 @@ module.exports = class PruneCommand extends Command {
                     key: 'amount',
                     prompt: 'How many messages should I cut?',
                     type:'integer',
-                    validate: amount => amount > 0 && amount <= 99 
+                    validate: amount => amount > 0 && amount <= 98 
                 }
             ],
         })
     }
 	async run(message, { amount }) {
 		message.delete()
-		message.channel.bulkDelete(amount, true).catch(err => {
+		message.channel.bulkDelete(amount + 1, true).catch(err => {
 			console.error(err);
 			message.channel.send('there was an error trying to prune messages in this channel!');
 		});

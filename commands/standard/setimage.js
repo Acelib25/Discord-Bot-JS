@@ -9,7 +9,7 @@ module.exports = class SetPaintCommand extends Command {
             name: 'setpaint',
             memberName: 'setimage',
             aliases: ['imgset'],
-            group: 'first',
+            group: 'standard',
             guildOnly: true,
             description: 'Make art',
             usage: 'setpaint ,url/attachment>',

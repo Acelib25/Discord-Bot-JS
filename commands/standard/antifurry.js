@@ -7,7 +7,7 @@ module.exports = class AntiFurry extends Command {
             name: 'antifurry',
             memberName: 'antifurry',
             aliases: [],
-            group: 'first',
+            group: 'standard',
             guildOnly: false,
             description: 'Down with furries!!!',
             usage: 'None',

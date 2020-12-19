@@ -7,7 +7,7 @@ module.exports = class BruhSpam extends Command {
             name: 'bruh',
             memberName: 'bruh',
             aliases: [],
-            group: 'first',
+            group: 'standard',
             guildOnly: false,
             description: 'Spam Bruh',
             usage: '0-20',
@@ -19,6 +19,10 @@ module.exports = class BruhSpam extends Command {
                     validate: amount => amount > 0 && amount <= 20 
                 }
             ],
+            throttling: {
+				usages: 1,
+				duration: 120,
+			},
         })
     }
 	async run(message, { amount }) {

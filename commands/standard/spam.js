@@ -6,7 +6,7 @@ module.exports = class SpamCommand extends Command {
             name: 'spam',
             memberName: 'spam',
             aliases: [],
-            group: 'first',
+            group: 'standard',
             guildOnly: true,
             description: 'Make someone commit alt+f4',
             usage: 'spam <text>',
@@ -26,7 +26,7 @@ module.exports = class SpamCommand extends Command {
 			],
 			throttling: {
 				usages: 1,
-				duration: 60,
+				duration: 120,
 			},
         })
     }

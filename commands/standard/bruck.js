@@ -6,7 +6,7 @@ module.exports = class BruckCommand extends Command {
             name: 'bruck',
             memberName: 'bruck',
             aliases: [],
-            group: 'first',
+            group: 'standard',
             guildOnly: true,
             description: 'Make someones brain **Smooth**',
             usage: 'bruck <@user>',
@@ -14,30 +14,18 @@ module.exports = class BruckCommand extends Command {
 				{
                     key: 'username',
                     prompt: 'Please provide a mention or id',
-                    type: 'string',
+                    type: 'user',
                     default: "none",  
-                }
+				}
 			],
+			throttling: {
+				usages: 1,
+				duration: 60,
+			},
         })
     }
 	async run(message, { username }) {
-	var taggedUser = message.mentions.users.first();
-		if (!message.mentions.users.size) {
-			try {
-				const User = message.client.users.cache.get(username);
-				if (User) { // Checking if the user exists.
-					taggedUser = User // The user exists.
-				}
-				else throw "empty"
-			}
-			catch(error) {
-				if(error == "empty"){
-					taggedUser = "none"
-					console.log("Brucked empty user.")
-				}
-				
-			}
-		}
+	var taggedUser = username
 
 		if (taggedUser == "none") {
 			message.channel.send(`Bruck.\n https://cdn.discordapp.com/attachments/722116072324595792/743349672034172998/bruck.jpg `)

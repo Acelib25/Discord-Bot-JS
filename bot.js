@@ -39,14 +39,14 @@ open({
 client.registry
 	.registerDefaultTypes()
 	.registerGroups([
-		['first', 'Standard Commands'],
+		['standard', 'Standard Commands'],
 		['admin', 'Mod and Admin Commands'],
 		['super', 'Super User Commands'],
 		['music', 'Music Commands'],
 		['money', 'Money Commands']
 	])
 	.registerDefaultGroups()
-	.registerDefaultCommands()
+	.registerDefaultCommands({unknownCommand: false})
 	.registerCommandsIn(path.join(__dirname, 'commands'));
 
 async function setupGuild(id){
@@ -91,7 +91,6 @@ client.once('ready', async () => {
         activity: {
             name: `Help: ${config.prefix}help | Version: ${package.version}`,
             type: "PLAYING",
-			url: "https://theaceprogramer.wixsite.com/acejs",
         }
     });
 });

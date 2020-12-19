@@ -9,6 +9,7 @@ const config = require('../../config.json')
 const youtube = new Youtube(config.ytAPI_key)
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
+const tts = require('google-translate-tts');
 
 module.exports = class VoiceCommand extends Command {
     constructor(client){
@@ -39,18 +40,29 @@ module.exports = class VoiceCommand extends Command {
 
             let argsProssesed = queue[0].query
         
-            const gTTS = require('gtts'); 
+            /*const gTTS = require('gtts'); 
         
             var speech = argsProssesed; 
             var gtts = new gTTS(speech, 'en-us'); 
         
             gtts.save('audio.mp3', function (err, result){ 
                 if(err) { throw new Error(err); } 
-            }); 
-            const dispatcher = connection
-                .play(
-                'audio.mp3'
-                )
+            });*/
+            const saveFile = async ()  => {
+                const buffer = await tts.synthesize({
+                    text: argsProssesed,
+                    voice: 'en-US',
+                    slow: false // optional
+                });
+            
+                fs.writeFileSync('audio.mp3', buffer);
+            };
+            
+            
+            
+            saveFile().then( () => { 
+                const dispatcher = connection
+                .play('audio.mp3')
                 .on('start', () => {
                 message.guild.musicData.songDispatcher = dispatcher;
                 dispatcher.setVolume(message.guild.musicData.volume);
@@ -65,6 +77,7 @@ module.exports = class VoiceCommand extends Command {
                 return queue.shift();
                 })
                 .on('finish', () => {
+                
                 if (queue.length >= 1) {
                     return this.songStart(queue, message);
                 } else {
@@ -85,6 +98,7 @@ module.exports = class VoiceCommand extends Command {
             console.error(e);
             return voiceChannel.leave();
             });
+        })
         } else {
             let voiceChannel;
             queue[0].voiceChannel
@@ -155,7 +169,7 @@ module.exports = class VoiceCommand extends Command {
             return this.songStart(message.guild.musicData.queue, message);
         } else if (message.guild.musicData.isPlaying == true) {
             return message.say(
-              `TTS - ${query} has been added to queue`
+              `TTS - ${message.author.username} has been added to queue`
             );
           }
 

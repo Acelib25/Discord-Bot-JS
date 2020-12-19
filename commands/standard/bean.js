@@ -10,7 +10,7 @@ module.exports = class BeanCommand extends Command {
             name: 'bean',
             memberName: 'bean',
             aliases: ['beanify'],
-            group: 'first',
+            group: 'standard',
             guildOnly: true,
             description: 'Make beanz',
             usage: 'bean <user> \n',
@@ -20,10 +20,20 @@ module.exports = class BeanCommand extends Command {
                     prompt: 'Please provide a mention or id',
                     type: 'user',
                 },
-			],
+				{
+                    key: 'reason',
+                    prompt: 'Please provide a reason to bean',
+                    type: 'string',
+                    default: false,  
+                }
+            ],
+            throttling: {
+				usages: 1,
+				duration: 60,
+			},
         })
     }
-	async run(message, { user }) {
+	async run(message, { user, reason }) {
         let image = "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/delish-200318-seo-how-to-cook-beans-horizontal-final-14288-eb-1585337558.jpg?crop=0.6668421052631579xw:1xh;center,top&resize=480:*"
         const canvas = Canvas.createCanvas(480, 480);
         const ctx = canvas.getContext('2d');
@@ -41,7 +51,7 @@ module.exports = class BeanCommand extends Command {
         // Select the style that will be used to fill the text in
         ctx.fillStyle = `#00000`;
         // Actually fill the text with a solid color
-        ctx.fillText("LOL Get Beaned!", 20, 460);
+        ctx.fillText("LOL Get Beaned!", 10, 460);
         // Pick up the pen
         ctx.beginPath();
         // Start the arc to form a circle
@@ -58,6 +68,10 @@ module.exports = class BeanCommand extends Command {
 
         
         const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'welcome-image.png');
-        message.channel.send(`${user.username} has been BEANED!!!!`, attachment)
+        if(reason){
+            message.channel.send(`${user.username} has been BEANNED because ${reason}!!!!`, attachment)
+        } else {
+            message.channel.send(`${user.username} has been BEANNED!!!!`, attachment)
+        }
     }
 }
