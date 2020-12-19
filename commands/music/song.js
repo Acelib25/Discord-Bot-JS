@@ -9,6 +9,7 @@ const config = require('../../config.json')
 const youtube = new Youtube(config.ytAPI_key)
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
+const tts = require('google-translate-tts');
 
 module.exports = class SongCommand extends Command {
     constructor(client){
@@ -106,7 +107,7 @@ module.exports = class SongCommand extends Command {
                 .then(connection => {
                 const dispatcher = connection
                     .play(
-                    ytdl(queue[0].url)
+                    ytdl(queue[0].url, {filter: 'audio', quality: 'highestaudio'})
                     )
                     .on('start', () => {
                     message.guild.musicData.songDispatcher = dispatcher;

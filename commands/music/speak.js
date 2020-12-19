@@ -16,7 +16,7 @@ module.exports = class VoiceCommand extends Command {
         super(client, {
             name: 'vc',
             memberName: 'vc',
-            aliases: ['speak', 'voice'],
+            aliases: ['speak', 'voice', "tts"],
             group: 'music',
             guildOnly: true,
             description: 'For all your music needs UwU',
@@ -106,7 +106,7 @@ module.exports = class VoiceCommand extends Command {
                 .then(connection => {
                 const dispatcher = connection
                     .play(
-                    ytdl(queue[0].url)
+                    ytdl(queue[0].url, {filter: 'audio', quality: 'highestaudio'})
                     )
                     .on('start', () => {
                     message.guild.musicData.songDispatcher = dispatcher;
