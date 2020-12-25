@@ -109,7 +109,17 @@ client.on('commandRun', async (command, promise, message, args) =>{
 	for(let i = 0; i < argsKey.length; i++){
 		argsList.push(`[${argsKey[i]}: ${argsValue[i]}]`)
 	}
-	client.guilds.cache.get('747587696867672126').channels.cache.get('747587927261052969').send(`**${message.author.tag}** ran command **${command.name}** with arguements **[${argsList}]** at **${d.toLocaleString()}** in **${message.guild.name}(${message.guild.id})**`)
+	const trim = (str, max) => (str.length > max ? `${str.slice(0, max - 3)}...` : str);
+	const feedbackEmbed =  new Discord.MessageEmbed()
+		.setColor('#EFFF00')
+		.setTitle(`${message.author.tag} ran a command`)
+		.addFields(
+			{ name: 'Command', value: command.name },
+			{ name: 'Args', value: argsList},
+			{ name: 'Guild', value:  `${message.guild.name}(${message.guild.id})`},
+		)
+		.setTimestamp()
+	client.guilds.cache.get('747587696867672126').channels.cache.get('747587927261052969').send(feedbackEmbed)
 });
 
 client.on('message', async message => {
