@@ -11,7 +11,7 @@ module.exports = class JojoCommand extends Command {
       description: 'Get random jojo gif!',
       throttling: {
         usages: 2,
-        duration: 8
+        duration: 30
       }
     });
   }

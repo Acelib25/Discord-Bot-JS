@@ -19,6 +19,10 @@ module.exports = class Avatar extends Command {
                     default: 'none'
                 }
 			],
+			throttling: {
+				usages: 2,
+				duration: 120
+			  }
         })
     }
 	run(message, { id }) {

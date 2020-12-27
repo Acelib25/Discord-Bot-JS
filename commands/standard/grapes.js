@@ -12,6 +12,10 @@ module.exports = class GrapesCommand extends Command {
             group: 'standard',
             memberName: 'grapes',
             description: 'Is it sour or sweet',
+            throttling: {
+                usages: 2,
+                duration: 120
+              }
           });
         }
     async run(message) {

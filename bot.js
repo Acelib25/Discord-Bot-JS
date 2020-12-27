@@ -123,14 +123,6 @@ client.on('commandRun', async (command, promise, message, args) =>{
 });
 
 client.on('message', async message => {
-	let commandCollection = client.registry.commands
-	if (message.author.bot) return;
-	let antifurry = commandCollection.get('antifurry')
-	let botspeech = commandCollection.get('botspeech')
-	let botreply = commandCollection.get('botreply')
-	if (antifurry.isEnabledIn(message.guild)){antifurry.run(message)}
-	if (botreply.isEnabledIn(message.guild) && message.mentions.has(client.user)){botreply.run(message)}
-	if (botspeech.isEnabledIn(message.guild)){botspeech.run(message, 'safe')}
 })
 
 client.login(config.token);

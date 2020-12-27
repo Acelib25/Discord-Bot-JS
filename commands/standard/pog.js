@@ -22,8 +22,8 @@ module.exports = class PogCommand extends Command {
     ],
       throttling: {
         usages: 2,
-        duration: 8
-      }
+        duration: 120
+      },
     });
   }
   async run(message, { user }) {

@@ -13,13 +13,18 @@ module.exports = class UrbanCommand extends Command {
             group: 'standard',
             guildOnly: false,
             description: 'Display Urban',
-            usage: 'urban <topic>',
+			usage: 'urban <topic>',
+			nsfw: true,
             args: [{
 				key: 'text',
                 prompt: 'Please provide text to urban',
 				type: 'string',
 				validate: text => text.length > 0
 			}],
+			throttling: {
+				usages: 2,
+				duration: 60
+			  }
         })
     }
 	async run(message, { text }) {

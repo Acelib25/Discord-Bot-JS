@@ -19,7 +19,11 @@ module.exports = class SaltyCommand extends Command {
                     type: 'string',
                     default: "none",  
                 }
-			],
+            ],
+            throttling: {
+                usages: 2,
+                duration: 120
+              }
         })
     }
 	async run(message, { username }) {
