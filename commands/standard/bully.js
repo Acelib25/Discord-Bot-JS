@@ -14,7 +14,6 @@ module.exports = class BullyCommand extends Command {
             guildOnly: true,
             description: 'Bully',
             usage: 'bully <user> \n',
-            ownerOnly: true,
             args: [
 				{
                     key: 'user',
