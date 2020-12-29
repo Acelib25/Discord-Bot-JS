@@ -186,12 +186,13 @@ module.exports = class VoiceCommand extends Command {
                     break
                 }
                 let len = lenStart.length;
-                if(current + len > 150){
+                if(current + len > 200){
                     final.push(text.join(' '))
                     rem = true;
                     assemble()
                 }
                 current += len;
+                current += 2;
                 text.push(qSplit.shift())
             }
             final.push(text.join(' '))

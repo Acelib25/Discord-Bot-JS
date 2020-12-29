@@ -105,12 +105,17 @@ client.on('commandRun', async (command, promise, message, args) =>{
 	let d = new Date(); 
 	let argsKey = Object.keys(args)
 	let argsValue = Object.values(args)
-	let argsList = []
-	let argsListPro = argsList.join('\n')
+	let argsList = ['No Args']
+	
 	for(let i = 0; i < argsKey.length; i++){
 		argsList.push(`[${argsKey[i]}: ${argsValue[i]}]`)
 	}
-	const trim = (str, max) => (str.length > max ? `${str.slice(0, max - 3)}...` : str);
+	if(argsKey.length >= 1){
+		argsList.shift()
+	}
+	let argsListPro = argsList.join(' ')
+	console.log(argsListPro)
+	const trim = (str, max) => (str.length > max ? `${str.slice(0, max - 4)}...` : str);
 	const feedbackEmbed =  new Discord.MessageEmbed()
 		.setColor('#EFFF00')
 		.setTitle(`${message.author.tag} ran a command`)
