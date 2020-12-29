@@ -106,6 +106,7 @@ client.on('commandRun', async (command, promise, message, args) =>{
 	let argsKey = Object.keys(args)
 	let argsValue = Object.values(args)
 	let argsList = []
+	let argsListPro = argsList.join('\n')
 	for(let i = 0; i < argsKey.length; i++){
 		argsList.push(`[${argsKey[i]}: ${argsValue[i]}]`)
 	}
@@ -115,7 +116,7 @@ client.on('commandRun', async (command, promise, message, args) =>{
 		.setTitle(`${message.author.tag} ran a command`)
 		.addFields(
 			{ name: 'Command', value: command.name },
-			{ name: 'Args', value: argsList},
+			{ name: 'Args', value: trim(argsListPro, 1024)},
 			{ name: 'Guild', value:  `${message.guild.name}(${message.guild.id})`},
 		)
 		.setTimestamp()
