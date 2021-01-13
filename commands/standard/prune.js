@@ -6,7 +6,7 @@ module.exports = class PruneCommand extends Command {
         super(client, {
             name: 'prune',
             memberName: 'prune',
-            aliases: ['cut'],
+            aliases: ['cut', 'trim'],
             group: 'standard',
             guildOnly: true,
             description: 'Chop chop',

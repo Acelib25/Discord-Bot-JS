@@ -66,6 +66,9 @@ module.exports = class PogCommand extends Command {
         const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'welcome-image.png');
         if(link[0] == "Luigi"){
             message.channel.send(`Luigi thinks ${user.username} is pog.`, attachment)
+        }
+        else if(link[0] == "Drawgon"){
+          message.channel.send(`Drawgon thinks ${user.username} is pog.`, attachment)
         } else {
             message.channel.send(`${message.author.username} thinks ${user.username} is pog.`, attachment)  
         }

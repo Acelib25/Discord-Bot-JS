@@ -1,8 +1,10 @@
-const Discord = require('discord.js');
-const config = require('../../config.json');
-const fetch = require('node-fetch');
-const { Command } = require('discord.js-commando');
-const querystring = require('querystring');
+let Discord = require('discord.js');
+const util = require('util');
+let config = require('../../config.json');
+let fetch = require('node-fetch');
+let { Command } = require('discord.js-commando');
+let querystring = require('querystring');
+const fs = require('fs');
 
 module.exports = class GrapesCommand extends Command {
         constructor(client) {
@@ -31,40 +33,56 @@ module.exports = class GrapesCommand extends Command {
         }
 
         let leMessage = [
-            "You look great today. :D",
-            "Time to twist your vertebrate",
-            "Random message is random", 
-            "You look tasty. Yum.", 
-            "You are going to Brazil.", 
-            "Shut up",
-            "Your bones are wet.", 
-            "You are now losing your kneecap privileges.", 
-            "I am coming to fill your sinus with cement.", 
-            "I am coming to fill your sinus with piss.", 
-            "I will now invert your knees.",
-            "The mirror agrees with me. Your sexy. ;D",
-            "Every bone you have is now spaghetti", 
-            "2 words, Carpeted Shower", 
-            "I will bruck you. :eyes:",
-            "//SHOW CAT", 
+            "//SHOW CAT",
+            "//DRAWGON",
+            "//SHOW CAT",
+            "//DRAWGON",
+            "//RANDOM ART",
+            "//DRAWGON",
+            "//RANDOM ART", 
             "Pasta Linguini"]
-       
-        let amount = randomInt(1, 100)
         
         let msg = choose(leMessage)
         let embed;
 
         if(msg == "//SHOW CAT"){
-            const { file } = await fetch('https://aws.random.cat/meow').then(response => response.json());
+            let { file } = await fetch('https://aws.random.cat/meow').then(response => response.json());
             let msgFile = file
             
             embed = new Discord.MessageEmbed()
             .setColor('#c6d757')
-            .setTitle(`Grapes. will they be sour or sweet?`)
             .addFields(
-            { name: 'Message', value: msg},
+            { name: 'Message', value: "Have a Cat"},
             )
             .attachFiles(msgFile)
+            .setTimestamp();
+        }
+        else if(msg == "//DRAWGON"){
+            let linkArray = fs
+                .readdirSync('commands/commandAssets/drawgon')
+            let linkf = linkArray[Math.floor(Math.random() * linkArray.length)];
+            let link = 'commands/commandAssets/drawgon/' + linkf
+            embed = new Discord.MessageEmbed()
+            .setColor('#c6d757')
+            .addFields(
+            { name: 'Message', value: `My favorite artists... :D\nDrawgon | ${linkf}`},
+            )
+            .attachFiles(link)
+            .setTimestamp();
+        }
+        
+        else if(msg == "//RANDOM ART"){
+            let linkArray = fs
+                .readdirSync('commands/commandAssets/img')
+            let linkf = linkArray[Math.floor(Math.random() * linkArray.length)];
+            let link = 'commands/commandAssets/img/' + linkf
+            console.log(link)
+            embed = new Discord.MessageEmbed()
+            .setColor('#c6d757')
+            .addFields(
+            { name: 'Message', value: linkf},
+            )
+            .attachFiles(link)
             .setTimestamp();
         } 
         else {

@@ -16,7 +16,7 @@ module.exports = class SongCommand extends Command {
         super(client, {
             name: 'song',
             memberName: 'song',
-            aliases: ['vcs', 'play'],
+            aliases: ['vcs', 'play', 'p'],
             group: 'music',
             guildOnly: true,
             description: 'For all your music needs UwU',

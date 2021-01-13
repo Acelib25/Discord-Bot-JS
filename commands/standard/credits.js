@@ -33,6 +33,10 @@ module.exports = class Credits extends Command {
               {
                 "name": "Contributors",
                 "value": pack.contributors
+              },
+              {
+                "name": "Artists",
+                "value": pack.artists
               }
             ]
           };
