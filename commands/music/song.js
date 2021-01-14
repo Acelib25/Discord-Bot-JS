@@ -169,8 +169,9 @@ module.exports = class SongCommand extends Command {
         
 
         //https://tjrgg.github.io/simple-youtube-api/master/
-        if (query.match( /^(?!.*\?.*\bv=)https:\/\/www\.youtube\.com\/.*\?.*\blist=.*$/)) 
+        if (query.match(/^(?!.*\?.*\bv=)https:\/\/(www\.|music\.|)youtube\.com\/playlist\?\blist=.*$/)) 
         {
+            console.log("Gottem")
             try{
             const playlist = await youtube.getPlaylist(query);
             const videosObj = await playlist.getVideos();
@@ -208,7 +209,7 @@ module.exports = class SongCommand extends Command {
             }
         }
 
-        if (query.match(/^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+/)) {
+        if (query.match(/^(http(s)?:\/\/)?((w){3}.|music\.)?youtu(be|.be)?(\.com)?\/.+/)) {
             const url = query; // temp variable
             try {
               query = query
