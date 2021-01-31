@@ -2,7 +2,8 @@ const Discord = require('discord.js')
 const { Command } = require("discord.js-commando");
 const Canvas = require('canvas');
 const ms = require("ms");
-const {SyncAllSQL, AceStorage, currency, Users, sequelize, Tags, Perms, Disabled, Moderation, MafiaGame} = require('../../sqlStuff')
+const {SyncAllSQL, AceStorage, currency, Users, sequelize, Tags, Perms, Disabled, Moderation, MafiaGame} = require('../../sqlStuff');
+const { writelog } = require('../../acelogger');
 
 module.exports = class PaintCommand extends Command {
 	constructor(client){
@@ -50,9 +51,9 @@ module.exports = class PaintCommand extends Command {
             let test = await message.channel.send('Processing', image)
             image = test.attachments.first()
             test.delete()
-            console.log(image)
+            writelog(image)
         } catch(error){
-            console.log(error)
+            writelog(error)
         }
         
         
@@ -62,7 +63,7 @@ module.exports = class PaintCommand extends Command {
         const ctx = canvas.getContext('2d');
         const background = await Canvas.loadImage(image.url)
         .catch(error => {
-          console.error(error);
+          writelog(error);
           message.say("Oops `Error: 403`, tell Ace to fix this. Try again.");
         })
 
@@ -74,18 +75,18 @@ module.exports = class PaintCommand extends Command {
             let split = settings.split(' ')
             let x = split[0]
             split.shift()
-            console.log(x)
+            writelog(x)
             let y = split[0]
             split.shift()
-            console.log(y)
+            writelog(y)
             let size = split[0]
             split.shift()
-            console.log(size)
+            writelog(size)
             let color = split[0]
             split.shift()
-            console.log(color)
+            writelog(color)
             let text = split.join(" ")
-            console.log(text)
+            writelog(text)
             ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
             // Select the font size and type from one of the natively available fonts
             ctx.font = `${size}px sans-serif`;

@@ -8,6 +8,7 @@ const config = require('./config.json');
 const sqlite3 = require('sqlite3')
 const { open } = require('sqlite')
 const {SyncAllSQL, AceStorage, currency, Users, sequelize, Tags, Perms, Disabled, Moderation, MafiaGame} = require('./sqlStuff');
+const { writelog } = require("./acelogger");
 
 Structures.extend('Guild', Guild => {
 	class MusicGuild extends Guild {
@@ -80,10 +81,10 @@ client.once('ready', async () => {
 	SyncAllSQL()	
 	const storedBalances = await Users.findAll();
 	storedBalances.forEach(b => currency.set(b.user_id, b));
-	console.log(`Logged in as ${client.user.tag}! (${client.user.id})`);
+	writelog(`Logged in as ${client.user.tag}! (${client.user.id})`, true);
 	fs.writeFile("./serverList.txt", `Currently operating in ${client.guilds.cache.size} servers.\n\n${client.guilds.cache.array().join('\n')}`,(err) => {
 		if(err) throw err;
-		console.log('Server File Updated!');
+		writelog('Server File Updated!', true);
 	  });
 	
 	client.guilds.cache.each(entry => setupGuild(entry.id))
@@ -96,8 +97,8 @@ client.once('ready', async () => {
 });
 
 client.on('commandError', (cmd, error) => {
-	console.error(`Oopsies, ${cmd} did a fuckywucky :(\n\n`)
-	console.error(error)
+	writelog(`Oopsies, ${cmd} did a fuckywucky :(\n`, false)
+	writelog(error, true)
 });
 
 client.on('commandRun', async (command, promise, message, args) =>{
@@ -114,7 +115,7 @@ client.on('commandRun', async (command, promise, message, args) =>{
 		argsList.shift()
 	}
 	let argsListPro = argsList.join(' ')
-	console.log(argsListPro)
+	writelog(argsListPro, false)
 	const trim = (str, max) => (str.length > max ? `${str.slice(0, max - 4)}...` : str);
 	const feedbackEmbed =  new Discord.MessageEmbed()
 		.setColor('#EFFF00')

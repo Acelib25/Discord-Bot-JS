@@ -10,6 +10,7 @@ const youtube = new Youtube(config.ytAPI_key)
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const tts = require('google-translate-tts');
+const { writelog } = require('../../acelogger.js');
 
 module.exports = class VoiceCommand extends Command {
     constructor(client){
@@ -91,12 +92,12 @@ module.exports = class VoiceCommand extends Command {
                     message.guild.musicData.queue.length = 0;
                     message.guild.musicData.isPlaying = false;
                     message.guild.musicData.nowPlaying = null;
-                    console.error(e);
+                    writelog(e);
                     return voiceChannel.leave();
                     });
                 })
                 .catch(e => {
-                console.error(e);
+                writelog(e);
                 return voiceChannel.leave();
                 });
             })
@@ -136,12 +137,12 @@ module.exports = class VoiceCommand extends Command {
                         message.guild.musicData.queue.length = 0;
                         message.guild.musicData.isPlaying = false;
                         message.guild.musicData.nowPlaying = null;
-                        console.error(e);
+                        writelog(e);
                         return voiceChannel.leave();
                         });
                     })
                     .catch(e => {
-                    console.error(e);
+                    writelog(e);
                     return voiceChannel.leave();
                     });
             }
@@ -152,9 +153,9 @@ module.exports = class VoiceCommand extends Command {
             return message.channel.send("You need to be in a voice channel to play music!");
         };
         function addQueue(textArray, func){
-            const title = `Text To Speech - ${message.author.username}`
+            const title = `Text To Speech - ${message.author.username}(${message.member.displayName})`
             const thumbnail = message.author.displayAvatarURL
-            const query = textArray;
+            const query = `${message.member.displayName} says: ${textArray}`;
             const song = {
                 title,
                 thumbnail,

@@ -1,7 +1,8 @@
 const Discord = require('discord.js');
 const ms = require("ms");
 const { Command } = require('discord.js-commando');
-const {SyncAllSQL, AceStorage, currency, Users, sequelize, Tags, Perms, Disabled, Moderation, MafiaGame} = require('../../sqlStuff')
+const {SyncAllSQL, AceStorage, currency, Users, sequelize, Tags, Perms, Disabled, Moderation, MafiaGame} = require('../../sqlStuff');
+const { writelog } = require('../../acelogger');
 
 module.exports = class MuteCommand extends Command{
 	constructor(client){
@@ -13,7 +14,7 @@ module.exports = class MuteCommand extends Command{
             guildOnly: true,
             description: 'Commit mute',
             userPermissions: ['KICK_MEMBERS'],
-            usage: 'mute <@user> <reason> <time>',
+            usage: 'mute <@user> <time> <reason>',
             args: [
 				{
                     key: 'username',
@@ -21,20 +22,20 @@ module.exports = class MuteCommand extends Command{
                     type: 'user',  
                 },
                 {
+                    key: 'timeAmmount',
+                    prompt: 'Please provide a time value',
+                    type: 'integer',  
+                },
+                {
                     key: 'reason',
                     prompt: 'Please provide a reason',
                     type: 'string',
                     default: "no reason",  
-                },
-                {
-                    key: 'timeAmmount',
-                    prompt: 'Please provide a time value',
-                    type: 'integer',  
                 }
 			],
         })
     }
-	async run(message, { username, reason, timeAmmount}) {
+	async run(message, { username, timeAmmount, reason}) {
         let timeVal = timeAmmount
 		let userVal = username
         let reasonVal = reason;
@@ -50,7 +51,7 @@ module.exports = class MuteCommand extends Command{
 				}
 			}
 			catch (error) {
-				console.log(error);
+				writelog(error, true);
             }
         } else {
             userVal = message.mentions.users.first().id;

@@ -5,6 +5,7 @@ let fetch = require('node-fetch');
 let { Command } = require('discord.js-commando');
 let querystring = require('querystring');
 const fs = require('fs');
+const { writelog } = require('../../acelogger');
 
 module.exports = class GrapesCommand extends Command {
         constructor(client) {
@@ -14,10 +15,10 @@ module.exports = class GrapesCommand extends Command {
             group: 'standard',
             memberName: 'grapes',
             description: 'Is it sour or sweet',
-            throttling: {
-                usages: 2,
+            /*throttling: {
+                usages: 5,
                 duration: 120
-              }
+              }*/
           });
         }
     async run(message) {
@@ -33,6 +34,20 @@ module.exports = class GrapesCommand extends Command {
         }
 
         let leMessage = [
+            "//SHOW CAT",
+            "//DRAWGON",
+            "//SHOW CAT",
+            "//DRAWGON",
+            "//RANDOM ART",
+            "//DRAWGON",
+            "//RANDOM ART",
+            "//SHOW CAT",
+            "//DRAWGON",
+            "//SHOW CAT",
+            "//DRAWGON",
+            "//RANDOM ART",
+            "//DRAWGON",
+            "//RANDOM ART",
             "//SHOW CAT",
             "//DRAWGON",
             "//SHOW CAT",
@@ -76,7 +91,7 @@ module.exports = class GrapesCommand extends Command {
                 .readdirSync('commands/commandAssets/img')
             let linkf = linkArray[Math.floor(Math.random() * linkArray.length)];
             let link = 'commands/commandAssets/img/' + linkf
-            console.log(link)
+            writelog(link)
             embed = new Discord.MessageEmbed()
             .setColor('#c6d757')
             .addFields(

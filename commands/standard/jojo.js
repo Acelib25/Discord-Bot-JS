@@ -1,5 +1,6 @@
 const fs = require('fs');
 const { Command } = require('discord.js-commando');
+const { writelog } = require('../../acelogger');
 
 module.exports = class JojoCommand extends Command {
   constructor(client) {
@@ -25,7 +26,7 @@ module.exports = class JojoCommand extends Command {
 
     } catch (e) {
       message.say(':x: Failed to fetch a gif!');
-      return console.error(e);
+      return writelog(e);
     }
   }
 };

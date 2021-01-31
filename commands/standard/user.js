@@ -2,7 +2,8 @@ const Sequelize = require('sequelize');
 const Discord = require('discord.js');
 const { Users, CurrencyShop } = require('../../dbObjects.js');
 const { Command } = require('discord.js-commando');
-const main = require('../../bot.js')
+const main = require('../../bot.js');
+const { writelog } = require('../../acelogger.js');
 
 
 module.exports = class UserInfo extends Command {
@@ -57,7 +58,7 @@ module.exports = class UserInfo extends Command {
 			catch(error) {
 				if(error == "empty"){
 					user = message.author
-					console.log("Author user profile.")
+					writelog("Author user profile.")
 				}
 				
 			}
@@ -84,7 +85,7 @@ module.exports = class UserInfo extends Command {
 		)
 		.setTimestamp()
 
-		console.log(user.displayAvatarURL({ dynamic: true}))
+		writelog(user.displayAvatarURL({ dynamic: true}))
 		message.embed(userEmbed);
 	}
 };

@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const { Command } = require('discord.js-commando');
+const { writelog } = require('../../acelogger');
 const {SyncAllSQL, AceStorage, currency, Users, sequelize, Tags, Perms, Disabled, Moderation, MafiaGame} = require('../../sqlStuff')
 
 module.exports = class Warn extends Command{
@@ -12,7 +13,7 @@ module.exports = class Warn extends Command{
             guildOnly: true,
             description: 'Commit Warn',
             userPermissions: ['KICK_MEMBERS'],
-            usage: 'username reason points',
+            usage: 'warn username points reason',
             args: [
 				{
                     key: 'username',
@@ -20,20 +21,20 @@ module.exports = class Warn extends Command{
                     type: 'user',  
                 },
                 {
+                    key: 'points',
+                    prompt: 'Please provide a point value',
+                    type: 'integer',  
+                },
+                {
                     key: 'reason',
                     prompt: 'Please provide a reason',
                     type: 'string',
                     default: "none",  
-                },
-                {
-                    key: 'points',
-                    prompt: 'Please provide a point value',
-                    type: 'integer',  
                 }
 			],
         })
     }
-	async run(message, { username, reason, points}) {
+	async run(message, { username, points, reason }) {
         let pointVal = points
 		let userVal = username
         let reasonVal = reason
@@ -49,7 +50,7 @@ module.exports = class Warn extends Command{
 				}
 			}
 			catch (error) {
-				console.log(error);
+			    writelog(error, true);
             }
         } else {
             userVal = message.mentions.users.first().id;

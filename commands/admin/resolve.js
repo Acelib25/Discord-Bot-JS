@@ -13,7 +13,7 @@ module.exports = class ResolveCommand extends Command{
             guildOnly: true,
             description: 'Commit Resolve',
             userPermissions: ['KICK_MEMBERS'],
-            usage: 'case reason',
+            usage: 'resolve case reason',
             args: [
 				{
                     key: 'resolvecase',

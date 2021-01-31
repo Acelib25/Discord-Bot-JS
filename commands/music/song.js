@@ -10,6 +10,7 @@ const youtube = new Youtube(config.ytAPI_key)
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const tts = require('google-translate-tts');
+const { writelog } = require('../../acelogger.js');
 
 module.exports = class SongCommand extends Command {
     constructor(client){
@@ -32,7 +33,7 @@ module.exports = class SongCommand extends Command {
         })
     }
     songStart(queue, message) {
-        console.log(queue)
+        writelog(queue, false)
         if(!queue[0].duration){
             let voiceChannel;
             queue[0].voiceChannel
@@ -91,12 +92,12 @@ module.exports = class SongCommand extends Command {
                 message.guild.musicData.queue.length = 0;
                 message.guild.musicData.isPlaying = false;
                 message.guild.musicData.nowPlaying = null;
-                console.error(e);
+                writelog(e, false);
                 return voiceChannel.leave();
                 });
             })
             .catch(e => {
-            console.error(e);
+            writelog(e, false);
             return voiceChannel.leave();
             });
         })
@@ -136,12 +137,12 @@ module.exports = class SongCommand extends Command {
                     message.guild.musicData.queue.length = 0;
                     message.guild.musicData.isPlaying = false;
                     message.guild.musicData.nowPlaying = null;
-                    console.error(e);
+                    writelog(e, false);
                     return voiceChannel.leave();
                     });
                 })
                 .catch(e => {
-                console.error(e);
+                writelog(e, false);
                 return voiceChannel.leave();
                 });
         }
@@ -171,7 +172,6 @@ module.exports = class SongCommand extends Command {
         //https://tjrgg.github.io/simple-youtube-api/master/
         if (query.match(/^(?!.*\?.*\bv=)https:\/\/(www\.|music\.|)youtube\.com\/playlist\?\blist=.*$/)) 
         {
-            console.log("Gottem")
             try{
             const playlist = await youtube.getPlaylist(query);
             const videosObj = await playlist.getVideos();
@@ -204,7 +204,7 @@ module.exports = class SongCommand extends Command {
                 );
               }
             } catch (err) {
-              console.error(err);
+              writelog(err, false);
               return message.say('Playlist is either private or it does not exist');
             }
         }
@@ -240,7 +240,7 @@ module.exports = class SongCommand extends Command {
                 return message.say(`${song.title} added to queue`);
               }
             } catch (err) {
-              console.error(err);
+              writelog(err, false);
               return message.say('Something went wrong, please try again later');
             }
         }
@@ -284,7 +284,7 @@ module.exports = class SongCommand extends Command {
             // assign videoIndex to user's response
             var videoIndex = parseInt(response.first().content);
         } catch (err) {
-            console.error(err);
+            writelog(err, false);
             songEmbed.delete();
             return message.say(
             'Please try again and enter a number between 1 and 5 or exit'
@@ -296,7 +296,7 @@ module.exports = class SongCommand extends Command {
             // get video data from the API
             var video = await youtube.getVideoByID(videos[videoIndex - 1].id);
         } catch (err) {
-            console.error(err);
+            writelog(err, false);
             songEmbed.delete();
             return message.say(
             'An error has occured when trying to get the video ID from youtube'
@@ -329,7 +329,7 @@ module.exports = class SongCommand extends Command {
             }
         } catch (err) {
         // if something went wrong when calling the api:
-        console.error(err);
+        writelog(err, false);
         if (songEmbed) {
             songEmbed.delete();
         }

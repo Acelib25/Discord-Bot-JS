@@ -194,6 +194,21 @@ const MafiaGame = sequelize.define('mafiaGame', {
     },
 });
 
+const Desc = sequelize.define('desc', {
+    term: {
+        type: Sequelize.STRING,
+    },
+    type: {
+        type: Sequelize.STRING,
+    },
+    value: {
+        type: Sequelize.STRING,
+    },
+    uses: {
+        type: Sequelize.INTEGER,
+    },
+});
+
 function SyncAllSQL(){
     Tags.sync();
 	Disabled.sync();
@@ -201,6 +216,7 @@ function SyncAllSQL(){
 	Moderation.sync();
     Perms.sync();
     Storage.sync();
+    Desc.sync();
 }
 module.exports = {
     async SyncAllSQL(){
@@ -210,6 +226,7 @@ module.exports = {
         Moderation.sync();
         Perms.sync();
         Storage.sync();
+        Desc.sync();
     }, 
     AceStorage: Storage,
     currency: currency, 
@@ -219,5 +236,6 @@ module.exports = {
     Disabled: Disabled, 
     Perms: Perms, 
     Moderation: Moderation, 
-    MafiaGame: MafiaGame 
+    MafiaGame: MafiaGame, 
+    Desc: Desc
 }

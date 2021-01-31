@@ -3,7 +3,8 @@ const Discord = require('discord.js')
 const { Command } = require('discord.js-commando');
 const Canvas = require('canvas');
 const ms = require("ms");
-const {SyncAllSQL, AceStorage, currency, Users, sequelize, Tags, Perms, Disabled, Moderation, MafiaGame} = require('../../sqlStuff')
+const {SyncAllSQL, AceStorage, currency, Users, sequelize, Tags, Perms, Disabled, Moderation, MafiaGame} = require('../../sqlStuff');
+const { writelog } = require('../../acelogger');
 
 module.exports = class PogCommand extends Command {
   constructor(client) {
@@ -42,7 +43,7 @@ module.exports = class PogCommand extends Command {
         const ctx = canvas.getContext('2d');
         const background = await Canvas.loadImage(image)
         .catch(error => {
-          console.error(error);
+          writelog(error);
           message.say("Oops `Error: 403`, tell Ace to fix this. Try again.");
         })
 
@@ -76,7 +77,7 @@ module.exports = class PogCommand extends Command {
 
     } catch (e) {
         message.say(':x: Failed to pog!');
-        return console.error(e);
+        return writelog(e);
     }
   }
 };

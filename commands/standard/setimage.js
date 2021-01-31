@@ -1,7 +1,8 @@
 const Discord = require('discord.js')
 const { Command } = require("discord.js-commando");
 const Canvas = require('canvas');
-const {SyncAllSQL, AceStorage, currency, Users, sequelize, Tags, Perms, Disabled, Moderation, MafiaGame} = require('../../sqlStuff')
+const {SyncAllSQL, AceStorage, currency, Users, sequelize, Tags, Perms, Disabled, Moderation, MafiaGame} = require('../../sqlStuff');
+const { writelog } = require('../../acelogger');
 
 module.exports = class SetPaintCommand extends Command {
 	constructor(client){
@@ -47,7 +48,7 @@ module.exports = class SetPaintCommand extends Command {
                 }
             }
         } catch(error){
-            console.log(error)
+            writelog(error)
         }
             
         

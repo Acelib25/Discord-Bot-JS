@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const { Command } = require('discord.js-commando');
+const { writelog } = require('../../acelogger');
 
 module.exports = class PruneCommand extends Command {
 	constructor(client){
@@ -24,7 +25,7 @@ module.exports = class PruneCommand extends Command {
 	async run(message, { amount }) {
 		message.delete()
 		message.channel.bulkDelete(amount + 1, true).catch(err => {
-			console.error(err);
+			writelog(err);
 			message.channel.send('there was an error trying to prune messages in this channel!');
 		});
 	}

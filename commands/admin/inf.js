@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const { Command } = require('discord.js-commando');
+const { writelog } = require('../../acelogger');
 const {SyncAllSQL, AceStorage, currency, Users, sequelize, Tags, Perms, Disabled, Moderation, MafiaGame} = require('../../sqlStuff')
 
 module.exports = class InfList extends Command{
@@ -12,7 +13,7 @@ module.exports = class InfList extends Command{
             guildOnly: true,
             description: 'View a persons sins',
             //userPermissions: ['KICK_MEMBERS'],
-            usage: '-inf <@user>',
+            usage: '-inf <@user> <page>',
             args: [
 				{
                     key: 'username',
@@ -38,7 +39,7 @@ module.exports = class InfList extends Command{
                 }
 			}
 			catch (error) {
-				console.error(error);
+				writelog(error, true);
             }
         } else {
             userVal = message.mentions.users.first().id;

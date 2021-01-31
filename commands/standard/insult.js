@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const { Command } = require('discord.js-commando');
+const { writelog } = require('../../acelogger');
 const { execute } = require('../../old/tag');
 
 module.exports = class SaltyCommand extends Command {
@@ -50,7 +51,7 @@ module.exports = class SaltyCommand extends Command {
 				}
 			}
 			catch (error) {
-				console.log(error);
+				writelog(error);
 				message.channel.send(`There was an error while killing someone \`${command.name}\`:\n\`${error.message}\``);
 			}
 		}
