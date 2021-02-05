@@ -1,11 +1,22 @@
 const Discord = require('discord.js');
-const { RichEmbed } = require('discord.js')
-
-module.exports = {
-	name: 'room',
-	description: 'Show information about a room.',
-	cooldown: 5,
-	execute(message, args, client, currency, logger, Perms) {
+const { Command } = require("discord.js-commando");
+const fs = require('fs');
+const { type } = require("os");
+const {SyncAllSQL, AceStorage, currency, Users, sequelize, Tags, Perms, Disabled, Moderation, MafiaGame, Desc} = require('../../sqlStuff');
+module.exports = class RoomCommand extends Command {
+	constructor(client){
+        super(client, {
+            name: 'room',
+            memberName: 'room',
+            aliases: ['area'],
+            group: 'standard',
+            guildOnly: true,
+            hidden: true,
+            description: 'Describe the area',
+            usage: '-room',
+            })
+    }
+	async run(message) {
         room = message.channel.id
         switch(room){
             case('746837873965269063'):
@@ -65,7 +76,7 @@ module.exports = {
                     .setColor('#ededed')
                     .setTitle('The Hallway')
                     .setAuthor('Murder Bot', 'https://cdn.discordapp.com/avatars/746825750027567184/f89180b17f7077c2d231fbf9579c37be.webp', 'https://cdn.discordapp.com/avatars/746825750027567184/f89180b17f7077c2d231fbf9579c37be.webp')
-                    .addField('Description', 'The Hallway. Use it to go from point A to B. I have to becareful though. There are many doorways for asailants to hide in. The floors are carpet, good for sneaking up on people, or geting snuck up on')
+                    .addField('Description', 'The Hallway. Use it to go from point A to B. I have to be careful though. There are many doorways for asailants to hide in. The floors are carpet, good for sneaking up on people, or geting snuck up on')
                     .addField('\u200B', '\u200B')
                     .setImage('https://i.redd.it/7nvmz3p3kna11.jpg')
                     .setTimestamp();
@@ -136,5 +147,5 @@ module.exports = {
             default:
                 message.channel.send("You can't see anything in here...");
         }
-	},
+    }
 };

@@ -1,7 +1,7 @@
 {
   "name": "ace-js",
-  "version": "1.8.4",
-  "versionName": "Artistic Update",
+  "version": "1.8.5",
+  "versionName": "Secret Update",
   "description": "Ace's summer project that has taken a year to make. I'm sure you see the irony of it.",
   "main": "bot.js",
   "scripts": {
@@ -16,10 +16,12 @@
   ],
   "author": "Acelib25",
   "contributors": [
-    "Cereal with no milk"
+    "Cereal with no milk",
+    "Iseden"
   ],
   "artists": [
     "Drawgon",
+    "Iseden",
     "Various Internet Peoples"
   ],
   "license": "No License",
