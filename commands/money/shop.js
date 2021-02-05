@@ -1,20 +1,23 @@
-﻿const { Op } = require('sequelize');
-const Discord = require('discord.js');
-const { Users, CurrencyShop } = require('../dbObjects');
-const currency = new Discord.Collection();
+﻿const Discord = require('discord.js');
+const { Command } = require("discord.js-commando");
+const fs = require('fs');
+const { type } = require("os");
+const { Users, CurrencyShop } = require('../../dbObjects');
+const {SyncAllSQL, AceStorage, currency, sequelize, Tags, Perms, Disabled, Moderation, MafiaGame, Desc} = require('../../sqlStuff');
 
-
-
-let d = new Date();
-module.exports = {
-	name: 'shop',
-	description: 'View Store',
-	async execute(message, args, client, currency, logger, Perms) {
-		const PREFIX = '-';
-		const input = message.content.slice(PREFIX.length).trim();
-		if (!input.length) return;
-		const [, command, commandArgs] = input.match(/(\w+)\s*([\s\S]*)/);
-		
+module.exports = class ShopCommand extends Command {
+	constructor(client){
+        super(client, {
+            name: 'shop',
+            memberName: 'shop',
+            aliases: [],
+            group: 'money',
+            guildOnly: true,
+            description: 'View Shop',
+            usage: 'shop',
+        })
+    }
+	async run(message) {
 		Reflect.defineProperty(currency, 'add', {
 		/* eslint-disable-next-line func-name-matching */
 		value: async function add(id, amount) {
@@ -40,5 +43,5 @@ module.exports = {
 	//Relevent code
 	const items = await CurrencyShop.findAll();
 	return message.channel.send(items.map(item => `${item.name}: ${item.cost}💰`).join('\n'), { code: true });
-	},
+	}
 };
