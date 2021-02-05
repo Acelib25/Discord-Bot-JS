@@ -40,7 +40,7 @@ module.exports = class BuyCommand extends Command {
 	const ace = await Users.findOne({ where: { user_id: '344143763918159884' } });
 	currency.add(message.author.id, -item.cost);
 	
-	if(item.name == "Buy-Ace-a-Coffee"){
+	if(item.name == "Buy Ace a Coffee"){
 		await ace.addItem(coffee);
 	} else {
 		await user.addItem(item);

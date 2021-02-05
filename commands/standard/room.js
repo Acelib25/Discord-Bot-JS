@@ -17,7 +17,7 @@ module.exports = class RoomCommand extends Command {
             })
     }
 	async run(message) {
-        room = message.channel.id
+        let room = message.channel.id
         switch(room){
             case('746837873965269063'):
                 const kitchenEmbed = new Discord.MessageEmbed()
