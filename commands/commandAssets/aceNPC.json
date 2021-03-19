@@ -1,0 +1,6 @@
+{
+
+    "Hello":{"message": "Hi", "triggers": ["Hi", "Hello", "Pog"]},
+    "Charlie":{"message": "Ah yes my maker", "triggers": ["Charry", "Cherry", "Charlie"]}
+
+}
