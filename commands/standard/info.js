@@ -23,7 +23,7 @@ module.exports = class InfoCommand extends Command {
             .setImage(this.client.user.displayAvatarURL({ dynamic: true, size: 256 * 2}))
             .addFields(
                 { name: 'Bot Name', value: this.client.user.username, inline: true},
-                { name: 'Prefix', value: config.prefix, inline: true},
+                { name: 'Prefix', value: message.guild.commandPrefix, inline: true},
                 { name: 'Creator', value: "Acelib25#2173", inline: true},
                 { name: 'Version', value: packageInfo.version, inline: true},
                 { name: 'Version Name', value: packageInfo.versionName, inline: true},

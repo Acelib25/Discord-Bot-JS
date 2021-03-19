@@ -14,8 +14,8 @@ module.exports = class Avatar extends Command {
             args: [
 				{
                     key: 'id',
-                    prompt: 'Provide user id',
-                    type:'string',
+                    prompt: 'Provide user',
+                    type:'user',
                     default: 'none'
                 }
 			],
@@ -26,26 +26,12 @@ module.exports = class Avatar extends Command {
         })
     }
 	run(message, { id }) {
-		var user = id
-		try {
-			const User = message.client.users.cache.get(id);
-			if (User) { // Checking if the user exists.
-				user = User // The user exists.
-			}
-			else throw "empty"
-		}
-		catch(error) {
-			if(error == "empty"){
-				user = message.author
-			}
-			
-		}
 		const avatarEmbed = new Discord.MessageEmbed()
 		.setColor('#0099ff')
-		.setTitle(`${user.username}'s avatar:`)
-		.setURL(user.displayAvatarURL({ dynamic: true }))
+		.setTitle(`${id.username}'s avatar:`)
+		.setURL(id.displayAvatarURL({ dynamic: true }))
 		.setDescription('Users Avatar')
-		.setImage(user.displayAvatarURL({ dynamic: true, size: 256 * 2}))
+		.setImage(id.displayAvatarURL({ dynamic: true, size: 256 * 2}))
 		.setTimestamp()
 
 		message.channel.send(avatarEmbed);

@@ -1,7 +1,7 @@
 {
   "name": "ace-js",
-  "version": "1.8.5",
-  "versionName": "Secret Update",
+  "version": "1.9.0",
+  "versionName": "AI Overlords",
   "description": "Ace's summer project that has taken a year to make. I'm sure you see the irony of it.",
   "main": "bot.js",
   "scripts": {
@@ -29,6 +29,7 @@
     "@discordjs/opus": "^0.3.2",
     "assert": "^2.0.0",
     "canvas": "^2.6.1",
+    "deepai": "^1.0.17",
     "discord-paginationembed": "^2.1.0",
     "discord.js": "^12.3.1",
     "discord.js-commando": "github:discordjs/Commando",
@@ -38,7 +39,7 @@
     "gtts": "^0.2.1",
     "mysql": "^2.18.1",
     "node-addon-api": "^3.0.2",
-    "pm2": "^4.4.1",
+    "pm2": "^4.5.5",
     "sequelize": "^6.3.5",
     "simple-youtube-api": "^5.2.1",
     "sqlite": "^4.0.18",
