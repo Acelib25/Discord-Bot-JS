@@ -53,12 +53,12 @@ module.exports = class VoiceCommand extends Command {
                     if(err) { throw new Error(err); } 
                 });*/
                 const saveFile = async ()  => {
+                    console.log(argsProssesed)
                     const buffer = await tts.synthesize({
                         text: argsProssesed,
                         voice: 'en-US',
                         slow: false // optional
                     });
-                
                     fs.writeFileSync('audio.mp3', buffer);
                 };
                 
@@ -92,13 +92,13 @@ module.exports = class VoiceCommand extends Command {
                     message.guild.musicData.queue.length = 0;
                     message.guild.musicData.isPlaying = false;
                     message.guild.musicData.nowPlaying = null;
-                    writelog(e);
+                    writelog(e, true);
                     return voiceChannel.leave();
                     });
                 })
                 .catch(e => {
-                writelog(e);
-                return voiceChannel.leave();
+                    writelog(e, true);
+                    return voiceChannel.leave();
                 });
             })
             } else {
@@ -155,7 +155,7 @@ module.exports = class VoiceCommand extends Command {
         function addQueue(textArray, func){
             const title = `Text To Speech - ${message.author.username}(${message.member.displayName})`
             const thumbnail = message.author.displayAvatarURL
-            const query = `${message.member.displayName} says: ${textArray}`;
+            const query = textArray;
             const song = {
                 title,
                 thumbnail,

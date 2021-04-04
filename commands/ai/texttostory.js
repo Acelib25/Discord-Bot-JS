@@ -27,6 +27,7 @@ module.exports = class TextToStory extends Command {
         })
     }
 	async run(message, { prompt }) {
+        let backup = false;
         function acaiDesc(){
             const linkArray = fs
                 .readFileSync('commands/commandAssets/acai.txt', 'utf8')
@@ -56,27 +57,37 @@ module.exports = class TextToStory extends Command {
 
         deepai.setApiKey(config.deepai_key);
         
-        let webhooks = await message.channel.fetchWebhooks();
-        let webhookName = webhooks.map(t => t.name)
         let webhookClient;
         
-        message.say("Starting ACAI")
-        if(webhookName.includes("ACAI")){
-            let grapesIndex = webhooks.find(hook => hook.name === "ACAI")
-            webhookClient = new Discord.WebhookClient(grapesIndex.id, grapesIndex.token);
-            webhookClient.send("Writing some words...", {
-                avatarURL: 'https://i.imgur.com/tFR5aq8.png',
-            })
-        } else {
-            message.channel.createWebhook('ACAI', {
-                avatar: 'https://i.imgur.com/tFR5aq8.png',
-            })
-            .then(
-                webhookNew => webhookNew.send("Writing some words...", {
+        
+        message.channel.send("Starting ACAI")
+        try {
+            let webhooks = await message.channel.fetchWebhooks();
+            let webhookName = webhooks.map(t => t.name)
+            if(webhookName.includes("ACAI")){
+                let grapesIndex = webhooks.find(hook => hook.name === "ACAI")
+                webhookClient = new Discord.WebhookClient(grapesIndex.id, grapesIndex.token);
+                webhookClient.send("Making an image...", {
                     avatarURL: 'https://i.imgur.com/tFR5aq8.png',
-                }),                          
-            ); 
+                })
+            } else {
+                message.channel.createWebhook('ACAI', {
+                    avatar: 'https://i.imgur.com/tFR5aq8.png',
+                })
+                .then(
+                    webhookNew => webhookNew.send("Making an image...", {
+                        avatarURL: 'https://i.imgur.com/tFR5aq8.png',
+                    }),                          
+                )
+            }
+        } 
+        catch (error){
+            console.log(error)
+            if(error.message == 'Missing Permissions'){
+                backup = true
+            }
         }
+
         var resp = await deepai.callStandardApi("text-generator", {
                 text: prompt,
         });
@@ -100,10 +111,15 @@ module.exports = class TextToStory extends Command {
             ]
           };
         
-        webhookClient.send({
-            avatarURL: 'https://i.imgur.com/tFR5aq8.png',
-            embeds: [embed],
-        })
+        if (backup == true){
+            console.log("Tried")
+            message.embed(embed)
+        } else {
+            webhookClient.send({
+                avatarURL: 'https://i.imgur.com/tFR5aq8.png',
+                embeds: [embed],
+            })
+        }
     }
 
 }

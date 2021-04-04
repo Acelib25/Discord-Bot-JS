@@ -3,21 +3,22 @@ const { Command } = require('discord.js-commando');
 const fs = require('fs');
 const config = require("../../config.json")
 
-module.exports = class TextToImage extends Command {
+module.exports = class ImageCap extends Command {
     constructor(client){
         super(client, {
-            name: 'texttoimage',
-            memberName: 'texttoimage',
-            aliases: ['make'],
+            name: 'imagecap',
+            memberName: 'imagecap',
+            aliases: ['caption', 'cap'],
             group: 'ai',
             guildOnly: false,
-            description: 'Make a image',
-            usage: 'make <text>',
+            description: 'Caption a image',
+            usage: 'cap <url or attachment>',
             args: [
 				{
                     key: 'prompt',
-                    prompt: 'Provide a prompt',
+                    prompt: 'Provide a url',
                     type: 'string',
+                    default: "none"
                 }
 			],
 			throttling: {
@@ -28,6 +29,8 @@ module.exports = class TextToImage extends Command {
     }
 	async run(message, { prompt }) {
         let backup = false;
+        let url = 'https://i.imgur.com/tFR5aq8.png';
+
         function acaiDesc(){
             const linkArray = fs
                 .readFileSync('commands/commandAssets/acai.txt', 'utf8')
@@ -54,7 +57,8 @@ module.exports = class TextToImage extends Command {
         const deepai = require('deepai'); // OR include deepai.min.js as a script tag in your HTML
 
         deepai.setApiKey(config.deepai_key);
-
+        
+        
         let webhookClient;
         
         
@@ -65,7 +69,7 @@ module.exports = class TextToImage extends Command {
             if(webhookName.includes("ACAI")){
                 let grapesIndex = webhooks.find(hook => hook.name === "ACAI")
                 webhookClient = new Discord.WebhookClient(grapesIndex.id, grapesIndex.token);
-                webhookClient.send("Making an image...", {
+                webhookClient.send("Captioning an image...", {
                     avatarURL: 'https://i.imgur.com/tFR5aq8.png',
                 })
             } else {
@@ -73,7 +77,7 @@ module.exports = class TextToImage extends Command {
                     avatar: 'https://i.imgur.com/tFR5aq8.png',
                 })
                 .then(
-                    webhookNew => webhookNew.send("Making an image...", {
+                    webhookNew => webhookNew.send("Captioning an image...", {
                         avatarURL: 'https://i.imgur.com/tFR5aq8.png',
                     }),                          
                 )
@@ -84,12 +88,29 @@ module.exports = class TextToImage extends Command {
             if(error.message == 'Missing Permissions'){
                 backup = true
             }
-        }   
+        }
+        console.log(backup)
+        if(prompt == 'none'){
+            url = message.attachments.first().url
+            if (backup == true){
+                message.channel.send("Setting image attachment")
+            } else {
+                webhookClient.send("Setting image attachment")
+            }
+        } else {
+            url = prompt
+            if (backup == true){
+                message.channel.send("Setting image URL")
+            } else {
+                webhookClient.send("Setting image URL")
+            }
+        }        
 
-        var resp = await deepai.callStandardApi("text2img", {
-                text: prompt,    
+        var resp = await deepai.callStandardApi("neuraltalk", {
+            image: url,
         });
-        let final = resp.output_url
+
+        let final = resp.output
         const embed = {
             "color": 10027263,
             "timestamp": "2069-12-10T01:00:00",
@@ -98,19 +119,19 @@ module.exports = class TextToImage extends Command {
             },
             "description": `\`\`\`${acaiDesc()}\`\`\``, 
             "image": {
-                "url": final
+                "url": url
             },
             "fields": [
               {
                 "name": "Prompt",
-                "value": prompt
+                "value": url
               },
               {
                 "name": "Result",
-                "value": "Image"
+                "value": final
               }
             ]
-          };
+        };
         if (backup == true){
             console.log("Tried")
             message.embed(embed)
@@ -120,7 +141,8 @@ module.exports = class TextToImage extends Command {
                 embeds: [embed],
             })
         }
-          
-    }
+        
 
+    }
+    
 }
