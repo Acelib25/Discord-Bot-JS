@@ -22,7 +22,7 @@ module.exports = class ImageCap extends Command {
                 }
 			],
 			throttling: {
-				usages: 2,
+				usages: 5,
 				duration: 120
 			  }
         })

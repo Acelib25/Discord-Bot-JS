@@ -21,7 +21,7 @@ module.exports = class TextToImage extends Command {
                 }
 			],
 			throttling: {
-				usages: 2,
+				usages: 5,
 				duration: 120
 			  }
         })

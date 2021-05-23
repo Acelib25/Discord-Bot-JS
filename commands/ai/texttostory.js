@@ -21,7 +21,7 @@ module.exports = class TextToStory extends Command {
                 }
 			],
 			throttling: {
-				usages: 2,
+				usages: 5,
 				duration: 120
 			  }
         })
@@ -67,7 +67,7 @@ module.exports = class TextToStory extends Command {
             if(webhookName.includes("ACAI")){
                 let grapesIndex = webhooks.find(hook => hook.name === "ACAI")
                 webhookClient = new Discord.WebhookClient(grapesIndex.id, grapesIndex.token);
-                webhookClient.send("Making an image...", {
+                webhookClient.send("Making a story...", {
                     avatarURL: 'https://i.imgur.com/tFR5aq8.png',
                 })
             } else {
