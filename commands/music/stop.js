@@ -19,5 +19,7 @@ module.exports = class StopMusic extends Command {
         message.guild.musicData.queue = [];
         message.guild.musicData.songDispatcher.end();
         message.guild.musicData.isPlaying = false;
+        
+        
 	}
 };

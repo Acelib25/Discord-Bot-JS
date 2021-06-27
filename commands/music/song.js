@@ -28,11 +28,22 @@ module.exports = class SongCommand extends Command {
                     prompt: 'Please choose a song you would like to listen to',
                     type:'string',
                     validate: query => query.length > 0 && query.length < 200 
+                },
+                {
+                    key: 'shuffle',
+                    prompt: 'Shuffle before play? True/False',
+                    type: 'boolean',
+                    default: false
                 }
             ],
         })
     }
-    songStart(queue, message) {
+    songStart(queue, message, shuffle) {
+        if(shuffle == true){
+            let reg = message.client.registry.commands
+            let shuf = reg.get('shuffle')
+            shuf.run(message, { query:"none" })
+        }
         writelog(queue, false)
         if(!queue[0].duration){
             let voiceChannel;
@@ -61,8 +72,7 @@ module.exports = class SongCommand extends Command {
             };
             
             
-            
-            saveFile().then( () => { 
+            saveFile().then( () => {
                 const dispatcher = connection
                 .play('audio.mp3')
                 .on('start', () => {
@@ -81,7 +91,7 @@ module.exports = class SongCommand extends Command {
                 .on('finish', () => {
                 
                 if (queue.length >= 1) {
-                    return this.songStart(queue, message);
+                    return this.songStart(queue, message, shuffle);
                 } else {
                     message.guild.musicData.isPlaying = false;
                     return voiceChannel.leave();
@@ -126,7 +136,7 @@ module.exports = class SongCommand extends Command {
                     })
                     .on('finish', () => {
                     if (queue.length >= 1) {
-                        return this.songStart(queue, message);
+                        return this.songStart(queue, message, shuffle);
                     } else {
                         message.guild.musicData.isPlaying = false;
                         return voiceChannel.leave();
@@ -161,7 +171,7 @@ module.exports = class SongCommand extends Command {
         return duration;
     }
     
-    async run(message, { query }){
+    async run(message, { query, shuffle }){
         const voiceChannel = message.member.voice.channel;   
         if (!voiceChannel) {
             return message.channel.send("You need to be in a voice channel to play music!");
@@ -170,6 +180,8 @@ module.exports = class SongCommand extends Command {
         
 
         //https://tjrgg.github.io/simple-youtube-api/master/
+        console.log(query)
+        console.log(shuffle)
         if (query.match(/^(?!.*\?.*\bv=)https:\/\/(www\.|music\.|)youtube\.com\/playlist\?\blist=.*$/)) 
         {
             try{
@@ -197,7 +209,7 @@ module.exports = class SongCommand extends Command {
             }
             if (message.guild.musicData.isPlaying == false) {
                 message.guild.musicData.isPlaying = true;
-                return this.songStart(message.guild.musicData.queue, message);
+                return this.songStart(message.guild.musicData.queue, message, shuffle);
             } else if (message.guild.musicData.isPlaying == true) {
                 return message.say(
                   `Playlist - ${playlist.title} has been added to queue`
@@ -235,7 +247,7 @@ module.exports = class SongCommand extends Command {
                 typeof message.guild.musicData.isPlaying == 'undefined'
               ) {
                 message.guild.musicData.isPlaying = true;
-                return this.songStart(message.guild.musicData.queue, message);
+                return this.songStart(message.guild.musicData.queue, message), shuffle;
               } else if (message.guild.musicData.isPlaying == true) {
                 return message.say(`${song.title} added to queue`);
               }
@@ -321,7 +333,7 @@ module.exports = class SongCommand extends Command {
             if (message.guild.musicData.isPlaying == false) {
             message.guild.musicData.isPlaying = true;
             songEmbed.delete(); // delete the selection embed
-            this.songStart(message.guild.musicData.queue, message);
+            this.songStart(message.guild.musicData.queue, message, shuffle);
             } else if (message.guild.musicData.isPlaying == true) {
             songEmbed.delete();
             // add the song to queue if one is already playing

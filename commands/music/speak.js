@@ -10,6 +10,7 @@ const youtube = new Youtube(config.ytAPI_key)
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const tts = require('google-translate-tts');
+const googleTTS = require('google-tts-api'); // CommonJS
 const { writelog } = require('../../acelogger.js');
 
 module.exports = class VoiceCommand extends Command {
@@ -54,12 +55,19 @@ module.exports = class VoiceCommand extends Command {
                 });*/
                 const saveFile = async ()  => {
                     console.log(argsProssesed)
-                    const buffer = await tts.synthesize({
-                        text: argsProssesed,
-                        voice: 'en-US',
-                        slow: false // optional
-                    });
-                    fs.writeFileSync('audio.mp3', buffer);
+                    googleTTS.getAudioBase64(argsProssesed, {
+                        lang: 'en',
+                        slow: false,
+                        host: 'https://translate.google.com',
+                        timeout: 10000,
+                    })
+                    .then((value) => {
+                        let buffer = Buffer.from(value, "base64")
+                        fs.writeFileSync('audio.mp3', buffer);
+                    }) // base64 text
+                    .catch(console.error);
+                    
+                    
                 };
                 
                 saveFile().then( () => { 
