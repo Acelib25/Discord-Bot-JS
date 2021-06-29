@@ -54,6 +54,8 @@ module.exports = class VoiceCommand extends Command {
                     if(err) { throw new Error(err); } 
                 });*/
                 const saveFile = async ()  => {
+                    let buffer;
+                    let raw;
                     console.log(argsProssesed)
                     googleTTS.getAudioBase64(argsProssesed, {
                         lang: 'en',
@@ -62,12 +64,9 @@ module.exports = class VoiceCommand extends Command {
                         timeout: 10000,
                     })
                     .then((value) => {
-                        let buffer = Buffer.from(value, "base64")
+                        buffer = Buffer.from(value, "base64")
                         fs.writeFileSync('audio.mp3', buffer);
-                    }) // base64 text
-                    .catch(console.error);
-                    
-                    
+                    })
                 };
                 
                 saveFile().then( () => { 
