@@ -17,16 +17,18 @@ module.exports = class PruneCommand extends Command {
                     key: 'amount',
                     prompt: 'How many messages should I cut?',
                     type:'integer',
-                    validate: amount => amount > 0 && amount <= 98 
+                    validate: amount => amount > 0 && amount <= 99 
                 }
             ],
         })
     }
 	async run(message, { amount }) {
-		message.delete()
-		message.channel.bulkDelete(amount + 1, true).catch(err => {
+		message.delete().then( e => {
+            message.channel.bulkDelete(amount, true).catch(err => {
 			writelog(err);
 			message.channel.send('there was an error trying to prune messages in this channel!');
 		});
+        })
+		
 	}
 };
