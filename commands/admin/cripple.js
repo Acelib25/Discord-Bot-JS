@@ -34,6 +34,9 @@ module.exports = class Cripple extends Command{
 			],
         })
     }
+    async check(){
+        
+    }
 	async run(message, { username, command, reason}) {
         let pointVal = points
 		let userVal = username

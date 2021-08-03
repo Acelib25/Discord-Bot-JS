@@ -44,6 +44,7 @@ client.registry
 		['admin', 'Mod and Admin Commands'],
         ['ai', 'AI Based Commands'],
 		['super', 'Super User Commands'],
+        ['settings', 'Custom Settings'],
 		['music', 'Music Commands'],
 		['money', 'Money Commands']
 	])
@@ -131,6 +132,34 @@ client.on('commandRun', async (command, promise, message, args) =>{
 });
 
 client.on('message', async message => {
+    let storage = await AceStorage.findAll({ where: { guild_id: message.guild.id, value1key: "Ambience"}})
+    let option = storage.map(t => t.value1);
+    if(option == true && !message.author.bot){
+        function getRandomInt(max) {
+            return Math.floor(Math.random() * max) + 1;
+        }
+        let ambNumber = getRandomInt(10)
+        switch (ambNumber) {
+            case 1:
+                message.channel.send("Sus")
+                break;
+            case 2:
+                message.channel.send("Yes")
+                break;
+            case 3:
+                message.channel.send("No")
+                break;
+            case 4:
+                message.channel.send("Amogus")
+                break;
+            case 5:
+                message.channel.send("<@!344143763918159884>")
+                break;
+        
+            default:
+                break;
+        }
+    }
 })
 
 client.login(config.token);

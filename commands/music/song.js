@@ -62,13 +62,19 @@ module.exports = class SongCommand extends Command {
                 if(err) { throw new Error(err); } 
             });*/
             const saveFile = async ()  => {
-                const buffer = await tts.synthesize({
-                    text: argsProssesed,
-                    voice: 'en-US',
-                    slow: false // optional
-                });
-            
-                fs.writeFileSync('audio.mp3', buffer);
+                let buffer;
+                let raw;
+                console.log(argsProssesed)
+                googleTTS.getAudioBase64(argsProssesed, {
+                    lang: 'en',
+                    slow: false,
+                    host: 'https://translate.google.com',
+                    timeout: 10000,
+                })
+                .then((value) => {
+                    buffer = Buffer.from(value, "base64")
+                    fs.writeFileSync('audio.mp3', buffer);
+                })
             };
             
             
