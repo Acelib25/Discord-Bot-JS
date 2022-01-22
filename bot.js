@@ -43,6 +43,7 @@ client.registry
 		['standard', 'Standard Commands'],
 		['admin', 'Mod and Admin Commands'],
         ['ai', 'AI Based Commands'],
+        ['aims', 'Project: AIMS Commands'],
 		['super', 'Super User Commands'],
 		['music', 'Music Commands'],
 		['money', 'Money Commands']
