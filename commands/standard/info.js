@@ -27,6 +27,7 @@ module.exports = class InfoCommand extends Command {
                 { name: 'Creator', value: "Acelib25#2173", inline: true},
                 { name: 'Version', value: packageInfo.version, inline: true},
                 { name: 'Version Name', value: packageInfo.versionName, inline: true},
+                { name: 'DJS Version', value: "v12", inline: true},
                 { name: 'Description', value: packageInfo.description},
 
             )

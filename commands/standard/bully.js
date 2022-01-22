@@ -34,6 +34,12 @@ module.exports = class BullyCommand extends Command {
         })
     }
 	async run(message, { user, reason }) {
-        message.say(`${message.author.username} bullied ${user.username} because ${reason}`)
+        if(reason == false){
+            message.say(`${message.author.username} bullied ${user.username}`)
+        }
+        else {
+            message.say(`${message.author.username} bullied ${user.username} because ${reason}`)
+        }
+        
     }
 }
