@@ -1,7 +1,8 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const { Structures } = require('discord.js');
-const { CommandoClient, GuildSettingsHelper, CommandoRegistry, SettingProvider, SQLiteProvider } = require('discord.js-commando');
+//const { CommandoClient, GuildSettingsHelper, CommandoRegistry, SettingProvider, SQLiteProvider } = require('discord.js-commando');
+const { SapphireClient } = require('@sapphire/framework');
 const path = require('path');
 const package = require('./package.json')
 const config = require('./config.json');
@@ -26,10 +27,11 @@ Structures.extend('Guild', Guild => {
 });
 
 
-const client = new CommandoClient({
-	commandPrefix: config.prefix,
+const client = new SapphireClient({
+	defaultPrefix: config.prefix,
 	owner: '344143763918159884',
 	invite: 'https://discord.gg/nFuQAtTRjN',
+    intents: ['GUILDS', 'GUILD_MESSAGES']
 });
 open({
   	filename: './settings.sqlite',
