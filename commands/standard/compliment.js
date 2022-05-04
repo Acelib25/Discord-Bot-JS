@@ -115,11 +115,18 @@ module.exports = class ComplimentCommand extends Command {
 
         ]
         let out;
-        if(taggedUser == 'none'){
-            out = (`${message.author} is a ${choose(adj)} ${choose(curse)} ${choose(noun)}!`)
+        let special = choose(curse)
+        if(taggedUser == 'none' && special == 'hung'){
+            out = (`${message.author} is a ${choose(adj)} ${special} ${choose(noun)}! Nice cock!`)
+        } 
+        else if(taggedUser != 'none' && special == 'hung'){
+            out = (`${message.author} thinks ${taggedUser} is a ${choose(adj)} ${special} ${choose(noun)}! Nice Cock!`)
+        }
+        else if(taggedUser == 'none'){
+            out = (`${message.author} is a ${choose(adj)} ${special} ${choose(noun)}!`)
 
         } else {
-            out = (`${message.author} thinks ${taggedUser} is a ${choose(adj)} ${choose(curse)} ${choose(noun)}!`)
+            out = (`${message.author} thinks ${taggedUser} is a ${choose(adj)} ${special} ${choose(noun)}!`)
   
         }
         
