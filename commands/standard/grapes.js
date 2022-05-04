@@ -35,31 +35,22 @@ module.exports = class GrapesCommand extends Command {
 
         let leMessage = [
             "//SHOW CAT",
-            "//DRAWGON",
             "//SHOW CAT",
-            "//DRAWGON",
-            "//DRAWGON",
-            "//DRAWGON",
-            "//DRAWGON",
-            "//DRAWGON",
-            "//DRAWGON",
-            "//DRAWGON",
             "//RANDOM ART",
-            "//DRAWGON",
             "//RANDOM ART",
             "//SHOW CAT",
-            "//DRAWGON",
+
             "//SHOW CAT",
-            "//DRAWGON",
+
             "//RANDOM ART",
-            "//DRAWGON",
+
             "//RANDOM ART",
             "//SHOW CAT",
-            "//DRAWGON",
+
             "//SHOW CAT",
-            "//DRAWGON",
+
             "//RANDOM ART",
-            "//DRAWGON",
+
             "//RANDOM ART", 
             "Pasta Linguini"]
         
