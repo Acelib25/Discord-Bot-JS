@@ -25,7 +25,7 @@ module.exports = class BalanceCommand extends Command{
 	return message.channel.send(
 		currency.sort((a, b) => b.balance - a.balance)
 			.filter(user => message.guild.members.cache.has(user.user_id))
-			.first(10)
+			.first(15)
 			.map((user, position) => `(${position + 1}) ${(message.guild.members.cache.get(user.user_id).user.username)}: ${user.balance}💰`)
 			.join('\n'),
 		{ code: true }
