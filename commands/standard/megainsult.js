@@ -12,7 +12,7 @@ module.exports = class MegaSaltyCommand extends Command {
             group: 'standard',
             guildOnly: true,
             description: 'Make someone very sad boi. :(',
-            usage: 'insult <@user>',
+            usage: 'megainsult <@user>',
             args: [
 				{
                     key: 'username',
