@@ -65,7 +65,7 @@ module.exports = class ComplimentCommand extends Command {
             "tasty", 
             "lucid", 
             "hansome", 
-            "beutiful", 
+            "beautiful", 
             "advanced", 
             "wonderful", 
             "productive", 
