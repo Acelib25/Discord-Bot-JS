@@ -66,13 +66,6 @@ module.exports = class PickupCommand extends Command {
             'damn are you a calcium supliment cause you make my bone strong.',
             'are you blue corn syrup? cuz I\'m having a Baja Blast.',
             'are you a pretzel, Cuz your twisted exactly how I like it',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
         ]
 
         let out;
