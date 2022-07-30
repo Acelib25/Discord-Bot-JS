@@ -73,7 +73,22 @@ module.exports = class ComplimentCommand extends Command {
             "holy", 
             "kind", 
             "patient",
-            "firm"
+            "firm",
+            'soft',
+            'pleasant',
+            'hospitable',
+            'comfy',
+            'flashy',
+            'ornate',
+            'organized',
+            'kinky',
+            'fuck',
+            'steamy',
+            'poke-able',
+            'curvy',
+            'charismatic',
+            'ribbed ',
+            
         ]
 
         let curse = [
@@ -91,6 +106,22 @@ module.exports = class ComplimentCommand extends Command {
             "cute",
             "yummy",
             "lollypop",
+            'squishy',
+            'fun',
+            'cuddly',
+            'toothy',
+            'saucy',
+            'twinkly',
+            'painted',
+            'dorito',
+            'pringle',
+            'kinky',
+            'fucking',
+            'oreo',
+            'sexy',
+            'submissive and breedable',
+            'moist',
+            
         ]
 
         let noun = [
@@ -111,22 +142,79 @@ module.exports = class ComplimentCommand extends Command {
             'elf',
             'king',
             'queen',
+            'Sweetheart',
+            'social pleasure',
+            'meepit',
+            'sexy feepit',
+            'pet',
+            'llama',
+            'wonder',
+            'saucier',
+            'glucose guardian',
+            'cornucopia',
+            'fuzzy wuzzy',
+            'muse',
+            'music box',
+            'philanthropist',
+            'bump',
+            'lump',
+            'light bulb',
+            'chapstick',
+            'lipstick',
+            'cake',
+            'torpedo',
+            'fuck',
+            'hot pocket',
+            'bunny',
+            'cookie',
+            'docket',
+            'princessa',
+            'shredded cheese',
+            'snack',
+            'shrek',
+            'cucumber',
+            ':eggplant:',
+            ':peach:',
+            'smooth pebble',
+            'sea glass',
+            'pretty marble',
+            'stained glass window',
+            'grim reaper',
+            'pixie',
+            'bonus track',
+            'homie',
+            'early bird',
+            'drippy brat',
+
+            
+            
 
 
         ]
+        // Thanks Sov for the Variable name
+        let moneyshot = [
+            ', you are a certified pant precipitation facilitator.',
+            ', fuck.',
+            ', nice cock!',
+            ', I\'m going balls deep.',
+            ', you are a tall drink of water',
+            ', Are you blue corn syrup? cuz I\'m having a Baja Blast.',
+            ', Are you a pretzel, Cuz your twisted exactly how I like it',
+        ]
+
         let out;
         let special = choose(curse)
         if(taggedUser == 'none' && special == 'hung'){
             out = (`${message.author} is a ${choose(adj)} ${special} ${choose(noun)}! Nice cock!`)
         } 
         else if(taggedUser != 'none' && special == 'hung'){
-            out = (`${message.author} thinks ${taggedUser} is a ${choose(adj)} ${special} ${choose(noun)}! Nice Cock!`)
+            out = (`${message.author} thinks ${taggedUser} is a ${choose(adj)} ${special} ${choose(noun)}${choose(moneyshot)}! Nice Cock!`)
         }
         else if(taggedUser == 'none'){
-            out = (`${message.author} is a ${choose(adj)} ${special} ${choose(noun)}!`)
+            out = (`${message.author} is a ${choose(adj)} ${special} ${choose(noun)}${choose(moneyshot)}!`)
 
         } else {
-            out = (`${message.author} thinks ${taggedUser} is a ${choose(adj)} ${special} ${choose(noun)}!`)
+            out = (`${message.author} thinks ${taggedUser} is a ${choose(adj)} ${special} ${choose(noun)}${choose(moneyshot)}!`)
   
         }
         
