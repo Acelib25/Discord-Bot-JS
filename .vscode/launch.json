@@ -5,13 +5,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "PowerShell Launch Current File",
-            "type": "PowerShell",
-            "request": "launch",
-            "script": "${workspaceFolder}\\start.ps1",
-            "cwd": "${file}"
-        },
-        {
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
