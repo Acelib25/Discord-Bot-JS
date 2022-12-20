@@ -128,7 +128,7 @@ client.on('commandRun', async (command, promise, message, args) =>{
 			{ name: 'Guild', value:  `${message.guild.name}(${message.guild.id})`},
 		)
 		.setTimestamp()
-	client.guilds.cache.get('747587696867672126').channels.cache.get('747587927261052969').send(feedbackEmbed)
+	client.guilds.cache.get('792894937196134421').channels.cache.get('1054834188064411669').send(feedbackEmbed)
 });
 
 client.on('message', async message => {
