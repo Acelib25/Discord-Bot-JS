@@ -9,9 +9,7 @@ module.exports = class SayCommand extends Command {
             group: 'standard',
             guildOnly: true,
             description: 'Make the bot say something stupid.',
-            userPermissions: ['KICK_MEMBERS'],
             usage: 'say <text>',
-            ownerOnly: true,
             args: [
 				{
                     key: 'text',

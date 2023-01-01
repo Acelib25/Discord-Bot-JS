@@ -1,6 +1,6 @@
 {
   "name": "ace-js",
-  "version": "1.13.0",
+  "version": "1.13.1",
   "versionName": "Pickup lines, insults, and sugar galore!",
   "description": "Ace's summer project that has taken over 3 years to make. I'm sure you see the irony of it.",
   "main": "bot.js",
