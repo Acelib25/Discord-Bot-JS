@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const { Command } = require('discord.js-commando');
 const { writelog } = require('../../acelogger');
 const { execute } = require('../../old/tag');
-const acelib = require('../../../aceslib.js');
+const aceslib = require('../../../aceslib');
 
 module.exports = class SaltyCommand extends Command {
 	constructor(client){
@@ -62,10 +62,10 @@ module.exports = class SaltyCommand extends Command {
 
         let out;
         if(taggedUser == 'none'){
-            out = (`${message.author} you are a ${choose(acelib.salt.adjectives)} ${choose(acelib.salt.curses)} ${choose(acelib.salt.nouns)}${choose(acelib.salt.finishers)}!`)
+            out = (`${message.author} you are a ${choose(aceslib.salt.adjectives)} ${choose(aceslib.salt.curses)} ${choose(aceslib.salt.nouns)}${choose(aceslib.salt.finishers)}!`)
 
         } else {
-            out = (`${taggedUser} you are a ${choose(acelib.salt.adjectives)} ${choose(acelib.salt.curses)} ${choose(acelib.salt.nouns)}${choose(acelib.salt.finishers)}!`)
+            out = (`${taggedUser} you are a ${choose(aceslib.salt.adjectives)} ${choose(aceslib.salt.curses)} ${choose(aceslib.salt.nouns)}${choose(aceslib.salt.finishers)}!`)
   
         }
         
